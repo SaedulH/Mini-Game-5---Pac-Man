@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8103459867322629148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6332185215078563440}
+  - component: {fileID: 5950695493843944237}
+  - component: {fileID: 485663024312562149}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6332185215078563440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103459867322629148}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5950695493843944237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103459867322629148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 8b161291d2530d84daace94dba5a439d, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &485663024312562149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103459867322629148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d9b3cbd4968f534b840776dd4075cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  AutoUnparentOnAwake: 0
+  <CurrentGameState>k__BackingField: 0
+  <MenuInfo>k__BackingField: {fileID: 11400000, guid: ce47492fcb629e7438f6d943c2afc441, type: 2}
+  <CurrentTrackInfo>k__BackingField: {fileID: 0}
+  <CurrentTrackContext>k__BackingField:
+    GameMode: 0
+    PlayerCount: 0
+    VehicleOne:
+      <VehicleName>k__BackingField: 
+      <Stats>k__BackingField: {fileID: 0}
+      <VisualSettings>k__BackingField: {fileID: 0}
+      <PlayerOneVehicleDisplayIcon>k__BackingField: {fileID: 0}
+      <PlayerOneVehicleChassisSprite>k__BackingField: {fileID: 0}
+      <PlayerTwoVehicleDisplayIcon>k__BackingField: {fileID: 0}
+      <PlayerTwoVehicleChassisSprite>k__BackingField: {fileID: 0}
+    VehicleTwo:
+      <VehicleName>k__BackingField: 
+      <Stats>k__BackingField: {fileID: 0}
+      <VisualSettings>k__BackingField: {fileID: 0}
+      <PlayerOneVehicleDisplayIcon>k__BackingField: {fileID: 0}
+      <PlayerOneVehicleChassisSprite>k__BackingField: {fileID: 0}
+      <PlayerTwoVehicleDisplayIcon>k__BackingField: {fileID: 0}
+      <PlayerTwoVehicleChassisSprite>k__BackingField: {fileID: 0}
+    LapCount: 0
+    TotalWeight: 0
+  <PlayerOne>k__BackingField: {fileID: 0}
+  <PlayerTwo>k__BackingField: {fileID: 0}
+  <Input>k__BackingField: {fileID: 5950695493843944237}
+  <PlayerPrefab>k__BackingField: {fileID: 3018185205297305391, guid: d7d63babdc39e974eabf6731f02aa03e, type: 3}
+  <AIPrefab>k__BackingField: {fileID: 3018185205297305391, guid: 9b12fe9029d889f4aaf7f20b845e6087, type: 3}
+  <AIStats>k__BackingField:
+  - {fileID: 11400000, guid: 37bb6120a114d8f41bae43f9f1cd3f4d, type: 2}
+  - {fileID: 11400000, guid: c27d7f2c1128f014fbfcff97d4fb76fc, type: 2}

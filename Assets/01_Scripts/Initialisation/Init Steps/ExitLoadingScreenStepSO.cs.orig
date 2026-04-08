@@ -1,0 +1,19 @@
+using System.Threading.Tasks;
+using UnityEngine;
+<<<<<<< HEAD
+using Utilities;
+=======
+>>>>>>> origin/master
+
+namespace CoreSystem
+{
+    [CreateAssetMenu(fileName = "Exit Loading Screen Step", menuName = "Levels/InitSteps/ExitLoadingScreenStep")]
+    public class ExitLoadingScreenStepSO : LevelInitStepSO
+    {
+        public override async Task Run(TrackContext context)
+        {
+            await LoadingScreen.Instance.HideLoadingScreen();
+        }
+    }
+}
+

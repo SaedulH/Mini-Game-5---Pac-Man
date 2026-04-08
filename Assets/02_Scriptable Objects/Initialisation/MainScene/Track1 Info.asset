@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809ae8ffd1f4a114a9db3a61ad20dddd, type: 3}
+  m_Name: Track1 Info
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.TrackInfo
+  <TrackName>k__BackingField: The Forest
+  <TrackIndex>k__BackingField: 0
+  <TrackImage>k__BackingField: {fileID: 21300000, guid: 5f304aed27159494e878c217c72ab43d, type: 3}
+  <StepOrder>k__BackingField:
+  - {fileID: 11400000, guid: 86493cd2e2691894bb7f928b88ada6c3, type: 2}
+  - {fileID: 11400000, guid: 2d41914515b20de4b94b1a9f2816921f, type: 2}
+  - {fileID: 11400000, guid: 5cf7ed09cf635db4db8dab3abacea03b, type: 2}
+  - {fileID: 11400000, guid: 3f79255751b61344fa208fd15207d227, type: 2}
+  - {fileID: 11400000, guid: 4b271cf90bff2564b95cc3cb64e66512, type: 2}
+  - {fileID: 11400000, guid: a42fd50eecc31a945aa87ae3299171ef, type: 2}
+  - {fileID: 11400000, guid: cfe7fb9deb6843f48918970e3d6f9c0d, type: 2}
+  - {fileID: 11400000, guid: 2fbeae84b0b680843b21f595989b6e8a, type: 2}
+  - {fileID: 11400000, guid: af1fe6cd42f2cdb46953f6c1eee6f8d6, type: 2}
+  - {fileID: 11400000, guid: e89022fe134ff484f9cb63cc12f2804e, type: 2}
+  - {fileID: 11400000, guid: 97b7a7666d734d340b0032b3ce88ef56, type: 2}
+  - {fileID: 11400000, guid: 4550eca2d91d10d4fab5f08bcd52cdb3, type: 2}
+  <RaceLapCount>k__BackingField: 3
+  <TimedLapCount>k__BackingField: 3
