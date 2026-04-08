@@ -5,7 +5,7 @@ namespace CoreSystem
     public interface ILevelInitStep
     {
         int Weight { get; }
-        Task Run(GameManager gameManager,LevelContext context);
+        Task Run(LevelContext context);
     }
 }
 

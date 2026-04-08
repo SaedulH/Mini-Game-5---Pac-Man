@@ -9,7 +9,7 @@ namespace CoreSystem
         [field: SerializeField, Min(1)] public int Weight { get; private set; } = 1;
         [field: SerializeField, Min(0)] public int StepPriority { get; private set; } = 0;
 
-        public abstract Task Run(GameManager gameManager, LevelContext context);
+        public abstract Task Run(LevelContext context);
     }
 }
 
