@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6523103363382119572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2163836743546979606}
+  - component: {fileID: 3195378300753482257}
+  - component: {fileID: 676753908695330240}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2163836743546979606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523103363382119572}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3195378300753482257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523103363382119572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c96b5e53d66dc7c4cacbf8e1c8c48a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoUnparentOnAwake: 0
+  audioEmitterPrefab: {fileID: 3096473754853908229, guid: 8298076f84f33974cb964d5fcd70fe27, type: 3}
+  collectionCheck: 1
+  defaultCapacity: 10
+  maxPoolSize: 100
+  maxSoundInstances: 30
+--- !u!114 &676753908695330240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523103363382119572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102829a6aa084da4dac660da05c3fed8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.AudioCollection
+  AutoUnparentOnAwake: 0
+  <StartAudio>k__BackingField: {fileID: 11400000, guid: 72edd2e3b2d338b44a3869912d5c3a7a, type: 2}
+  <PauseAudio>k__BackingField: {fileID: 11400000, guid: b117562f4c1a2ac438bcdc1e27a2da50, type: 2}
+  <SelectAudio>k__BackingField: {fileID: 11400000, guid: d1f8868c7ea3081409efb264cabaad9b, type: 2}
+  <CountdownAudio>k__BackingField: {fileID: 11400000, guid: 14b9a0ae1b4dbe946b8162e33aa6ede3, type: 2}
+  <BeginAudio>k__BackingField: {fileID: 11400000, guid: 63028809d3bb5b24c892f20ce9717935, type: 2}
+  <BackAudio>k__BackingField: {fileID: 11400000, guid: 9a7dbe2dd74885b45aef02075a0add62, type: 2}
+  <HoverAudio>k__BackingField: {fileID: 11400000, guid: fb61acadf7890b24188bdd6ff1e0885d, type: 2}
+  <ResetAudio>k__BackingField: {fileID: 11400000, guid: ebbbf403f2039ff4590c28de38a6ae74, type: 2}
+  <GameOverAudio>k__BackingField: {fileID: 11400000, guid: f9831aaf65179554ba04e5b03bc20bcc, type: 2}
+  <LevelCompleteAudio>k__BackingField: {fileID: 11400000, guid: b14ab29fd16970441aa3b73019e53dae, type: 2}
+  <PlayerMoveAudio>k__BackingField: {fileID: 11400000, guid: 686e5528ac69da54c84928a654e36d1e, type: 2}
+  <GhostMoveAudio>k__BackingField: {fileID: 11400000, guid: d91638806f9afe44bb2cacae1289bce2, type: 2}
+  <CollectPelletAudio>k__BackingField: {fileID: 11400000, guid: d12e7b1f9faf3824789636700d8e3539, type: 2}
+  <CollectPowerPelletAudio>k__BackingField: {fileID: 11400000, guid: 468a2a6255e982f4f9ce0bdc985fc4f4, type: 2}
+  <CollectFruitAudio>k__BackingField: {fileID: 11400000, guid: 282d9acbc0100b741a9c0456743678f3, type: 2}
+  <TeleportAudio>k__BackingField: {fileID: 11400000, guid: dc3a7aae3cb2863459de7f34a799ecde, type: 2}
+  <KillGhostAudio>k__BackingField: {fileID: 11400000, guid: 820d4c47189b90042aefc2d3b71acfdf, type: 2}
+  <KillPlayerAudio>k__BackingField: {fileID: 11400000, guid: 635c7d04609ebad48a42bf2d6eebebf9, type: 2}

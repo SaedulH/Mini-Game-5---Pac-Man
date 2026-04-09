@@ -9,11 +9,7 @@ public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
 {
     [field: SerializeField] public VisualElement Root { get; set; }
     [field: SerializeField] public VisualElement LoadingScreenElement { get; set; }
-    [field: SerializeField] public Label TrackTitle { get; set; }
-    [field: SerializeField] public Label TrackDescription { get; set; }
-    [field: SerializeField] public Label TrackMode { get; set; }
-    [field: SerializeField] public Label TrackPlayerCount { get; set; }
-    [field: SerializeField] public VisualElement LevelImage { get; set; }
+    [field: SerializeField] public Label StageNumber { get; set; }
     [field: SerializeField] public Slider LoadingBar { get; protected set; }
     [field: SerializeField, Min(0f)] public float CurrentProgress { get; protected set; }
     [field: SerializeField, Min(0f)] public float MaxProgress { get; protected set; }
@@ -23,34 +19,23 @@ public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
         base.Awake();
         Root = GetComponent<UIDocument>().rootVisualElement;
         LoadingScreenElement = Root.Q<VisualElement>("LoadingScreen");
-        LoadingScreenElement.AddToClassList("hideUI");
+        LoadingScreenElement.AddToClassList("hide");
         LoadingScreenElement.style.display = DisplayStyle.None;
 
-        TrackTitle = LoadingScreenElement.Q<Label>("TrackTitle");
-        TrackMode = LoadingScreenElement.Q<Label>("TrackMode");
-        TrackPlayerCount = LoadingScreenElement.Q<Label>("TrackPlayerCount");
-        LevelImage= LoadingScreenElement.Q<VisualElement>("LevelImage");
+        StageNumber = LoadingScreenElement.Q<Label>("StageNumber");
         LoadingBar = LoadingScreenElement.Q<Slider>("LoadingBar");
     }
 
-    public async Task SetLevelInfo(string title, string description, Sprite image, LevelContext context)
+    public async Task SetLevelInfo(LevelContext context)
     {
-        if(title == "Main Menu")
+        if(context.StageNumber == 0)
         {
-            TrackMode.AddToClassList("hideUI");
-            TrackPlayerCount.AddToClassList("hideUI");
-            LevelImage.AddToClassList("hideUI");
+            StageNumber.AddToClassList("hide");
         } 
         else
         {
-            TrackMode.RemoveFromClassList("hideUI");
-            TrackPlayerCount.RemoveFromClassList("hideUI");
-            LevelImage.RemoveFromClassList("hideUI");
+            StageNumber.RemoveFromClassList("hide");
         }
-        TrackTitle.text = title;
-        TrackMode.text = $"Mode: {context.GameMode}";
-        TrackPlayerCount.text = $"Players: {context.PlayerCount}";
-        LevelImage.style.backgroundImage = new StyleBackground(image);
 
         CurrentProgress = 0f;
         MaxProgress = context.TotalWeight;
@@ -66,7 +51,7 @@ public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
 
         LoadingScreenElement.style.display = DisplayStyle.Flex;
         await Task.Yield();
-        LoadingScreenElement.RemoveFromClassList("hideUI");
+        LoadingScreenElement.RemoveFromClassList("hide");
 
         await Task.Delay(400);
     }
@@ -75,7 +60,7 @@ public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
     {
         Debug.Log("Hide Loading Screen");
         
-        LoadingScreenElement.AddToClassList("hideUI");
+        LoadingScreenElement.AddToClassList("hide");
         await Task.Delay(400);
         LoadingScreenElement.style.display = DisplayStyle.None;
     }

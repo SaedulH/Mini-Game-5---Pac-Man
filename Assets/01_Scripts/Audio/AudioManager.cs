@@ -1,3 +1,4 @@
+using CoreSystem;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -6,6 +7,7 @@ using Utilities;
 
 namespace AudioSystem
 {
+    [RequireComponent(typeof(AudioCollection))]
     public class AudioManager : NonPersistentSingleton<AudioManager>
     {
         IObjectPool<AudioEmitter> AudioEmitterPool;

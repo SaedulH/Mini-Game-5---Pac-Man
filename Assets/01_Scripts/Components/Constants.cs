@@ -11,6 +11,8 @@ namespace Utilities
         public const int GHOST_SCORE = 200;
         public const int LEVEL_COMPLETE_SCORE = 500;
 
+
+
         // Lap
         public const int DEFAULT_LAP_COUNT = 3;
         public const int MIN_LAP_COUNT = 1;
@@ -118,6 +120,14 @@ namespace Utilities
         }
     }
 
+    public enum GhostType
+    {
+        Blinky,
+        Pinky,
+        Inky,
+        Clyde
+    }
+
     public enum GameState
     {
         Menu,
@@ -129,9 +139,7 @@ namespace Utilities
 
     public enum MenuScreenType
     {
-        Home,
         Selection,
-        Vehicle,
         Settings
     }
 
@@ -141,53 +149,6 @@ namespace Utilities
         Audio,
         Controls,
         InputPopup
-    }
-
-    public enum GameMode
-    {
-        Race,
-        Timed
-    }
-
-    public enum Medal
-    {
-        None,
-        Failed,
-        Bronze,
-        Silver,
-        Gold
-    }
-
-    public enum VehicleState
-    {
-        Idle,
-        Accelerating,
-        Decelerating,
-        Braking,
-        Reversing
-    }
-
-    public enum EffectRate
-    {
-        None,
-        Low,
-        High
-    }
-
-    public enum PresetVehicle : int
-    {
-        AllRounder = 0,
-        Drifter = 1,
-        Muscle = 2,
-        Racer = 3
-    }
-
-    public enum TerrainType : int
-    {
-        Road = 0,
-        Grass = 1,
-        Dirt = 2,
-        Gravel = 3,
     }
 
     public enum CameraMode
@@ -203,31 +164,12 @@ namespace Utilities
         High
     }
 
-    public enum Difficulty
-    {
-        Easy,
-        Hard
-    }
-
     public enum ControlInput
     {
-        Throttle,
-        Reverse,
+        Up,
+        Down,
         Left,
         Right,
-        Handbrake
-    }
-
-    public enum BridgeTriggerType
-    {
-        Underpass,
-        Overpass
-    }
-
-    public enum BridgeTriggerDirection
-    {
-        In,
-        Out
     }
 
     public enum AIState

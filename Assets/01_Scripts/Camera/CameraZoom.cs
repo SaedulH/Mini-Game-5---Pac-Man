@@ -10,10 +10,7 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
     private Camera mainCamera;
     private CinemachineCamera cinemachineCamera;
     private CinemachinePositionComposer positionComposer;
-    private CinemachineConfiner2D confiner2D;
-    [field: SerializeField] public PolygonCollider2D ConfinerCollider {  get; set; }
     [field: SerializeField] public Transform TrackingTarget { get; private set; }
-    private bool trackGroupCentre = false;
     [field: SerializeField] public GameObject GroupCentre { get; private set; }
     [field: SerializeField] public GameObject PlayerOne { get; private set; }
     [field: SerializeField] public GameObject PlayerTwo { get; private set; }
@@ -34,20 +31,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         cinemachineCamera = GetComponent<CinemachineCamera>();
         defaultOrthoSize = cinemachineCamera.Lens.OrthographicSize;
         positionComposer = gameObject.GetOrAdd<CinemachinePositionComposer>();
-        confiner2D = gameObject.GetOrAdd<CinemachineConfiner2D>();
-    }
-
-     private void Update()
-    {
-        //if (isTimedZooming)
-        //{
-        //    TimedZoom();
-        //}
-        //else 
-        if (trackGroupCentre)
-        {
-            TrackTargetGroup();
-        }
     }
 
     private void TrackTargetGroup()
@@ -86,7 +69,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
                 cinemachineCamera.Lens.OrthographicSize = targetOrthoSize;
                 currentOrthoSize = targetOrthoSize;
             }
-            confiner2D.InvalidateLensCache();
         }
     }
 
@@ -136,9 +118,12 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
                     await SetupFixedCameraMode();
                     break;
                 case CameraMode.Dynamic:
-                    await SetupDynamicCameraMode(context.PlayerCount);
+                    await SetupDynamicCameraMode();
                     break;
             }
+        } else
+        {
+            await SetupFixedCameraMode();
         }
         Debug.Log($"Camera Mode set to: {cameraMode}");
     }
@@ -147,19 +132,14 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
     {
         cinemachineCamera.Lens.OrthographicSize = Constants.MAX_ORTHOGRAPHIC_CAMERA_SIZE;
         cinemachineCamera.LookAt = null;
-        trackGroupCentre = false;
         if (positionComposer != null)
         {
             positionComposer.enabled = false;
         }
-        if (confiner2D != null)
-        {
-            confiner2D.enabled = false;
-        }
         await Task.CompletedTask;
     }
 
-    private async Task SetupDynamicCameraMode(int playerCount)
+    private async Task SetupDynamicCameraMode()
     {
         if (positionComposer != null)
         {
@@ -168,30 +148,15 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             positionComposer.Lookahead.Time = Constants.DYNAMIC_CAMERA_LOOK_AHEAD_TIME;
             positionComposer.Lookahead.Smoothing = Constants.DYNAMIC_CAMERA_LOOK_AHEAD_SMOOTHING;
         }
-        if (confiner2D != null)
+
+        if (PlayerOne != null)
         {
-            confiner2D.enabled = true;
-            if (ConfinerCollider != null)
-            {
-                SetupConfinerCollider();
-            }
+            TrackingTarget = PlayerOne.transform;
         }
-        if (playerCount == 1)
-        {
-            if (PlayerOne != null)
-            {
-                TrackingTarget = PlayerOne.transform;
-            }
-        }
-        else
-        {
-            TrackingTarget = GroupCentre.transform;
-            trackGroupCentre = true;
-        }
+        
         TrackingTarget.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         cinemachineCamera.Target.TrackingTarget = TrackingTarget;
         cinemachineCamera.Target.LookAtTarget = TrackingTarget;
-        confiner2D.InvalidateBoundingShapeCache();
         await Task.CompletedTask;
     }
 
@@ -211,29 +176,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         zoomTime = time;
         cinemachineCamera.LookAt = target;
         isTimedZooming = true;
-    }
-
-    private void SetupConfinerCollider()
-    {
-        ConfinerCollider.isTrigger = true;
-        cinemachineCamera.Lens.OrthographicSize = Constants.MIN_ORTHOGRAPHIC_CAMERA_SIZE;
-
-        maxHeight = Constants.MAX_ORTHOGRAPHIC_CAMERA_SIZE * 2f;
-        maxWidth = maxHeight * mainCamera.aspect;
-        maxDistance = Mathf.Sqrt((maxHeight * maxHeight) + (maxWidth * maxWidth));
-
-        float halfHeight = (maxHeight / 2f) + 0.1f;
-        float halfWidth = (maxWidth / 2f) + 0.1f;
-
-        Vector2[] points = new Vector2[]
-        {
-            new(-halfWidth, halfHeight),
-            new(-halfWidth, -halfHeight),
-            new(halfWidth, -halfHeight),
-            new(halfWidth, halfHeight)
-        };
-
-        ConfinerCollider.SetPath(0, points);
     }
 
     public void ResetZoom(float resetTime = 0.5f)

@@ -8,8 +8,9 @@ namespace CoreSystem
 {
     public class GameManager : NonPersistentSingleton<GameManager>
     {
+        [field: SerializeField] public PlayerInput Input { get; set; }
         [field: SerializeField] public GameState CurrentGameState { get; set; }
-        [field: SerializeField] public LevelInfo CurrentLevelInfo { get; set; }
+        [field: SerializeField] public LevelInfo GameLevelInfo { get; set; }
         [field: SerializeField] public LevelContext CurrentLevelContext { get; set; }
 
         [field: SerializeField] public int MaxLives { get; private set; } = 4;
@@ -17,21 +18,35 @@ namespace CoreSystem
         [field: SerializeReference] public int CurrentScore { get; private set; }
         [field: SerializeReference] public int Highscore { get; private set; }
 
+        [field: SerializeField] public GameObject PacManPrefab { get; private set; }
         [field: SerializeField] public GameObject PacMan { get; private set; }
+        [field: SerializeField] public GameObject GhostPrefab { get; private set; }
         [field: SerializeField] public GameObject[] Ghosts { get; private set; }
         [field: SerializeField] public int PelletCount { get; private set; } = 246;
 
         public GameObject nodeCentre;
 
-        [field: SerializeField] public PlayerInput Input { get; set; }
         public event Action<GameState> OnGameStateChanged;
 
         void Start()
         {
-            RemainingLives = MaxLives;
-            //highscoreText.text = PlayerPrefs.GetInt("Highscore").ToString();
-            //scoreText.text = "00";
+            _ = InitialiseGame();
+        }
 
+        private async Task InitialiseGame()
+        {
+            RemainingLives = MaxLives;
+            CurrentScore = 0;
+            Highscore = PlayerPrefs.GetInt("Highscore", 0);
+            await Task.Delay(100);
+
+            await SetupScene(GameLevelInfo, CurrentLevelContext);
+        }
+
+        public async Task SetupScene(LevelInfo levelInfo, LevelContext levelContext)
+        {
+            CurrentLevelContext = levelContext;
+            await LevelSetupHandler.Instance.SetupLevel(levelInfo, levelContext);
         }
 
         public void EnterGameState(GameState newState)
@@ -39,14 +54,6 @@ namespace CoreSystem
             Debug.Log($"Entering Game State: {newState}");
             CurrentGameState = newState;
             OnGameStateChanged?.Invoke(newState);
-        }
-
-        public async Task InitialiseScene(LevelInfo levelInfo, LevelContext levelContext)
-        {
-            CurrentLevelContext = levelContext;
-            CurrentLevelInfo = levelInfo;
-
-            await LevelInitialiser.Instance.InitialiseTrack(levelInfo, levelContext);
         }
 
         public void AddScore(int amount, bool isPellet)
@@ -57,6 +64,16 @@ namespace CoreSystem
             {
                 PelletCount--;
             }
+        }
+
+        public async Task SetupPlayer(int skinIndex)
+        {
+            //PacManPrefab
+        }
+
+        public async Task SetupGhost(GhostType ghostType, int skinIndex)
+        {
+            //GhostPrefab
         }
     }
 }
