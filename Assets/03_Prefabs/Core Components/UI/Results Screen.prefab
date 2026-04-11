@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2191738496479234917
 Transform:
   m_ObjectHideFlags: 0
@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: 63e678bd9161e994ab52b917c49f2b23, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 1b998c32836f32a4a834f4e9e15667a7, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: 297d9e0b0ab266d4ca72024dfaeb0eea, type: 3}
   m_SortingOrder: 2
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4873678628943586558}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0acde3e4498704540960ecc0ae1a0f7b, type: 3}
   m_Name: 

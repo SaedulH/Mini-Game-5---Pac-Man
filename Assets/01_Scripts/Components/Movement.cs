@@ -1,46 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
-
+using Utilities;
 
 namespace CoreSystem
 {
     public class Movement : MonoBehaviour
     {
 
-        [SerializeField] private float speed;
-        [SerializeField] Rigidbody2D body;
-        public GameObject currentNode;
-        [SerializeField] private GameObject leftTeleportNode;
-        [SerializeField] private GameObject rightTeleportNode;
-        [SerializeField] private NodeScript nodeScript;
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public Rigidbody2D Body { get; private set; }
+        [field: SerializeField] public GameObject CurrentNode { get; private set; }
+        [field: SerializeField] public GameObject LeftTeleportNode { get; private set; }
+        [field: SerializeField] public GameObject RightTeleportNode { get; private set; }
+        [field: SerializeField] public NodeScript NodeScript { get; private set; }
 
-        private string UP = "up";
-        private string DOWN = "down";
-        private string LEFT = "left";
-        private string RIGHT = "right";
+        [field: SerializeReference] public float XPosition { get; private set; }
+        [field: SerializeReference] public float YPosition { get; private set; }
 
-        [SerializeReference] private float xPosition;
-        [SerializeReference] private float yPosition;
+        [field: SerializeField] public bool IsGhost { get; private set; } = false;
 
-        [SerializeField] private bool isGhost = false;
-        [SerializeField] public string lastMove = "";
-        [SerializeField] public string cachedMove = "";
+        [field: SerializeField] public ControlInput LastMove = ControlInput.None;
+        [field: SerializeField] public ControlInput CachedMove = ControlInput.None;
 
         // Start is called before the first frame update
         void Start()
         {
-            body = GetComponent<Rigidbody2D>();
+            Body = GetComponent<Rigidbody2D>();
         }
 
         private void Update()
         {
-            nodeScript = currentNode.GetComponent<NodeScript>();
+            NodeScript = CurrentNode.GetComponent<NodeScript>();
             if (PlayerManager.Instance.isAlive)
             {
                 Move();
@@ -48,61 +37,61 @@ namespace CoreSystem
 
         }
 
-        public void SetDirection(string direction)
+        public void SetDirection(ControlInput direction)
         {
-            if (!direction.Equals(lastMove))
+            if (!direction.Equals(LastMove))
             {
-                cachedMove = direction;
+                CachedMove = direction;
             }
         }
 
         private void Move()
         {
-            transform.position = Vector2.MoveTowards(transform.position, currentNode.transform.position, speed * Time.deltaTime);
-            if (transform.position == currentNode.transform.position)
+            transform.position = Vector2.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
+            if (transform.position == CurrentNode.transform.position)
             {
 
-                if ((nodeScript.isGhostStartingNode && cachedMove == DOWN)
-                    && (!isGhost || GetComponent<GhostManager>().ghostNodeState != GhostManager.GhostNodeStateEnum.Respawning))
+                if ((NodeScript.isGhostStartingNode && CachedMove == ControlInput.Down)
+                    && (!IsGhost || GetComponent<GhostManager>().ghostNodeState != GhostManager.GhostNodeStateEnum.Respawning))
                 {
-                    if (lastMove == RIGHT)
+                    if (LastMove == ControlInput.Right)
                     {
-                        currentNode = nodeScript.nodeRight;
+                        CurrentNode = NodeScript.NodeRight;
                     }
                     else
                     {
-                        currentNode = nodeScript.nodeLeft;
+                        CurrentNode = NodeScript.NodeLeft;
                     }
                 }
 
-                if (isGhost)
+                if (IsGhost)
                 {
-                    GetComponent<GhostManager>().ReachedNodeCentre(nodeScript);
+                    GetComponent<GhostManager>().ReachedNodeCentre(NodeScript);
                 }
 
-                if (cachedMove.Equals(UP) && nodeScript.canMoveUp)
+                if (CachedMove.Equals(ControlInput.Up) && NodeScript.CanMoveUp)
                 {
-                    lastMove = cachedMove;
-                    currentNode = nodeScript.nodeUp;
+                    LastMove = CachedMove;
+                    CurrentNode = NodeScript.NodeUp;
                 }
-                else if (cachedMove.Equals(DOWN) && nodeScript.canMoveDown)
+                else if (CachedMove.Equals(ControlInput.Down) && NodeScript.CanMoveDown)
                 {
-                    lastMove = cachedMove;
-                    currentNode = nodeScript.nodeDown;
+                    LastMove = CachedMove;
+                    CurrentNode = NodeScript.NodeDown;
                 }
-                else if (cachedMove.Equals(LEFT) && nodeScript.canMoveLeft)
+                else if (CachedMove.Equals(ControlInput.Left) && NodeScript.CanMoveLeft)
                 {
-                    lastMove = cachedMove;
-                    currentNode = nodeScript.nodeLeft;
+                    LastMove = CachedMove;
+                    CurrentNode = NodeScript.NodeLeft;
                 }
-                else if (cachedMove.Equals(RIGHT) && nodeScript.canMoveRight)
+                else if (CachedMove.Equals(ControlInput.Right) && NodeScript.CanMoveRight)
                 {
-                    lastMove = cachedMove;
-                    currentNode = nodeScript.nodeRight;
+                    LastMove = CachedMove;
+                    CurrentNode = NodeScript.NodeRight;
                 }
                 else
                 {
-                    //keep moving in lasst move direction until cachedMove condition reached
+                    //keep moving in lasst move direction until CachedMove condition reached
                     MaintainCurrentDirection();
                 }
 
@@ -111,39 +100,35 @@ namespace CoreSystem
         }
         private void MaintainCurrentDirection()
         {
-            if (lastMove.Equals(UP) && nodeScript.canMoveUp)
+            if (LastMove.Equals(ControlInput.Up) && NodeScript.CanMoveUp)
             {
-
-                currentNode = nodeScript.nodeUp;
+                CurrentNode = NodeScript.NodeUp;
             }
-            else if (lastMove.Equals(DOWN) && nodeScript.canMoveDown)
+            else if (LastMove.Equals(ControlInput.Down) && NodeScript.CanMoveDown)
             {
-
-                currentNode = nodeScript.nodeDown;
+                CurrentNode = NodeScript.NodeDown;
             }
-            else if (lastMove.Equals(LEFT) && nodeScript.canMoveLeft)
+            else if (LastMove.Equals(ControlInput.Left) && NodeScript.CanMoveLeft)
             {
-
-                currentNode = nodeScript.nodeLeft;
+                CurrentNode = NodeScript.NodeLeft;
             }
-            else if (lastMove.Equals(RIGHT) && nodeScript.canMoveRight)
+            else if (LastMove.Equals(ControlInput.Right) && NodeScript.CanMoveRight)
             {
-
-                currentNode = nodeScript.nodeRight;
+                CurrentNode = NodeScript.NodeRight;
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter(Collider collision)
         {
             if (collision.gameObject.CompareTag("LeftTeleport"))
             {
                 transform.position = new Vector3(15f, 2f, 0f);
-                currentNode = rightTeleportNode;
+                CurrentNode = RightTeleportNode;
             }
             else if (collision.gameObject.CompareTag("RightTeleport"))
             {
                 transform.position = new Vector3(-14f, 2f, 0f);
-                currentNode = leftTeleportNode;
+                CurrentNode = LeftTeleportNode;
             }
         }
     }

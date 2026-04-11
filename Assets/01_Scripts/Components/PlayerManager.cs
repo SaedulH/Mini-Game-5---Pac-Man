@@ -29,8 +29,8 @@ namespace CoreSystem
         private void Start()
         {
             transform.position = startPosition;
-            Movement.currentNode = startNode;
-            Movement.lastMove = "right";
+            //Movement.CurrentNode = startNode;
+            Movement.LastMove = ControlInput.Right;
         }
 
         public void ActivatePowerMode()
@@ -83,8 +83,8 @@ namespace CoreSystem
                 remainingLives--;
                 yield return new WaitForSeconds(2);
                 transform.position = startPosition;
-                Movement.currentNode = startNode;
-                Movement.lastMove = "right";
+                //Movement.CurrentNode = startNode;
+                Movement.LastMove = ControlInput.Right;
                 yield return new WaitForSeconds(1);
                 isAlive = true;
 

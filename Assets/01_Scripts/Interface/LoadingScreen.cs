@@ -4,70 +4,70 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Utilities;
 
-[RequireComponent(typeof(UIDocument))]
-public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
+namespace UserInterface
 {
-    [field: SerializeField] public VisualElement Root { get; set; }
-    [field: SerializeField] public VisualElement LoadingScreenElement { get; set; }
-    [field: SerializeField] public Label StageNumber { get; set; }
-    [field: SerializeField] public Slider LoadingBar { get; protected set; }
-    [field: SerializeField, Min(0f)] public float CurrentProgress { get; protected set; }
-    [field: SerializeField, Min(0f)] public float MaxProgress { get; protected set; }
-
-    protected override void Awake()
+    [RequireComponent(typeof(UIDocument))]
+    public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
     {
-        base.Awake();
-        Root = GetComponent<UIDocument>().rootVisualElement;
-        LoadingScreenElement = Root.Q<VisualElement>("LoadingScreen");
-        LoadingScreenElement.AddToClassList("hide");
-        LoadingScreenElement.style.display = DisplayStyle.None;
+        private VisualElement _root;
+        private Label _levelNumber;
+        private Slider _loadingBar;
+        [field: SerializeField, Min(0f)] public float CurrentProgress { get; protected set; }
+        [field: SerializeField, Min(0f)] public float MaxProgress { get; protected set; }
 
-        StageNumber = LoadingScreenElement.Q<Label>("StageNumber");
-        LoadingBar = LoadingScreenElement.Q<Slider>("LoadingBar");
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            _root = GetComponent<UIDocument>().rootVisualElement;
+            _root = _root.Q<VisualElement>("LoadingScreen");
 
-    public async Task SetLevelInfo(LevelContext context)
-    {
-        if(context.StageNumber == 0)
-        {
-            StageNumber.AddToClassList("hide");
-        } 
-        else
-        {
-            StageNumber.RemoveFromClassList("hide");
+            _levelNumber = _root.Q<Label>("LevelNumber");
+            _loadingBar = _root.Q<Slider>("LoadingBar");
         }
 
-        CurrentProgress = 0f;
-        MaxProgress = context.TotalWeight;
+        public async Task SetLevelInfo(LevelContext context)
+        {
+            if (context.LevelNumber == 0)
+            {
+                _levelNumber.AddToClassList("hide");
+            }
+            else
+            {
+                _levelNumber.RemoveFromClassList("hide");
+            }
 
-        LoadingBar.value = 0f;
+            CurrentProgress = 0f;
+            MaxProgress = context.TotalWeight;
 
-        await Task.CompletedTask;
-    }
+            _loadingBar.value = 0f;
 
-    public async Task ShowLoadingScreen()
-    {
-        Debug.Log("Show Loading Screen");
+            await Task.CompletedTask;
+        }
 
-        LoadingScreenElement.style.display = DisplayStyle.Flex;
-        await Task.Yield();
-        LoadingScreenElement.RemoveFromClassList("hide");
+        public async Task ShowLoadingScreen()
+        {
+            Debug.Log("Show Loading Screen");
 
-        await Task.Delay(400);
-    }
+            _root.style.display = DisplayStyle.Flex;
+            await Task.Yield();
+            _root.RemoveFromClassList("hide");
 
-    public async Task HideLoadingScreen()
-    {
-        Debug.Log("Hide Loading Screen");
-        
-        LoadingScreenElement.AddToClassList("hide");
-        await Task.Delay(400);
-        LoadingScreenElement.style.display = DisplayStyle.None;
-    }
+            await Task.Delay(400);
+        }
 
-    public void UpdateLoadingProgress(float weight)
-    {
-        CurrentProgress += weight;
-        LoadingBar.value = (CurrentProgress / MaxProgress) * 100;
+        public async Task HideLoadingScreen()
+        {
+            Debug.Log("Hide Loading Screen");
+
+            _root.AddToClassList("hide");
+            await Task.Delay(400);
+            _root.style.display = DisplayStyle.None;
+        }
+
+        public void UpdateLoadingProgress(float weight)
+        {
+            CurrentProgress += weight;
+            _loadingBar.value = (CurrentProgress / MaxProgress) * 100;
+        }
     }
 }

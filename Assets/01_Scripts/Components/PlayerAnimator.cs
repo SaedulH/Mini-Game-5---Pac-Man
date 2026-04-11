@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -10,17 +9,17 @@ namespace CoreSystem
         [SerializeField] private Animator playerAnim;
         [SerializeField] private Movement movement;
 
-        private string cachedMove;
+        private ControlInput cachedMove;
 
         // Start is called before the first frame update
         void Start()
         {
             playerAnim = GetComponent<Animator>();
             movement = GetComponent<Movement>();
-            cachedMove = movement.cachedMove;
+            cachedMove = movement.CachedMove;
             if (!cachedMove.Equals(""))
             {
-                playerAnim.SetTrigger(cachedMove);
+                playerAnim.SetTrigger(cachedMove.ToString());
             }
 
         }
@@ -34,10 +33,10 @@ namespace CoreSystem
 
         private void GetDirection()
         {
-            if (!movement.lastMove.Equals(cachedMove))
+            if (!movement.LastMove.Equals(cachedMove))
             {
-                cachedMove = movement.lastMove;
-                playerAnim.SetTrigger(cachedMove);
+                cachedMove = movement.LastMove;
+                playerAnim.SetTrigger(cachedMove.ToString());
             }
         }
     }

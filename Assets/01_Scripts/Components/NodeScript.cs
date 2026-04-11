@@ -1,78 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CoreSystem
 {
     public class NodeScript : MonoBehaviour
     {
+        [field: SerializeField] public bool CanMoveUp { get; private set; } = false;
+        [field: SerializeField] public bool CanMoveDown { get; private set; } = false;
+        [field: SerializeField] public bool CanMoveLeft { get; private set; } = false;
+        [field: SerializeField] public bool CanMoveRight { get; private set; } = false;
 
-        public bool canMoveUp = false;
-        public bool canMoveDown = false;
-        public bool canMoveLeft = false;
-        public bool canMoveRight = false;
+        [field: SerializeField] public GameObject NodeUp { get; private set; }
+        [field: SerializeField] public GameObject NodeDown { get; private set; }
+        [field: SerializeField] public GameObject NodeLeft { get; private set; }
+        [field: SerializeField] public GameObject NodeRight { get; private set; }
 
-        public GameObject nodeUp;
-        public GameObject nodeDown;
-        public GameObject nodeLeft;
-        public GameObject nodeRight;
+        public GameObject pelletPrefab;
+        public GameObject powerPelletPrefab;
+        public GameObject fruitPrefab;
 
         public bool isGhostStartingNode = false;
-        // Start is called before the first frame update
+
         void Start()
         {
             CheckAvailableMoves();
         }
 
-        // Update is called once per frame
-        void Update()
+        public void CheckAvailableMoves(float nodeDistance = 1f)
         {
-
-        }
-
-        void CheckAvailableMoves()
-        {
-            RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, 1f, ~LayerMask.GetMask("Ignore Raycast"));
-            if (hitUp.collider != null && (hitUp.collider.gameObject.CompareTag("PathwayNode")))
+            if (Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hitUp, nodeDistance, LayerMask.GetMask("Nodes")))
             {
-                canMoveUp = true;
-                nodeUp = hitUp.collider.gameObject;
+                CanMoveUp = true;
+                NodeUp = hitUp.collider.gameObject;
             }
 
-            RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, 1f, ~LayerMask.GetMask("Ignore Raycast"));
-            if (hitDown.collider != null && (hitDown.collider.gameObject.CompareTag("PathwayNode")))
+
+            if (Physics.Raycast(transform.position, Vector3.back, out RaycastHit hitDown, nodeDistance, LayerMask.GetMask("Nodes")))
             {
-                canMoveDown = true;
-                nodeDown = hitDown.collider.gameObject;
+                CanMoveDown = true;
+                NodeDown = hitDown.collider.gameObject;
             }
 
-            RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 1f, ~LayerMask.GetMask("Ignore Raycast"));
-            if (hitRight.collider != null && (hitRight.collider.gameObject.CompareTag("PathwayNode")))
+            if (Physics.Raycast(transform.position, Vector3.right, out RaycastHit hitRight, nodeDistance, LayerMask.GetMask("Nodes")))
             {
-                canMoveRight = true;
-                nodeRight = hitRight.collider.gameObject;
+                CanMoveRight = true;
+                NodeRight = hitRight.collider.gameObject;
             }
 
-            RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 1f, ~LayerMask.GetMask("Ignore Raycast"));
-            if (hitLeft.collider != null && (hitLeft.collider.gameObject.CompareTag("PathwayNode")))
+            if (Physics.Raycast(transform.position, Vector3.left, out RaycastHit hitLeft, nodeDistance, LayerMask.GetMask("Nodes")))
             {
-                canMoveLeft = true;
-                nodeLeft = hitLeft.collider.gameObject;
+                CanMoveLeft = true;
+                NodeLeft = hitLeft.collider.gameObject;
             }
 
             if (isGhostStartingNode)
             {
-                canMoveDown = true;
-                nodeDown = GameManager.Instance.nodeCentre;
+                CanMoveDown = true;
+                NodeDown = GameManager.Instance.nodeCentre;
             }
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
+            
+        public bool ValidateNodePosition()
         {
-            if (collision.gameObject.CompareTag("Walls"))
+            if (Physics.BoxCast(transform.position, Vector3.one * 0.25f, Vector3.zero, out RaycastHit hit, Quaternion.identity, 0, LayerMask.GetMask("Walls")))
             {
-                Destroy(gameObject);
+                Debug.LogWarning($"{gameObject.name} is overlapping with walls: {hit.collider.gameObject.name}");
+                return false;
             }
+            return true;
         }
     }
 }

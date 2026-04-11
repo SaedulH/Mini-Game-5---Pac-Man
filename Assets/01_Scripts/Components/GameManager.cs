@@ -19,8 +19,8 @@ namespace CoreSystem
         [field: SerializeReference] public int Highscore { get; private set; }
 
         [field: SerializeField] public GameObject PacManPrefab { get; private set; }
-        [field: SerializeField] public GameObject PacMan { get; private set; }
         [field: SerializeField] public GameObject GhostPrefab { get; private set; }
+        [field: SerializeField] public GameObject PacMan { get; private set; }
         [field: SerializeField] public GameObject[] Ghosts { get; private set; }
         [field: SerializeField] public int PelletCount { get; private set; } = 246;
 

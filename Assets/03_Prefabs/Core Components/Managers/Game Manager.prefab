@@ -86,13 +86,15 @@ MonoBehaviour:
     InkySkinIndex: 0
     ClydeSkinIndex: 0
     RemainingLives: 3
-    StageNumber: 0
+    LevelNumber: 0
     TotalWeight: 0
   <MaxLives>k__BackingField: 4
   <RemainingLives>k__BackingField: 0
   <CurrentScore>k__BackingField: 0
   <Highscore>k__BackingField: 0
-  <PacMan>k__BackingField: {fileID: 7926657839902332771, guid: 38e33af6680136946a3d11b5b742459b, type: 3}
+  <PacManPrefab>k__BackingField: {fileID: 7926657839902332771, guid: 38e33af6680136946a3d11b5b742459b, type: 3}
+  <GhostPrefab>k__BackingField: {fileID: 0}
+  <PacMan>k__BackingField: {fileID: 0}
   <Ghosts>k__BackingField:
   - {fileID: 0}
   - {fileID: 0}

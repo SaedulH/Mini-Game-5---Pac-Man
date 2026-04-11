@@ -10,11 +10,11 @@ namespace CoreSystem
     {
         public override async Task Run(LevelContext context)
         {
-            string cameraMode = PlayerPrefs.GetString("Camera");
-            await CameraZoom.Instance.SetupCameraMode(context, cameraMode);
+            //string cameraMode = PlayerPrefs.GetString("Camera");
+            //await CameraZoom.Instance.SetupCameraMode(context, cameraMode);
 
-            string screenShakeSetting = PlayerPrefs.GetString("ScreenShake");
-            await CameraShake.Instance.SetupScreenShake(screenShakeSetting);
+            //string screenShakeSetting = PlayerPrefs.GetString("ScreenShake");
+            //await CameraShake.Instance.SetupScreenShake(screenShakeSetting);
         }
     }
 }

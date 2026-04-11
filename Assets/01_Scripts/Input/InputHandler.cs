@@ -1,22 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
     public class InputHandler : MonoBehaviour
     {
         private Movement movement;
-        private string UP = "up";
-        private string DOWN = "down";
-        private string LEFT = "left";
-        private string RIGHT = "right";
 
         private void Awake()
         {
             movement = GetComponent<Movement>();
-            movement.cachedMove = RIGHT;
+            movement.CachedMove = ControlInput.Right;
         }
+
         void Update()
         {
             DetectInput();
@@ -26,22 +22,22 @@ namespace CoreSystem
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                movement.SetDirection(UP);
+                movement.SetDirection(ControlInput.Up);
 
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
-                movement.SetDirection(DOWN);
+                movement.SetDirection(ControlInput.Down);
 
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
-                movement.SetDirection(RIGHT);
+                movement.SetDirection(ControlInput.Right);
 
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
-                movement.SetDirection(LEFT);
+                movement.SetDirection(ControlInput.Left);
 
             }
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -11,17 +12,17 @@ namespace CoreSystem
         [SerializeField] private GhostManager ghostManager;
         [SerializeField] private Movement movement;
 
-        [SerializeField] private string cachedMove;
+        [SerializeField] private ControlInput cachedMove;
         // Start is called before the first frame update
         void Start()
         {
             ghostManager = GetComponent<GhostManager>();
             movement = GetComponent<Movement>();
             eyesAnim = GetComponentInChildren<Animator>();
-            cachedMove = movement.cachedMove;
+            cachedMove = movement.CachedMove;
             if (!cachedMove.Equals(""))
             {
-                eyesAnim.SetTrigger(cachedMove);
+                eyesAnim.SetTrigger(cachedMove.ToString());
             }
         }
 
@@ -32,10 +33,10 @@ namespace CoreSystem
             if (eyesAnim.enabled)
             {
                 eyesAnim.SetBool("scared", false);
-                if (!movement.lastMove.Equals(cachedMove))
+                if (!movement.LastMove.Equals(cachedMove))
                 {
-                    cachedMove = movement.lastMove;
-                    eyesAnim.SetTrigger(cachedMove);
+                    cachedMove = movement.LastMove;
+                    eyesAnim.SetTrigger(cachedMove.ToString());
                 }
             }
         }

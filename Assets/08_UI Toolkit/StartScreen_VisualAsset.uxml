@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
+    <Style src="project://database/Assets/08_UI%20Toolkit/StartScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=74220e39d4435724499eb9373c3a2edf&amp;type=3#StartScreen_StyleSheet"/>
+    <ui:VisualElement name="StartScreen" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.31); align-self: auto; align-items: center; width: 100%; height: 100%;">
+        <ui:GroupBox name="Title" style="justify-content: space-between; margin-top: 100px; margin-bottom: 150px;">
+            <ui:Label tabindex="-1" text="PAC-MAN 3D" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TItle" class="header"/>
+            <ui:Label tabindex="-1" text="Mini Game #5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MiniGame5" class="subheader subHeader"/>
+        </ui:GroupBox>
+        <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start" class="button"/>
+        <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Settings" class="button"/>
+        <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="button"/>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
+    <Style src="project://database/Assets/08_UI%20Toolkit/PauseScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=da9fafe0915335a4cbf4941412a2730d&amp;type=3#PauseScreen_StyleSheet"/>
+    <ui:VisualElement name="PauseScreen" style="flex-grow: 1; background-color: rgb(0, 2, 29);"/>
+</ui:UXML>

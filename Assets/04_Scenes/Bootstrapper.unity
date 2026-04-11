@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0b394ed628368498d80961ad5aabea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.Bootstrapper
-  SceneName: 0
+  SceneName: 1
   UsePreset: 0
   ScenePreset: {fileID: 0}
 --- !u!4 &1664710596

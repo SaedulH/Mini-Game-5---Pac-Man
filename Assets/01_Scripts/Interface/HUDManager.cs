@@ -62,7 +62,7 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
     public async Task SetupHUD(LevelContext LevelContext)
     {
         _currentLevelContext = LevelContext;
-        CurrentStage.text = $"Stage {_currentLevelContext.StageNumber + 1}";
+        CurrentStage.text = $"Stage {_currentLevelContext.LevelNumber + 1}";
         CurrentScore.text = "0";
         HighScore.text = PlayerPrefs.GetInt("Highscore", 0).ToString();
         RemainingLivesCount.text = GameManager.Instance.RemainingLives.ToString();

@@ -1,0 +1,38 @@
+.hide {
+    opacity: 0;
+    display: none;
+    transition-duration: 0.2s;
+}
+
+
+
+.header {
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+    font-size: 110px;
+}
+
+.subHeader {
+    -unity-text-align: upper-center;
+    font-size: 70px;
+}
+
+.button {
+    width: 25%;
+    margin-bottom: 2.5%;
+    transition-duration: 0.15s;
+}
+
+.button:hover {
+    width: 25%;
+    margin-bottom: 2.5%;
+    scale: 1.2 1.2;
+    transition-duration: 0.15s;
+}
+
+.button:active {
+    width: 25%;
+    margin-bottom: 2.5%;
+    transition-duration: 0.1s;
+    scale: 0.95 0.95;
+}

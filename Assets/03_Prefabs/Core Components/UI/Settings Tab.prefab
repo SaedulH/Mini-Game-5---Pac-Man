@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &181354779659506175
 Transform:
   m_ObjectHideFlags: 0
@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: 63e678bd9161e994ab52b917c49f2b23, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 1b998c32836f32a4a834f4e9e15667a7, type: 3}
+  sourceAsset: {fileID: 0}
   m_SortingOrder: 2
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4071186218732128391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3015afb22f8c5824eb33dd7b4c9b94a4, type: 3}
   m_Name: 
@@ -74,10 +74,5 @@ MonoBehaviour:
   <DefaultIcon>k__BackingField: {fileID: 0}
   <CurrentScreen>k__BackingField: 0
   <CachedScreen>k__BackingField: 0
-  <SelectAudio>k__BackingField: {fileID: 0}
-  <BackAudio>k__BackingField: {fileID: 0}
-  <ResetAudio>k__BackingField: {fileID: 0}
-  <HoverAudio>k__BackingField: {fileID: 0}
   <ScreenTransitionTime>k__BackingField: 0.1
   <SliderLerpSpeed>k__BackingField: 50
-  <MenuManager>k__BackingField: {fileID: 0}

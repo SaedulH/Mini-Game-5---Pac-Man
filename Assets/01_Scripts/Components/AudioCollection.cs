@@ -1,5 +1,6 @@
 using AudioSystem;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Utilities;
 
 namespace CoreSystem
@@ -27,5 +28,49 @@ namespace CoreSystem
         [field: SerializeField] public AudioData TeleportAudio { get; set; }
         [field: SerializeField] public AudioData KillGhostAudio { get; set; }
         [field: SerializeField] public AudioData KillPlayerAudio { get; set; }
+
+        public void SetupHoverAudio(VisualElement root)
+        {
+            root.Query<Button>().ForEach(button =>
+            {
+                bool hovered = false;
+                button.RegisterCallback<PointerEnterEvent>(_ =>
+                {
+                    if (hovered || !button.enabledSelf)
+                        return;
+
+                    hovered = true;
+
+                    PlayHoverAudio();
+                });
+
+                button.RegisterCallback<PointerLeaveEvent>(_ =>
+                {
+                    hovered = false;
+                });
+            });
+        }
+
+        public void PlaySelectAudio(bool playSound = true)
+        {
+            if (!playSound) return;
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(SelectAudio);
+        }
+
+        public void PlayBackAudio(bool playSound = true)
+        {
+            if (!playSound) return;
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(BackAudio);
+        }
+
+        private void PlayHoverAudio(bool playSound = true)
+        {
+            if (!playSound) return;
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(HoverAudio);
+        }
+
     }
 }

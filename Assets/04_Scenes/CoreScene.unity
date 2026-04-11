@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1434040203}
     m_Modifications:
+    - target: {fileID: 485663024312562149, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
+      propertyPath: <GhostPrefab>k__BackingField
+      value: 
+      objectReference: {fileID: 7410896652128674152, guid: 245c21c6481699342bf5f27f2b0f0def, type: 3}
     - target: {fileID: 6332185215078563440, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -287,13 +291,9 @@ PrefabInstance:
       value: Loading Screen
       objectReference: {fileID: 0}
     - target: {fileID: 1312847766146074150, guid: e953014328e219d44ad2210fe9f3e53f, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 9197481963319205126, guid: 35ade5565e00cb54a8264528be44f71b, type: 3}
-    - target: {fileID: 1312847766146074150, guid: e953014328e219d44ad2210fe9f3e53f, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2987289387680484869, guid: e953014328e219d44ad2210fe9f3e53f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -413,6 +413,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pause Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 510280925740455828, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1560565929628751692, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -453,18 +457,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2265752373315068057, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8945230241601776101, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8945230241601776101, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -545,17 +537,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1434040203}
     m_Modifications:
-    - target: {fileID: 2425600830491659341, guid: 61a2ae4b5e2c52b4eae1c88e241f9aac, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2425600830491659341, guid: 61a2ae4b5e2c52b4eae1c88e241f9aac, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
     - target: {fileID: 5270782379070038720, guid: 61a2ae4b5e2c52b4eae1c88e241f9aac, type: 3}
       propertyPath: m_Name
       value: HUD Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270782379070038720, guid: 61a2ae4b5e2c52b4eae1c88e241f9aac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7293049888618337162, guid: 61a2ae4b5e2c52b4eae1c88e241f9aac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -677,14 +665,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 373160301}
     m_Modifications:
-    - target: {fileID: 1009260483256956837, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1009260483256956837, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
     - target: {fileID: 2191738496479234917, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -723,10 +703,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2191738496479234917, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862691921335983387, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4873678628943586558, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
@@ -840,14 +816,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Start Screen
       objectReference: {fileID: 0}
-    - target: {fileID: 7592943858892969382, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7592943858892969382, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -901,22 +869,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3884490889270044809, guid: 8545d41a96ef36443b8b5103bbe2fb38, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4071186218732128391, guid: 8545d41a96ef36443b8b5103bbe2fb38, type: 3}
       propertyPath: m_Name
       value: Settings Tab
       objectReference: {fileID: 0}
-    - target: {fileID: 6181019321707554012, guid: 8545d41a96ef36443b8b5103bbe2fb38, type: 3}
-      propertyPath: sourceAsset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6181019321707554012, guid: 8545d41a96ef36443b8b5103bbe2fb38, type: 3}
-      propertyPath: m_PanelSettings
-      value: 
-      objectReference: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

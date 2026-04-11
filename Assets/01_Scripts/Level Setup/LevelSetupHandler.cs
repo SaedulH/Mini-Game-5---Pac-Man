@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UserInterface;
 using Utilities;
 
 namespace CoreSystem
@@ -21,7 +22,7 @@ namespace CoreSystem
             float completed = 0f;
             float totalWeight = levelContext.TotalWeight;
 
-            Debug.Log($"Setup Level: {levelInfo.LevelName} - Mode:{levelContext.StageNumber}");
+            Debug.Log($"Setup Level: {levelInfo.LevelName} - Mode:{levelContext.LevelNumber}");
             foreach (LevelSetupStepSO step in levelInfo.StepOrder)
             {
                 try

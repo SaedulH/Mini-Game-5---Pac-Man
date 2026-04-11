@@ -1,16 +1,27 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PauseScreen : MonoBehaviour
+namespace UserInterface
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [RequireComponent(typeof(VisualElement))]
+    public class PauseScreen : MonoBehaviour
     {
-        
-    }
+        private VisualElement _root;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Awake()
+        {
+            _root = GetComponent<VisualElement>();
+        }
+
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

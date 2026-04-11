@@ -11,7 +11,7 @@ namespace CoreSystem
         public int InkySkinIndex = 0;
         public int ClydeSkinIndex = 0;
         public int RemainingLives = 3;
-        public int StageNumber;
+        public int LevelNumber;
         public float TotalWeight;
     }
 }

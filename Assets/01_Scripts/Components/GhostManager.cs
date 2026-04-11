@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -51,11 +52,6 @@ namespace CoreSystem
         private Color32 bodyColor;
         private Color32 scaredColor = new Color32(0, 34, 255, 255);
 
-        private readonly string UP = "up";
-        private readonly string DOWN = "down";
-        private readonly string LEFT = "left";
-        private readonly string RIGHT = "right";
-
         private Vector3 blinkyCorner = new Vector3(12.5f, 14.5f, 0);
         private Vector3 inkyCorner = new Vector3(12.5f, -13.5f, 0);
         private Vector3 pinkyCorner = new Vector3(-12.5f, 14.5f, 0);
@@ -84,7 +80,7 @@ namespace CoreSystem
 
             GetStartPosition();
             transform.position = startingNode.transform.position;
-            movement.currentNode = startingNode;
+            //movement.CurrentNode = startingNode;
         }
 
 
@@ -166,7 +162,7 @@ namespace CoreSystem
 
             GetStartPosition();
             transform.position = startingNode.transform.position;
-            movement.currentNode = startingNode;
+            //movement.CurrentNode = startingNode;
             yield return new WaitForSeconds(1);
             commenceRound = true;
 
@@ -312,22 +308,22 @@ namespace CoreSystem
                     if (ghostNodeState == GhostNodeStateEnum.LeftNode)
                     {
                         ghostNodeState = GhostNodeStateEnum.CentreNode;
-                        movement.SetDirection(RIGHT);
+                        movement.SetDirection(ControlInput.Right);
                     }
                     else if (ghostNodeState == GhostNodeStateEnum.RightNode)
                     {
                         ghostNodeState = GhostNodeStateEnum.CentreNode;
-                        movement.SetDirection(LEFT);
+                        movement.SetDirection(ControlInput.Left);
                     }
                     else if (ghostNodeState == GhostNodeStateEnum.CentreNode)
                     {
                         ghostNodeState = GhostNodeStateEnum.StartNode;
-                        movement.SetDirection(UP);
+                        movement.SetDirection(ControlInput.Up);
                     }
                     else if (ghostNodeState == GhostNodeStateEnum.StartNode)
                     {
                         ghostNodeState = GhostNodeStateEnum.MovingInNodes;
-                        movement.SetDirection(RIGHT);
+                        movement.SetDirection(ControlInput.Right);
                     }
                 }
             }
@@ -335,34 +331,34 @@ namespace CoreSystem
 
         void GetOppositeDirection()
         {
-            if (movement.lastMove.Equals(UP))
+            if (movement.LastMove.Equals(ControlInput.Up))
             {
-                movement.SetDirection(DOWN);
+                movement.SetDirection(ControlInput.Down);
             }
-            else if (movement.lastMove.Equals(DOWN))
+            else if (movement.LastMove.Equals(ControlInput.Down))
             {
-                movement.SetDirection(UP);
+                movement.SetDirection(ControlInput.Up);
             }
-            else if (movement.lastMove.Equals(LEFT))
+            else if (movement.LastMove.Equals(ControlInput.Left))
             {
-                movement.SetDirection(RIGHT);
+                movement.SetDirection(ControlInput.Right);
             }
-            else if (movement.lastMove.Equals(RIGHT))
+            else if (movement.LastMove.Equals(ControlInput.Right))
             {
-                movement.SetDirection(LEFT);
+                movement.SetDirection(ControlInput.Left);
             }
         }
 
         void DetermineBlinkyDirection()
         {
-            string direction = GetClosestDirection(gameManager.PacMan.transform.position);
+            ControlInput direction = GetClosestDirection(gameManager.PacMan.transform.position);
             movement.SetDirection(direction);
         }
         void DeterminePinkyDirection()
         {
             //get 4 tiles in front of pacman
             Vector3 tilePosition = GetTilesAhead(4);
-            string direction = GetClosestDirection(tilePosition);
+            ControlInput direction = GetClosestDirection(tilePosition);
             movement.SetDirection(direction);
 
         }
@@ -370,22 +366,21 @@ namespace CoreSystem
         {
             //get to twice the distance from blinky to pacman
             Vector3 tilePosition = GetDoubeleDistance();
-            string direction = GetClosestDirection(tilePosition);
+            ControlInput direction = GetClosestDirection(tilePosition);
             movement.SetDirection(direction);
         }
+
         void DetermineCliveDirection()
         {
             bool isTooClose = GetDistanceFromPacman();
-            string direction = "";
-            if (isTooClose)
+            if (GetDistanceFromPacman())
             {
-                direction = GetClosestDirection(cliveCorner);
+                movement.SetDirection(GetClosestDirection(cliveCorner));
             }
             else
             {
-                direction = GetClosestDirection(gameManager.PacMan.transform.position);
+                movement.SetDirection(GetClosestDirection(gameManager.PacMan.transform.position));
             }
-            movement.SetDirection(direction);
         }
 
         void ScatterToCorner(GhostName ghostName)
@@ -408,89 +403,89 @@ namespace CoreSystem
                 corner = cliveCorner;
             }
 
-            string direction = GetClosestDirection(corner);
+            ControlInput direction = GetClosestDirection(corner);
             movement.SetDirection(direction);
         }
 
         void Scramble()
         {
             body.color = scaredColor;
-            NodeScript nodeScript = movement.currentNode.GetComponent<NodeScript>();
-            string lastDirection = movement.lastMove;
-            List<string> canMove = new List<string>();
-            if (nodeScript.canMoveLeft && lastDirection != RIGHT)
+            NodeScript nodeScript = movement.CurrentNode.GetComponent<NodeScript>();
+            ControlInput lastDirection = movement.LastMove;
+            List<ControlInput> canMove = new();
+            if (nodeScript.CanMoveLeft && lastDirection != ControlInput.Right)
             {
-                canMove.Add(LEFT);
+                canMove.Add(ControlInput.Left);
             }
-            else if (nodeScript.canMoveRight && lastDirection != LEFT)
+            else if (nodeScript.CanMoveRight && lastDirection != ControlInput.Left)
             {
-                canMove.Add(RIGHT);
+                canMove.Add(ControlInput.Right);
             }
-            else if (nodeScript.canMoveUp && lastDirection != DOWN)
+            else if (nodeScript.CanMoveUp && lastDirection != ControlInput.Down)
             {
-                canMove.Add(UP);
+                canMove.Add(ControlInput.Up);
             }
-            else if (nodeScript.canMoveDown && lastDirection != UP)
+            else if (nodeScript.CanMoveDown && lastDirection != ControlInput.Up)
             {
-                canMove.Add(DOWN);
+                canMove.Add(ControlInput.Down);
             }
 
-            string chosenMove = canMove[UnityEngine.Random.Range(0, canMove.Count)];
+            ControlInput chosenMove = canMove[UnityEngine.Random.Range(0, canMove.Count)];
             movement.SetDirection(chosenMove);
         }
 
-        string GetClosestDirection(Vector2 target)
+        private ControlInput GetClosestDirection(Vector2 target)
         {
             float shortDistance = 0;
-            string nextDirection = "";
-            string lastDirection = movement.lastMove;
-            NodeScript nodeScript = movement.currentNode.GetComponent<NodeScript>();
+            ControlInput nextDirection = ControlInput.None;
+            ControlInput lastDirection = movement.LastMove;
+            NodeScript nodeScript = movement.CurrentNode.GetComponent<NodeScript>();
 
-            if (nodeScript.canMoveUp && lastDirection != DOWN)
+            if (nodeScript.CanMoveUp && lastDirection != ControlInput.Down)
             {
-                GameObject nodeUp = nodeScript.nodeUp;
+                GameObject nodeUp = nodeScript.NodeUp;
                 float distance = Vector2.Distance(nodeUp.transform.position, target);
 
                 if (distance < shortDistance || shortDistance == 0)
                 {
                     shortDistance = distance;
-                    nextDirection = UP;
+                    nextDirection = ControlInput.Up;
                 }
             }
 
-            if (nodeScript.canMoveDown && lastDirection != UP)
+            if (nodeScript.CanMoveDown && lastDirection != ControlInput.Up)
             {
-                GameObject nodeDown = nodeScript.nodeDown;
+                GameObject nodeDown = nodeScript.NodeDown;
                 float distance = Vector2.Distance(nodeDown.transform.position, target);
 
                 if (distance < shortDistance || shortDistance == 0)
                 {
                     shortDistance = distance;
-                    nextDirection = DOWN;
+                    nextDirection = ControlInput.Down;
                 }
             }
 
-            if (nodeScript.canMoveLeft && lastDirection != RIGHT)
+            if (nodeScript.CanMoveLeft && lastDirection != ControlInput.Right)
             {
-                GameObject nodeLeft = nodeScript.nodeLeft;
+                GameObject nodeLeft = nodeScript.NodeLeft;
                 float distance = Vector2.Distance(nodeLeft.transform.position, target);
 
                 if (distance < shortDistance || shortDistance == 0)
                 {
                     shortDistance = distance;
-                    nextDirection = LEFT;
+                    nextDirection = ControlInput.Left;
                 }
             }
 
-            if (nodeScript.canMoveRight && lastDirection != LEFT)
+            if (nodeScript.CanMoveRight && lastDirection != ControlInput.Left)
             {
-                GameObject nodeRight = nodeScript.nodeRight;
+                GameObject nodeRight = nodeScript.NodeRight;
                 float distance = Vector2.Distance(nodeRight.transform.position, target);
 
                 if (distance < shortDistance || shortDistance == 0)
                 {
                     shortDistance = distance;
-                    nextDirection = RIGHT;
+                    nextDirection = ControlInput.Right;
                 }
             }
 
@@ -499,27 +494,27 @@ namespace CoreSystem
 
         private Vector3 GetTilesAhead(int tileCount)
         {
-            NodeScript nodeScript = playerMovement.currentNode.GetComponent<NodeScript>();
-            string lastDirection = playerMovement.lastMove;
+            NodeScript nodeScript = playerMovement.CurrentNode.GetComponent<NodeScript>();
+            ControlInput lastDirection = playerMovement.LastMove;
             GameObject chosenNode = null;
             for (int i = 0; i < tileCount; i++)
             {
                 List<GameObject> canMove = new List<GameObject>();
-                if (nodeScript.canMoveLeft && lastDirection != RIGHT)
+                if (nodeScript.CanMoveLeft && lastDirection != ControlInput.Right)
                 {
-                    canMove.Add(nodeScript.nodeLeft);
+                    canMove.Add(nodeScript.NodeLeft);
                 }
-                else if (nodeScript.canMoveRight && lastDirection != LEFT)
+                else if (nodeScript.CanMoveRight && lastDirection != ControlInput.Left)
                 {
-                    canMove.Add(nodeScript.nodeRight);
+                    canMove.Add(nodeScript.NodeRight);
                 }
-                else if (nodeScript.canMoveUp && lastDirection != UP)
+                else if (nodeScript.CanMoveUp && lastDirection != ControlInput.Up)
                 {
-                    canMove.Add(nodeScript.nodeUp);
+                    canMove.Add(nodeScript.NodeUp);
                 }
-                else if (nodeScript.canMoveDown && lastDirection != DOWN)
+                else if (nodeScript.CanMoveDown && lastDirection != ControlInput.Down)
                 {
-                    canMove.Add(nodeScript.nodeDown);
+                    canMove.Add(nodeScript.NodeDown);
                 }
 
                 chosenNode = canMove[UnityEngine.Random.Range(0, canMove.Count)];
@@ -545,23 +540,22 @@ namespace CoreSystem
 
         private bool GetDistanceFromPacman()
         {
-            bool isTooClose = false;
             targetPosition = gameManager.PacMan.transform.position;
             //get 8 tile radius from pacman (tiles are 1x1 so 8m)
             float distance = Vector2.Distance(targetPosition, transform.position);
             if (distance <= 8)
             {
-                isTooClose = true;
+                return true;
             }
-            return isTooClose;
+            return false;
         }
 
         void GoBackToPen()
         {
-            string direction = "";
+            ControlInput direction = ControlInput.None;
             if (transform.position == ghostNodeStart.transform.position)
             {
-                direction = DOWN;
+                direction = ControlInput.Down;
             }
             else if (transform.position == ghostNodeCentre.transform.position)
             {
@@ -572,11 +566,11 @@ namespace CoreSystem
                 }
                 else if (respawnState == GhostNodeStateEnum.LeftNode)
                 {
-                    direction = LEFT;
+                    direction = ControlInput.Left;
                 }
                 else if (respawnState == GhostNodeStateEnum.RightNode)
                 {
-                    direction = RIGHT;
+                    direction = ControlInput.Right;
                 }
 
             }
