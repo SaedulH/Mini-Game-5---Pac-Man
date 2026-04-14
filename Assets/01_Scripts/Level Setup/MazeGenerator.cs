@@ -1,4 +1,5 @@
 using CoreSystem;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utilities;
 
@@ -9,18 +10,117 @@ public class MazeGenerator : MonoBehaviour
     public float nodeDistance = 1f;
     public Vector3 startPosition = new(-13.5f, 2.5f, -14.5f);
 
-    public GameObject nodePrefab;
-    public GameObject[,] nodes;
+    public NodeScript nodePrefab;
+    [field: SerializeField] public NodeScript[,] Nodes { get; private set; }
 
-    [ContextMenu("Generate Nodes")]
-    private void GenerateNodes()
+    private void GenerateRandomMaze()
+    {
+
+    }
+
+    private void GenerateRandomMaze(int seed)
+    {
+
+    }
+
+    private void GenerateWalls()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                // generate the 1x1 'Cells' for each not path position
+
+                // Merge all connected Cells into walls and add colliders to them
+
+                // procedurally generate curves and corners for the walls using 3D tile rules
+            }
+        }
+    }
+
+    [ContextMenu("Generate and Validate Nodes")]
+    private async Task GenerateAndValidateNodes()
     {
         if (nodePrefab == null)
         {
             Debug.LogError("Nodes prefab is not assigned.");
             return;
         }
-        nodes = new GameObject[width, height];
+        Nodes = new NodeScript[width, height];
+        
+        await GenerateNodes();
+
+        await ValidateNodes();
+    }
+
+    public async Task GenerateNodes()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Vector3 position = new(
+                    startPosition.x + i * nodeDistance,
+                    startPosition.y,
+                    startPosition.z + j * nodeDistance
+                );
+                Collider[] results = new Collider[10];
+                int wallCount = Physics.OverlapSphereNonAlloc(position, 0.25f, results, LayerMask.GetMask("Walls"));
+                if (wallCount == 0)
+                {
+                    NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, transform);
+                    Nodes[i, j] = node;
+                    node.name = $"Node_{i}_{j}";
+                }
+            }
+        }
+
+        await Task.CompletedTask;
+    }
+
+    public async Task ValidateNodes()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                NodeScript node = Nodes[i, j];
+                if (node != null)
+                {
+                    if (!node.ValidateNodePosition())
+                    {
+                        Debug.LogWarning($"Node at position ({i}, {j}) has invalid position.");
+                        node.gameObject.SetActive(false);
+                        continue;
+                    }
+                    node.CheckAvailableMoves(nodeDistance);
+                }
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    public bool ValidateNodePosition()
+    {
+        Collider[] walls = Physics.OverlapSphere(transform.position, 0.25f, LayerMask.GetMask("Walls"));
+        if (walls.Length > 0)
+        {
+            string wallNames = string.Join(", ", System.Array.ConvertAll(walls, wall => wall.gameObject.name));
+            Debug.LogError($"Node '{gameObject.name}' is overlapping with wall(s): {wallNames}. Please adjust the node's position.");
+            return false;
+        }
+        return true;
+    }
+
+    [ContextMenu("Generate Nodes")]
+    private void GenerateNodesVoid()
+    {
+        if (nodePrefab == null)
+        {
+            Debug.LogError("Nodes prefab is not assigned.");
+            return;
+        }
+        Nodes = new NodeScript[width, height];
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -31,9 +131,9 @@ public class MazeGenerator : MonoBehaviour
                     startPosition.z + j * nodeDistance
                 );
 
-                GameObject nodeObj = Instantiate(nodePrefab, position, Quaternion.identity, transform);
-                nodes[i, j] = nodeObj;
-                nodeObj.name = $"Node_{i}_{j}";
+                NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, transform);
+                Nodes[i, j] = node;
+                node.name = $"Node_{i}_{j}";
             }
         }
     }
@@ -41,54 +141,70 @@ public class MazeGenerator : MonoBehaviour
     [ContextMenu("Clear Nodes")]
     private void ClearNodes()
     {
-        if (nodes == null)
+        if (Nodes == null || Nodes.Length == 0)
         {
             Debug.LogWarning("Nodes array is not initialized.");
-            NodeScript[] nodeObjs = gameObject.GetComponentsInChildren<NodeScript>();
-            foreach (NodeScript nodeObj in nodeObjs)
+            NodeScript[] nodes = gameObject.GetComponentsInChildren<NodeScript>();
+            foreach (NodeScript node in nodes)
             {
-                DestroyImmediate(nodeObj.gameObject);
+                if (node != null)
+                {
+                    DestroyImmediate(node.gameObject);
+                }
             }
-            nodes = new GameObject[width, height];
+            Nodes = new NodeScript[width, height];
             return;
         }
-        for (int i = 0; i < nodes.GetLength(0); i++)
+        Debug.LogWarning("Nodes array is initialized. Size: " + Nodes.Length);
+
+        for (int i = 0; i < Nodes.GetLength(0); i++)
         {
-            for (int j = 0; j < nodes.GetLength(1); j++)
+            for (int j = 0; j < Nodes.GetLength(1); j++)
             {
-                if (nodes[i, j] != null)
+                if (Nodes[i, j] != null)
                 {
-                    DestroyImmediate(nodes[i, j]);
-                    nodes[i, j] = null;
+                    DestroyImmediate(Nodes[i, j].gameObject);
+                    Nodes[i, j] = null;
                 }
             }
         }
     }
 
     [ContextMenu("Validate Nodes")]
-    private void ValidateNodes()
+    private void ValidateNodesVoid()
     {
-        if (nodes == null)
+        if (Nodes == null || Nodes.Length == 0)
         {
             Debug.LogWarning("Nodes array is not initialized.");
+            NodeScript[] nodeObjs = gameObject.GetComponentsInChildren<NodeScript>();
+            foreach (NodeScript node in nodeObjs)
+            {
+                if (!node.ValidateNodePosition())
+                {
+                    Debug.LogWarning($"Node '{node.gameObject.name}' has invalid position.");
+                    node.gameObject.SetActive(false);
+                    continue;
+                }
+                node.CheckAvailableMoves(nodeDistance);
+            }
             return;
         }
-        for (int i = 0; i < nodes.GetLength(0); i++)
+        for (int i = 0; i < Nodes.GetLength(0); i++)
         {
-            for (int j = 0; j < nodes.GetLength(1); j++)
+            for (int j = 0; j < Nodes.GetLength(1); j++)
             {
-                if (nodes[i, j] == null)
+                if (Nodes[i, j] == null)
                 {
                     Debug.LogWarning($"Node at position ({i}, {j}) is missing.");
-                    return;
+                    continue;
                 }
 
-                NodeScript nodeScript = nodes[i, j].GetOrAdd<NodeScript>();
+                NodeScript nodeScript = Nodes[i, j];
                 if (!nodeScript.ValidateNodePosition())
                 {
                     Debug.LogWarning($"Node at position ({i}, {j}) has invalid position.");
                     nodeScript.gameObject.SetActive(false);
-                    return;
+                    continue;
                 }
                 nodeScript.CheckAvailableMoves(nodeDistance);
             }

@@ -6,9 +6,13 @@ using Utilities;
 
 namespace CoreSystem
 {
-    [RequireComponent(typeof(Movement))]
+    public interface IEntity
+    {
+        public void ReachedNodeCentre(NodeScript nodeScript);
+    }
 
-    public class GhostManager : MonoBehaviour
+    [RequireComponent(typeof(Movement))]
+    public class GhostManager : MonoBehaviour, IEntity
     {
         public enum GhostNodeStateEnum
         {

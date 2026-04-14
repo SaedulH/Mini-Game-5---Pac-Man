@@ -1,5 +1,119 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3647739430156703535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8661497686369794633}
+  - component: {fileID: 1934917947290111364}
+  - component: {fileID: 8324398853683231404}
+  - component: {fileID: 7622489364420515936}
+  m_Layer: 0
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8661497686369794633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647739430156703535}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.6, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4686897056468282396}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1934917947290111364
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647739430156703535}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8324398853683231404
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647739430156703535}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 97c5a5a0ef5afd04686d20ad6088769e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7622489364420515936
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647739430156703535}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7410896652128674152
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,10 +125,10 @@ GameObject:
   - component: {fileID: 4686897056468282396}
   - component: {fileID: 4988865449739674335}
   - component: {fileID: 6575314620531449847}
+  - component: {fileID: 5751035590868477905}
   - component: {fileID: 8554929073791489976}
   - component: {fileID: 8085194410050028204}
   - component: {fileID: 3473112591279277353}
-  - component: {fileID: 5751035590868477905}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -31,10 +145,11 @@ Transform:
   m_GameObject: {fileID: 7410896652128674152}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.92584, y: 9.70931, z: -2.61371}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8661497686369794633}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4988865449739674335
@@ -82,17 +197,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39ce0f082df4e145a6c39d10be8ebb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.Movement
-  speed: 0
-  body: {fileID: 0}
-  currentNode: {fileID: 0}
-  leftTeleportNode: {fileID: 0}
-  rightTeleportNode: {fileID: 0}
-  nodeScript: {fileID: 0}
-  xPosition: 0
-  yPosition: 0
-  isGhost: 0
-  lastMove: 
-  cachedMove: 
+  <Speed>k__BackingField: 0
+  <Body>k__BackingField: {fileID: 0}
+  <CurrentNode>k__BackingField: {fileID: 0}
+  <LeftTeleportNode>k__BackingField: {fileID: 0}
+  <RightTeleportNode>k__BackingField: {fileID: 0}
+  <NodeScript>k__BackingField: {fileID: 0}
+  <XPosition>k__BackingField: 0
+  <YPosition>k__BackingField: 0
+  <IsGhost>k__BackingField: 0
+  LastMove: 0
+  CachedMove: 0
+--- !u!114 &5751035590868477905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b03d7442824ef4dadbe2efb64ef8bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostAnimator
+  eyesAnim: {fileID: 0}
+  ghostManager: {fileID: 0}
+  movement: {fileID: 0}
+  cachedMove: 0
 --- !u!95 &8554929073791489976
 Animator:
   serializedVersion: 7
@@ -103,7 +234,7 @@ Animator:
   m_GameObject: {fileID: 7410896652128674152}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f3a482428afa529499c0626449c5922a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -165,19 +296,3 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5751035590868477905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7410896652128674152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2b03d7442824ef4dadbe2efb64ef8bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostAnimator
-  eyesAnim: {fileID: 0}
-  ghostManager: {fileID: 0}
-  movement: {fileID: 0}
-  cachedMove: 

@@ -22,7 +22,22 @@ namespace CoreSystem
 
         void Start()
         {
-            CheckAvailableMoves();
+            //CheckAvailableMoves();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(transform.position, Vector3.forward);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(transform.position, Vector3.back);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, Vector3.right);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, Vector3.left);
         }
 
         public void CheckAvailableMoves(float nodeDistance = 1f)
@@ -32,7 +47,6 @@ namespace CoreSystem
                 CanMoveUp = true;
                 NodeUp = hitUp.collider.gameObject;
             }
-
 
             if (Physics.Raycast(transform.position, Vector3.back, out RaycastHit hitDown, nodeDistance, LayerMask.GetMask("Nodes")))
             {
@@ -61,10 +75,12 @@ namespace CoreSystem
             
         public bool ValidateNodePosition()
         {
-            if (Physics.BoxCast(transform.position, Vector3.one * 0.25f, Vector3.zero, out RaycastHit hit, Quaternion.identity, 0, LayerMask.GetMask("Walls")))
+            Collider[] walls = Physics.OverlapSphere(transform.position, 0.25f, LayerMask.GetMask("Walls"));
+            if (walls.Length > 0)
             {
-                Debug.LogWarning($"{gameObject.name} is overlapping with walls: {hit.collider.gameObject.name}");
-                return false;
+                string wallNames = string.Join(", ", System.Array.ConvertAll(walls, wall => wall.gameObject.name));
+                Debug.LogError($"Node '{gameObject.name}' is overlapping with wall(s): {wallNames}. Please adjust the node's position.");
+                return false;   
             }
             return true;
         }

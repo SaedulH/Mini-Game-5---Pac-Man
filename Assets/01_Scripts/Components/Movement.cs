@@ -5,26 +5,23 @@ namespace CoreSystem
 {
     public class Movement : MonoBehaviour
     {
-
         [field: SerializeField] public float Speed { get; private set; }
-        [field: SerializeField] public Rigidbody2D Body { get; private set; }
+        [field: SerializeField] public Rigidbody Body { get; private set; }
+
         [field: SerializeField] public GameObject CurrentNode { get; private set; }
+        [field: SerializeField] public NodeScript NodeScript { get; private set; }
         [field: SerializeField] public GameObject LeftTeleportNode { get; private set; }
         [field: SerializeField] public GameObject RightTeleportNode { get; private set; }
-        [field: SerializeField] public NodeScript NodeScript { get; private set; }
-
-        [field: SerializeReference] public float XPosition { get; private set; }
-        [field: SerializeReference] public float YPosition { get; private set; }
 
         [field: SerializeField] public bool IsGhost { get; private set; } = false;
+        [field: SerializeField] public GhostManager GhostManager { get; private set; }
 
         [field: SerializeField] public ControlInput LastMove = ControlInput.None;
         [field: SerializeField] public ControlInput CachedMove = ControlInput.None;
 
-        // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            Body = GetComponent<Rigidbody2D>();
+            Body = GetComponent<Rigidbody>();
         }
 
         private void Update()
