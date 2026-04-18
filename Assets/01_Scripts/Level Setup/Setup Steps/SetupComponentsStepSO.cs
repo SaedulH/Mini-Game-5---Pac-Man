@@ -11,7 +11,7 @@ namespace CoreSystem
         {
 
             //await AudioManager.Instance.ResetComponent();
-
+            await MazeGenerator.Instance.ValidateNodes();
             await Task.CompletedTask;
         }
     }

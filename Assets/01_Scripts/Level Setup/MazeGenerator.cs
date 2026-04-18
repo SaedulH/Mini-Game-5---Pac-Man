@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Utilities;
 
-public class MazeGenerator : MonoBehaviour
+public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
 {
+    [field: SerializeField] public GameObject NodeParent { get; private set; }
+    [field: SerializeField] public GameObject WallParent { get; private set; }
+
     public int width = 26;
     public int height = 29;
     public float nodeDistance = 1f;
@@ -39,7 +42,7 @@ public class MazeGenerator : MonoBehaviour
     }
 
     [ContextMenu("Generate and Validate Nodes")]
-    private async Task GenerateAndValidateNodes()
+    public async Task GenerateAndValidateNodes()
     {
         if (nodePrefab == null)
         {
@@ -68,7 +71,7 @@ public class MazeGenerator : MonoBehaviour
                 int wallCount = Physics.OverlapSphereNonAlloc(position, 0.25f, results, LayerMask.GetMask("Walls"));
                 if (wallCount == 0)
                 {
-                    NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, transform);
+                    NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, NodeParent.transform);
                     Nodes[i, j] = node;
                     node.name = $"Node_{i}_{j}";
                 }
@@ -80,25 +83,47 @@ public class MazeGenerator : MonoBehaviour
 
     public async Task ValidateNodes()
     {
-        for (int i = 0; i < width; i++)
+        if (Nodes == null || Nodes.Length == 0)
         {
-            for (int j = 0; j < height; j++)
+            Debug.LogWarning("Nodes array is not initialized.");
+            NodeScript[] nodes = NodeParent.GetComponentsInChildren<NodeScript>();
+            foreach (NodeScript node in nodes)
             {
-                NodeScript node = Nodes[i, j];
-                if (node != null)
+                if (!node.ValidateNodePosition())
                 {
-                    if (!node.ValidateNodePosition())
+                    Debug.LogWarning($"Node '{node.gameObject.name}' has invalid position.");
+                    node.gameObject.SetActive(false);
+                    continue;
+                }
+                node.CheckAvailableMoves(nodeDistance);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    NodeScript node = Nodes[i, j];
+                    if (node != null)
                     {
-                        Debug.LogWarning($"Node at position ({i}, {j}) has invalid position.");
-                        node.gameObject.SetActive(false);
-                        continue;
+                        if (!node.ValidateNodePosition())
+                        {
+                            Debug.LogWarning($"Node at position ({i}, {j}) has invalid position.");
+                            node.gameObject.SetActive(false);
+                            continue;
+                        }
+                        node.CheckAvailableMoves(nodeDistance);
+
+                        node.SetNodeType(NodeType.Pellet);
                     }
-                    node.CheckAvailableMoves(nodeDistance);
                 }
             }
         }
         await Task.CompletedTask;
     }
+
+    #region Editor Validation
 
     public bool ValidateNodePosition()
     {
@@ -131,7 +156,7 @@ public class MazeGenerator : MonoBehaviour
                     startPosition.z + j * nodeDistance
                 );
 
-                NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, transform);
+                NodeScript node = Instantiate(nodePrefab, position, Quaternion.identity, NodeParent.transform);
                 Nodes[i, j] = node;
                 node.name = $"Node_{i}_{j}";
             }
@@ -144,12 +169,15 @@ public class MazeGenerator : MonoBehaviour
         if (Nodes == null || Nodes.Length == 0)
         {
             Debug.LogWarning("Nodes array is not initialized.");
-            NodeScript[] nodes = gameObject.GetComponentsInChildren<NodeScript>();
+            NodeScript[] nodes = NodeParent.GetComponentsInChildren<NodeScript>();
             foreach (NodeScript node in nodes)
             {
                 if (node != null)
                 {
+#if UNITY_EDITOR
                     DestroyImmediate(node.gameObject);
+#endif
+                    Destroy(node.gameObject);
                 }
             }
             Nodes = new NodeScript[width, height];
@@ -163,16 +191,23 @@ public class MazeGenerator : MonoBehaviour
             {
                 if (Nodes[i, j] != null)
                 {
+#if UNITY_EDITOR
                     DestroyImmediate(Nodes[i, j].gameObject);
-                    Nodes[i, j] = null;
+#endif
+                    Destroy(Nodes[i, j].gameObject);
+                    Nodes[i, j] = null;           
                 }
             }
         }
+
+        Nodes = null;
     }
 
     [ContextMenu("Validate Nodes")]
     private void ValidateNodesVoid()
     {
+        Physics.SyncTransforms();
+
         if (Nodes == null || Nodes.Length == 0)
         {
             Debug.LogWarning("Nodes array is not initialized.");
@@ -210,4 +245,5 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+    #endregion
 }

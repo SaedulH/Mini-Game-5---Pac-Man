@@ -123,9 +123,11 @@ GameObject:
   - component: {fileID: 8156054027097130007}
   - component: {fileID: 3010836448647439129}
   - component: {fileID: 7607579770083948777}
-  - component: {fileID: 3986630457258087878}
+  - component: {fileID: 2388569188094410049}
   - component: {fileID: 6032759971695592763}
+  - component: {fileID: 1426636522501425949}
   - component: {fileID: 6895071980631601792}
+  - component: {fileID: 3181813490963804251}
   m_Layer: 0
   m_Name: PacMan
   m_TagString: Player
@@ -173,15 +175,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdd044495988f647a2fc2fc9c977773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoUnparentOnAwake: 1
+  AutoUnparentOnAwake: 0
   remainingLives: 4
   isAlive: 1
   isPowerMode: 0
+  <InputHandler>k__BackingField: {fileID: 0}
   <Movement>k__BackingField: {fileID: 0}
   <Anim>k__BackingField: {fileID: 0}
-  startNode: {fileID: 0}
-  body: {fileID: 0}
---- !u!114 &3986630457258087878
+  <Skin>k__BackingField: {fileID: 0}
+  <StartNode>k__BackingField: {fileID: 0}
+--- !u!114 &2388569188094410049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,20 +193,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7926657839902332771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b39ce0f082df4e145a6c39d10be8ebb8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f9766b2dd51d54794f803b5503a720, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 0
-  <Body>k__BackingField: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.PlayerMovement
+  <RB>k__BackingField: {fileID: 0}
   <CurrentNode>k__BackingField: {fileID: 0}
-  <LeftTeleportNode>k__BackingField: {fileID: 0}
-  <RightTeleportNode>k__BackingField: {fileID: 0}
-  <NodeScript>k__BackingField: {fileID: 0}
-  <XPosition>k__BackingField: 0
-  <YPosition>k__BackingField: 0
-  <IsGhost>k__BackingField: 0
-  LastMove: 0
-  CachedMove: 0
+  <LeftTeleportNode>k__BackingField: []
+  <RightTeleportNode>k__BackingField: []
+  CurrentDirection: 0
+  CachedDirection: 0
+  <Speed>k__BackingField: 4
 --- !u!114 &6032759971695592763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +217,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnim: {fileID: 0}
   movement: {fileID: 0}
+--- !u!114 &1426636522501425949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926657839902332771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c862e32933f49a640a6fd63202e4d47a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SkinHandler
+  <BodyRenderer>k__BackingField: {fileID: 0}
+  <SkinIndex>k__BackingField: 0
 --- !u!95 &6895071980631601792
 Animator:
   serializedVersion: 7
@@ -240,3 +253,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &3181813490963804251
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926657839902332771}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 84
+  m_CollisionDetection: 0

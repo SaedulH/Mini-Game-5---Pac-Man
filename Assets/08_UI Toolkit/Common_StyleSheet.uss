@@ -4,17 +4,17 @@
     transition-duration: 0.2s;
 }
 
-
-
 .header {
     -unity-font-style: bold;
     -unity-text-align: upper-center;
     font-size: 110px;
+    color: rgb(204, 204, 204);
 }
 
 .subHeader {
     -unity-text-align: upper-center;
     font-size: 70px;
+    color: rgb(212, 212, 212);
 }
 
 .button {

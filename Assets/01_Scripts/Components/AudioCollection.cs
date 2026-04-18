@@ -72,5 +72,21 @@ namespace CoreSystem
                 .Play(HoverAudio);
         }
 
+        public void PlayCollectAudio(NodeType nodeType, bool playSound = true)
+        {
+            if (!playSound) return;
+            AudioData audioData = nodeType switch
+            {
+                NodeType.Pellet => CollectPelletAudio,
+                NodeType.PowerPellet => CollectPowerPelletAudio,
+                NodeType.Fruit => CollectFruitAudio,
+                _ => null
+            };
+            if (audioData != null)
+            {
+                AudioManager.Instance.CreateAudioBuilder()
+                    .Play(audioData);
+            }
+        }
     }
 }

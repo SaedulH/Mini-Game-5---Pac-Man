@@ -19,7 +19,7 @@ namespace CoreSystem
             ghostManager = GetComponent<GhostManager>();
             movement = GetComponent<Movement>();
             eyesAnim = GetComponentInChildren<Animator>();
-            cachedMove = movement.CachedMove;
+            cachedMove = movement.CachedDirection;
             if (!cachedMove.Equals(""))
             {
                 eyesAnim.SetTrigger(cachedMove.ToString());
@@ -33,9 +33,9 @@ namespace CoreSystem
             if (eyesAnim.enabled)
             {
                 eyesAnim.SetBool("scared", false);
-                if (!movement.LastMove.Equals(cachedMove))
+                if (!movement.CurrentDirection.Equals(cachedMove))
                 {
-                    cachedMove = movement.LastMove;
+                    cachedMove = movement.CurrentDirection;
                     eyesAnim.SetTrigger(cachedMove.ToString());
                 }
             }

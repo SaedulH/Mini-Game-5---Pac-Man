@@ -14,7 +14,7 @@ namespace CoreSystem
 
         public override async Task Run(LevelContext context)
         {
-            //GameManager.Instance.PacMan.transform.SetPositionAndRotation(PacManSpawnPosition, PlayerOneSpawnRotation);
+            GameManager.Instance.PacMan.SetSpawnpoint(PacManSpawnPosition, PlayerOneSpawnRotation);
             //if (GameManager.Instance.Ghosts != null && GameManager.Instance.Ghosts.Length > 0)
             //{
             //    for (int i = 0; i < GameManager.Instance.Ghosts.Length; i++)

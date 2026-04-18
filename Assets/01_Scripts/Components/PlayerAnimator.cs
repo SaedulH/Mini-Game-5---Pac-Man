@@ -16,7 +16,7 @@ namespace CoreSystem
         {
             playerAnim = GetComponent<Animator>();
             movement = GetComponent<Movement>();
-            cachedMove = movement.CachedMove;
+            cachedMove = movement.CachedDirection;
             if (!cachedMove.Equals(""))
             {
                 playerAnim.SetTrigger(cachedMove.ToString());
@@ -33,10 +33,10 @@ namespace CoreSystem
 
         private void GetDirection()
         {
-            if (!movement.LastMove.Equals(cachedMove))
+            if (!movement.CurrentDirection.Equals(cachedMove))
             {
-                cachedMove = movement.LastMove;
-                playerAnim.SetTrigger(cachedMove.ToString());
+                cachedMove = movement.CurrentDirection;
+                //playerAnim.SetTrigger(cachedMove.ToString());
             }
         }
     }

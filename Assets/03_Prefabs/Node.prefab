@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392866260437543541}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -125,12 +125,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 832d3d232b82a25499e24a270aa284d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMoveUp: 0
-  canMoveDown: 0
-  canMoveLeft: 0
-  canMoveRight: 0
-  nodeUp: {fileID: 0}
-  nodeDown: {fileID: 0}
-  nodeLeft: {fileID: 0}
-  nodeRight: {fileID: 0}
-  isGhostStartingNode: 0
+  <CanMoveUp>k__BackingField: 0
+  <CanMoveDown>k__BackingField: 0
+  <CanMoveLeft>k__BackingField: 0
+  <CanMoveRight>k__BackingField: 0
+  <NodeUp>k__BackingField: {fileID: 0}
+  <NodeDown>k__BackingField: {fileID: 0}
+  <NodeLeft>k__BackingField: {fileID: 0}
+  <NodeRight>k__BackingField: {fileID: 0}
+  <TeleportIndex>k__BackingField: 0
+  <NodeType>k__BackingField: 1
+  <PelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 4c33a06915b1d49488fff140733ab364, type: 3}
+  <PowerPelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 306e4fad9f4d0124a98f14d6d6a299fb, type: 3}
+  <FruitPrefab>k__BackingField: {fileID: 4889252119408565580, guid: fc7964624c9b8924dbb26bf3e218f9f1, type: 3}

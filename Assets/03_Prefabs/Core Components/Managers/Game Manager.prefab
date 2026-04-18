@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 29a66d6cb144400418fd8f32bbc02db0, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -59,8 +59,8 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: UI
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Pacman
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &485663024312562149
@@ -76,24 +76,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AutoUnparentOnAwake: 0
-  <Input>k__BackingField: {fileID: 5950695493843944237}
   <CurrentGameState>k__BackingField: 0
   <GameLevelInfo>k__BackingField: {fileID: 11400000, guid: fdd1a11a18c02d04b96156213fd5bc64, type: 2}
   <CurrentLevelContext>k__BackingField:
+    MapName: 0
+    UseMapSeed: 0
+    MapSeed: 0
+    RandomiseSeed: 0
+    RemainingLives: 3
+    LevelNumber: 0
     PacManSkinIndex: 0
     BlinkySkinIndex: 0
     PinkySkinIndex: 0
     InkySkinIndex: 0
     ClydeSkinIndex: 0
-    RemainingLives: 3
-    LevelNumber: 0
     TotalWeight: 0
-  <MaxLives>k__BackingField: 4
+  <MaxLives>k__BackingField: 3
   <RemainingLives>k__BackingField: 0
   <CurrentScore>k__BackingField: 0
   <Highscore>k__BackingField: 0
   <PacManPrefab>k__BackingField: {fileID: 7926657839902332771, guid: 38e33af6680136946a3d11b5b742459b, type: 3}
-  <GhostPrefab>k__BackingField: {fileID: 0}
+  <GhostPrefab>k__BackingField: {fileID: 7410896652128674152, guid: 245c21c6481699342bf5f27f2b0f0def, type: 3}
   <PacMan>k__BackingField: {fileID: 0}
   <Ghosts>k__BackingField:
   - {fileID: 0}
@@ -101,4 +104,3 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   <PelletCount>k__BackingField: 246
-  nodeCentre: {fileID: 0}

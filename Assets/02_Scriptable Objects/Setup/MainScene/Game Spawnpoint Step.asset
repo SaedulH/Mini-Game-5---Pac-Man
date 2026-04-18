@@ -15,7 +15,7 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <Weight>k__BackingField: 1
   <StepPriority>k__BackingField: 0
-  PacManSpawnPosition: {x: 0, y: 0, z: 0}
+  PacManSpawnPosition: {x: 0.5, y: 1, z: -2.5}
   PlayerOneSpawnRotation: {x: 0, y: 0, z: 0, w: 1}
   GhostSpawnPosition:
   - {x: 0, y: 0, z: 0}

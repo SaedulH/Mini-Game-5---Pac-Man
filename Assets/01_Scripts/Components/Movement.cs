@@ -1,132 +1,136 @@
+using System;
 using UnityEngine;
 using Utilities;
 
 namespace CoreSystem
 {
+
+    [RequireComponent(typeof(Rigidbody))]
     public class Movement : MonoBehaviour
     {
+        [field: SerializeField] public IInputHandler InputHandler { get; private set; }
+        [field: SerializeField] public Rigidbody RB { get; private set; }
+
+        [field: SerializeField] public NodeScript CurrentNode { get; protected set; }
+        [field: SerializeField] public NodeScript[] LeftTeleportNode { get; private set; }
+        [field: SerializeField] public NodeScript[] RightTeleportNode { get; private set; }
+
+        [field: SerializeField] public ControlInput CurrentDirection = ControlInput.None;
+        [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
+
         [field: SerializeField] public float Speed { get; private set; }
-        [field: SerializeField] public Rigidbody Body { get; private set; }
-
-        [field: SerializeField] public GameObject CurrentNode { get; private set; }
-        [field: SerializeField] public NodeScript NodeScript { get; private set; }
-        [field: SerializeField] public GameObject LeftTeleportNode { get; private set; }
-        [field: SerializeField] public GameObject RightTeleportNode { get; private set; }
-
-        [field: SerializeField] public bool IsGhost { get; private set; } = false;
-        [field: SerializeField] public GhostManager GhostManager { get; private set; }
-
-        [field: SerializeField] public ControlInput LastMove = ControlInput.None;
-        [field: SerializeField] public ControlInput CachedMove = ControlInput.None;
-
-        void Awake()
+        protected virtual void Awake()
         {
-            Body = GetComponent<Rigidbody>();
+            InputHandler = GetComponent<IInputHandler>();
+            RB = GetComponent<Rigidbody>();
         }
 
         private void Update()
         {
-            NodeScript = CurrentNode.GetComponent<NodeScript>();
-            if (PlayerManager.Instance.isAlive)
+            if (GameManager.Instance.CurrentGameState == GameState.Playing)
             {
+                ReadInput();
                 Move();
             }
-
         }
 
-        public void SetDirection(ControlInput direction)
+        private void ReadInput()
         {
-            if (!direction.Equals(LastMove))
+            if (InputHandler.CachedInput.Equals(ControlInput.None)) return;
+
+            if (!InputHandler.CachedInput.Equals(CachedDirection))
             {
-                CachedMove = direction;
+                CachedDirection = InputHandler.CachedInput;
             }
         }
 
-        private void Move()
+        public void SetStartNode(NodeScript startNode)
         {
-            transform.position = Vector2.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
+            CurrentNode = startNode;
+            transform.position = startNode.transform.position;
+        }
+
+        protected virtual void Move()
+        {
+            transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
             if (transform.position == CurrentNode.transform.position)
             {
-
-                if ((NodeScript.isGhostStartingNode && CachedMove == ControlInput.Down)
-                    && (!IsGhost || GetComponent<GhostManager>().ghostNodeState != GhostManager.GhostNodeStateEnum.Respawning))
-                {
-                    if (LastMove == ControlInput.Right)
-                    {
-                        CurrentNode = NodeScript.NodeRight;
-                    }
-                    else
-                    {
-                        CurrentNode = NodeScript.NodeLeft;
-                    }
-                }
-
-                if (IsGhost)
-                {
-                    GetComponent<GhostManager>().ReachedNodeCentre(NodeScript);
-                }
-
-                if (CachedMove.Equals(ControlInput.Up) && NodeScript.CanMoveUp)
-                {
-                    LastMove = CachedMove;
-                    CurrentNode = NodeScript.NodeUp;
-                }
-                else if (CachedMove.Equals(ControlInput.Down) && NodeScript.CanMoveDown)
-                {
-                    LastMove = CachedMove;
-                    CurrentNode = NodeScript.NodeDown;
-                }
-                else if (CachedMove.Equals(ControlInput.Left) && NodeScript.CanMoveLeft)
-                {
-                    LastMove = CachedMove;
-                    CurrentNode = NodeScript.NodeLeft;
-                }
-                else if (CachedMove.Equals(ControlInput.Right) && NodeScript.CanMoveRight)
-                {
-                    LastMove = CachedMove;
-                    CurrentNode = NodeScript.NodeRight;
-                }
-                else
-                {
-                    //keep moving in lasst move direction until CachedMove condition reached
-                    MaintainCurrentDirection();
-                }
-
+                GetNextDirection();
             }
-
         }
+
+        protected void GetNextDirection()
+        {
+            if (CachedDirection.Equals(ControlInput.Up) && CurrentNode.CanMoveUp)
+            {
+                CurrentDirection = CachedDirection;
+                CurrentNode = CurrentNode.NodeUp;
+            }
+            else if (CachedDirection.Equals(ControlInput.Down) && CurrentNode.CanMoveDown)
+            {
+                CurrentDirection = CachedDirection;
+                CurrentNode = CurrentNode.NodeDown;
+            }
+            else if (CachedDirection.Equals(ControlInput.Left) && CurrentNode.CanMoveLeft)
+            {
+                CurrentDirection = CachedDirection;
+                CurrentNode = CurrentNode.NodeLeft;
+            }
+            else if (CachedDirection.Equals(ControlInput.Right) && CurrentNode.CanMoveRight)
+            {
+                CurrentDirection = CachedDirection;
+                CurrentNode = CurrentNode.NodeRight;
+            }
+            else
+            {
+                MaintainCurrentDirection();
+            }
+        }
+
         private void MaintainCurrentDirection()
         {
-            if (LastMove.Equals(ControlInput.Up) && NodeScript.CanMoveUp)
+            switch (CurrentDirection)
             {
-                CurrentNode = NodeScript.NodeUp;
-            }
-            else if (LastMove.Equals(ControlInput.Down) && NodeScript.CanMoveDown)
-            {
-                CurrentNode = NodeScript.NodeDown;
-            }
-            else if (LastMove.Equals(ControlInput.Left) && NodeScript.CanMoveLeft)
-            {
-                CurrentNode = NodeScript.NodeLeft;
-            }
-            else if (LastMove.Equals(ControlInput.Right) && NodeScript.CanMoveRight)
-            {
-                CurrentNode = NodeScript.NodeRight;
+                case ControlInput.Up:
+                    if (CurrentNode.CanMoveUp)
+                    {
+                        CurrentNode = CurrentNode.NodeUp;
+                    }
+                    break;
+                case ControlInput.Down:
+                    if (CurrentNode.CanMoveDown)
+                    {
+                        CurrentNode = CurrentNode.NodeDown;
+                    }
+                    break;
+                case ControlInput.Left:
+                    if (CurrentNode.CanMoveLeft)
+                    {
+                        CurrentNode = CurrentNode.NodeLeft;
+                    }
+                    break;
+                case ControlInput.Right:
+                    if (CurrentNode.CanMoveRight)
+                    {
+                        CurrentNode = CurrentNode.NodeRight;
+                    }
+                    break;
             }
         }
 
-        private void OnTriggerEnter(Collider collision)
-        {
-            if (collision.gameObject.CompareTag("LeftTeleport"))
-            {
-                transform.position = new Vector3(15f, 2f, 0f);
-                CurrentNode = RightTeleportNode;
-            }
-            else if (collision.gameObject.CompareTag("RightTeleport"))
-            {
-                transform.position = new Vector3(-14f, 2f, 0f);
-                CurrentNode = LeftTeleportNode;
-            }
-        }
+        //private void OnTriggerEnter(Collider collision)
+        //{
+        //    if (collision.gameObject.CompareTag("LeftTeleport"))
+        //    {
+        //        int index = collision
+        //        transform.position = new Vector3(15f, 2f, 0f);
+        //        CurrentNode = RightTeleportNode[];
+        //    }
+        //    else if (collision.gameObject.CompareTag("RightTeleport"))
+        //    {
+        //        transform.position = new Vector3(-14f, 2f, 0f);
+        //        CurrentNode = LeftTeleportNode;
+        //    }
+        //}
     }
 }

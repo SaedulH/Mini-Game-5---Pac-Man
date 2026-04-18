@@ -127,10 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1434040203}
     m_Modifications:
-    - target: {fileID: 485663024312562149, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
-      propertyPath: <GhostPrefab>k__BackingField
-      value: 
-      objectReference: {fileID: 7410896652128674152, guid: 245c21c6481699342bf5f27f2b0f0def, type: 3}
     - target: {fileID: 6332185215078563440, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -236,6 +232,10 @@ PrefabInstance:
     - target: {fileID: 4216992836139657188, guid: 53219a0a993670a4a92135815001a1d0, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828827394398988525, guid: 53219a0a993670a4a92135815001a1d0, type: 3}
+      propertyPath: orthographic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -815,6 +815,10 @@ PrefabInstance:
     - target: {fileID: 6678937582759020720, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
       propertyPath: m_Name
       value: Start Screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678937582759020720, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
