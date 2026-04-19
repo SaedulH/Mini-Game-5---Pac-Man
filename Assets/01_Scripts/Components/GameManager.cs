@@ -22,8 +22,10 @@ namespace CoreSystem
         [field: SerializeField] public GameObject PacManPrefab { get; private set; }
         [field: SerializeField] public GameObject GhostPrefab { get; private set; }
         [field: SerializeField] public PlayerManager PacMan { get; private set; }
-        [field: SerializeField] public GhostManager[] Ghosts { get; private set; }
-        [field: SerializeField] public int PelletCount { get; private set; } = 246;
+        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clyde")] public GhostManager[] Ghosts { get; private set; }
+        [field: SerializeField] public int TotalPelletCount { get; set; } = 246;
+        [field: SerializeField] public int PelletsEaten { get; private set; } = 0;
+        [field: SerializeField] public int CurrentLevel { get; private set; } = 1;
 
         public event Action<GameState> OnGameStateChanged;
 
@@ -50,6 +52,7 @@ namespace CoreSystem
 
         private async Task InitialiseGame()
         {
+            Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
             CurrentScore = 0;
             Highscore = PlayerPrefs.GetInt("Highscore", 0);
@@ -83,13 +86,27 @@ namespace CoreSystem
             OnGameStateChanged?.Invoke(newState);
         }
 
-        public void AddScore(int amount, bool isPellet)
+        public async Task AddScore(int amount, bool isPellet)
         {
             CurrentScore += amount;
             //scoreText.text = CurrentScore.ToString();
             if (isPellet)
             {
-                PelletCount--;
+                await EatPellet();
+            }
+        }
+
+        public async Task EatPellet()
+        {
+            PelletsEaten++;
+            if (PelletsEaten == TotalPelletCount)
+            {
+                Debug.Log("All pellets collected! Level Complete!");
+                EnterGameState(GameState.GameOver);
+            }
+            else if (PelletsEaten == 64 || PelletsEaten == 174)
+            {
+                await MazeGenerator.Instance.SpawnFruit(CurrentLevel);
             }
         }
 
@@ -105,9 +122,32 @@ namespace CoreSystem
         public async Task SetupGhost(GhostType ghostType, int skinIndex)
         {
             //GhostPrefab
+            GhostManager ghost = Instantiate(GhostPrefab, Vector3.zero, Quaternion.identity).GetComponent<GhostManager>();
+            ghost.name = ghostType.ToString();
 
+            ghost.InitialiseGhost(ghostType, skinIndex, TotalPelletCount, PacMan);
+            SetupGhostReferences(ghost);
             await Task.CompletedTask;
+        }
 
+        private void SetupGhostReferences(GhostManager ghost)
+        {
+            Ghosts = Ghosts ?? new GhostManager[4];
+            switch (ghost.GhostType)
+            {
+                case GhostType.Blinky:
+                    Ghosts[0] = ghost;
+                    break;
+                case GhostType.Inky:
+                    Ghosts[1] = ghost;
+                    break;
+                case GhostType.Pinky:
+                    Ghosts[2] = ghost;
+                    break;
+                case GhostType.Clyde:
+                    Ghosts[3] = ghost;
+                    break;
+            }
         }
 
         //public async Task ConfigureAI(Vehicle vehicle, string difficulty)

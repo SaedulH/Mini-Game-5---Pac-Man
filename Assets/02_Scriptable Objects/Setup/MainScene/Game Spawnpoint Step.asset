@@ -15,13 +15,13 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <Weight>k__BackingField: 1
   <StepPriority>k__BackingField: 0
-  PacManSpawnPosition: {x: 0.5, y: 1, z: -2.5}
+  PacManSpawnPosition: {x: 0, y: 1, z: -8.5}
   PlayerOneSpawnRotation: {x: 0, y: 0, z: 0, w: 1}
   GhostSpawnPosition:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 1, z: 3.5}
+  - {x: -2, y: 1, z: 0.5}
+  - {x: 0, y: 1, z: 0.5}
+  - {x: 2, y: 1, z: 0.5}
   GhostSpawnRotation:
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}

@@ -4,25 +4,21 @@ using Utilities;
 
 namespace CoreSystem
 {
+
     [RequireComponent(typeof(PlayerInputHandler))]
     [RequireComponent(typeof(PlayerMovement))]
     [RequireComponent(typeof(PlayerAnimator))]
     [RequireComponent(typeof(SkinHandler))]
-    public class PlayerManager : NonPersistentSingleton<PlayerManager>
+    public class PlayerManager : EntityManager
     {
         public int remainingLives = 4;
         public bool isAlive = true;
         public bool isPowerMode = false;
-        [field: SerializeField] public PlayerInputHandler InputHandler { get; private set; }
-        [field: SerializeField] public PlayerMovement Movement { get; private set; }
-        [field: SerializeField] public PlayerAnimator Anim { get; private set; }
-        [field: SerializeField] public SkinHandler Skin { get; private set; }
 
-        [field: SerializeField] public NodeScript StartNode { get; private set; }
+        private Coroutine _powerModeCoroutine;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             InputHandler = GetComponent<PlayerInputHandler>();
             Movement = GetComponent<PlayerMovement>();
             Anim = GetComponent<PlayerAnimator>();
@@ -44,36 +40,44 @@ namespace CoreSystem
         public void SetSpawnpoint(Vector3 position, Quaternion rotation)
         {
             transform.SetPositionAndRotation(position, rotation);
-            Collider[] results = new Collider[10];
-            int nodeCount = Physics.OverlapSphereNonAlloc(position, 0.5f, results, LayerMask.GetMask("Nodes"));
-            if (nodeCount > 0)
+            Collider[] colliders = Physics.OverlapSphere(position, 0.25f, LayerMask.GetMask("Nodes"));
+            if (colliders.Length == 0) return;
+
+            foreach (Collider collider in colliders)
             {
-                StartNode = results[0].GetComponent<NodeScript>();
-                Movement.SetStartNode(StartNode);
+                if(collider.TryGetComponent(out NodeScript node))
+                {
+                    if (node.NodeType == NodeType.PacManStart)
+                    {
+                        StartNode = node;
+                        Movement.SetStartNode(StartNode);
+                        break;
+                    }
+                }
             }
         }
 
         public void ActivatePowerMode()
         {
+            Debug.Log("Start Power Mode");
+            if(_powerModeCoroutine != null)
+            {
+                StopCoroutine(_powerModeCoroutine);
+            }
 
+            _powerModeCoroutine = StartCoroutine(PowerMode());
         }
 
-        public void DeactivatePowerMode()
+        public IEnumerator PowerMode()
         {
+            isPowerMode = true;
+            Anim.SetPowerMode(true);
+            yield return new WaitForSeconds(10);
 
+            isPowerMode = false;
+            Anim.SetPowerMode(false);
+            Debug.Log("End Power Mode");
         }
-
-        //public IEnumerator PowerMode()
-        //{
-        //    //Debug.Log("Start powermode");
-        //    //isPowerMode = true;
-        //    //body.color = new Color32(255, 206, 206, 255);
-        //    //yield return new WaitForSeconds(10);
-
-        //    //body.color = new Color32(255, 255, 255, 255);
-        //    //isPowerMode = false;
-        //    //Debug.Log("End powermode");
-        //}
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -114,7 +118,5 @@ namespace CoreSystem
                 yield return new WaitForSeconds(1);
             }
         }
-
-
     }
 }

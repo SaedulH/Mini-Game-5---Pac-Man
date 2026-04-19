@@ -6,5 +6,9 @@ namespace CoreSystem
     public class GhostInputHandler : MonoBehaviour, IInputHandler
     {
         public ControlInput CachedInput { get; set; }
+
+        public void SetInputActions(PlayerInputActions inputActions)
+        {
+        }
     }
 }

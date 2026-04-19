@@ -17,13 +17,17 @@ namespace CoreSystem
         [field: SerializeField] public NodeScript NodeDown { get; private set; }
         [field: SerializeField] public NodeScript NodeLeft { get; private set; }
         [field: SerializeField] public NodeScript NodeRight { get; private set; }
-        [field: SerializeField] public int TeleportIndex { get; private set; } = -1;
+        [field: SerializeField] public NodeScript TeleportNodeLeft { get; private set; }
+        [field: SerializeField] public NodeScript TeleportNodeRight { get; private set; }
+
 
         [field: Header("Node Type")]
         [field: SerializeField] public NodeType NodeType { get; private set; }
+        [field: SerializeField] public ItemScript CurrentItem { get; private set; }
         [field: SerializeField] public ItemScript PelletPrefab { get; private set; }
         [field: SerializeField] public ItemScript PowerPelletPrefab { get; private set; }
-        [field: SerializeField] public ItemScript FruitPrefab { get; private set; }
+        [field: SerializeField] public FruitItemScript FruitPrefab { get; private set; }
+        [field: SerializeField] public TeleportScript TeleportPrefab { get; private set; }
 
         private void OnDrawGizmosSelected()
         {
@@ -38,6 +42,12 @@ namespace CoreSystem
 
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, Vector3.left);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, 0.1f);
         }
 
         [ContextMenu("CheckAvailableMoves")]
@@ -93,9 +103,8 @@ namespace CoreSystem
             return true;
         }
 
-
         [ContextMenu("SetNodeType")]
-        public void SetNodeTypeContextMenu()
+        public void SetNodeType()
         {
             SetNodeType(NodeType);
         }
@@ -114,27 +123,80 @@ namespace CoreSystem
                     SpawnItem(PowerPelletPrefab);
                     break;
                 case NodeType.Fruit:
-                    SpawnItem(FruitPrefab);
+                    SpawnFruit(1);
                     break;
                 case NodeType.Teleport:
+                    SetupTeleport();
                     break;
-
+                case NodeType.PacManStart:
+                    break;
                 case NodeType.GhostStart:
                     break;
             }
         }
 
-        private void SpawnItem(ItemScript item)
+        private void SetupTeleport()
         {
-            ItemScript[] existingItems = gameObject.GetComponentsInChildren<ItemScript>();
+            TeleportScript[] teleportScripts = gameObject.GetComponentsInChildren<TeleportScript>(true);
+            foreach (TeleportScript teleportScript in teleportScripts)
+            {
+                DestroyImmediate(teleportScript.gameObject);
+            }
+            TeleportScript teleport = Instantiate(TeleportPrefab, transform.position, Quaternion.identity, transform);
+            teleport.SetParentNode(this);
+            bool isLeftTeleport = transform.position.x < 0;
+            Vector3 rayDirection = isLeftTeleport ? Vector3.right : Vector3.left;
+            if (Physics.Raycast(transform.position, rayDirection, out RaycastHit hit, 50f, LayerMask.GetMask("Teleport")))
+            {
+                TeleportScript otherTeleport = hit.collider.TryGetComponent(out TeleportScript teleportScript) ? teleportScript : null;
+                if (otherTeleport == null || otherTeleport.ParentNode == null) return;
+
+                if (isLeftTeleport)
+                {
+                    TeleportNodeRight = otherTeleport.ParentNode;
+                    otherTeleport.ParentNode.TeleportNodeLeft = this;
+                } 
+                else
+                {
+                    TeleportNodeLeft = otherTeleport.ParentNode;
+                    otherTeleport.ParentNode.TeleportNodeRight = this;
+                }
+            }
+        }
+
+        private ItemScript SpawnItem(ItemScript item)
+        {
+            ItemScript[] existingItems = gameObject.GetComponentsInChildren<ItemScript>(true);
             foreach (ItemScript existingItem in existingItems)
             {
-#if UNITY_EDITOR
-                DestroyImmediate(existingItem.gameObject);
-#endif
-                Destroy(existingItem.gameObject);
+                if (existingItem.ItemType == item.ItemType)
+                {
+                    DestroyImmediate(existingItem.gameObject);
+                } 
+                else
+                {
+                    if (item.ItemType == NodeType.Fruit && IsCurrentlyActivePellet(existingItem))
+                    {
+                        _ = GameManager.Instance.EatPellet();
+                    }
+                    existingItem.gameObject.SetActive(false);
+                }
             }
-            Instantiate(item, transform.position, Quaternion.identity, transform);
+            CurrentItem = Instantiate(item, transform.position, Quaternion.identity, transform);
+            return CurrentItem;
+        }
+
+        public void SpawnFruit(int currentLevel)
+        {
+            FruitItemScript fruit = SpawnItem(FruitPrefab) as FruitItemScript;
+            fruit.SetFruitType(currentLevel);
+            Debug.Log($"Spawned fruit of type {fruit.FruitType} at node '{gameObject.name}' for level {currentLevel}.");
+        }
+
+        private bool IsCurrentlyActivePellet(ItemScript item)
+        {
+            return CurrentItem != null && CurrentItem == item && CurrentItem.IsActive && 
+                (CurrentItem.ItemType == NodeType.Pellet || CurrentItem.ItemType == NodeType.PowerPellet);
         }
     }
 }

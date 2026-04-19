@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,60 +5,29 @@ using Utilities;
 
 namespace CoreSystem
 {
-    public interface IEntity
-    {
-        public void ReachedNodeCentre(NodeScript nodeScript);
-    }
-
     [RequireComponent(typeof(Movement))]
-    public class GhostManager : MonoBehaviour, IEntity
+    public class GhostManager : EntityManager
     {
-        public enum GhostNodeStateEnum
-        {
-            Respawning,
-            LeftNode,
-            RightNode,
-            CentreNode,
-            StartNode,
-            MovingInNodes,
-            Scatter,
-            Frightened
-        }
+        [field: SerializeField] public PlayerManager PacMan { get; protected set; }
 
-        public enum GhostName
-        {
-            Inky,
-            Blinky,
-            Pinky,
-            Clive
-        }
+        public GhostType GhostType;
+        public GhostNodeState respawnState;
+        public GhostNodeState ghostNodeState;
 
-        public GhostName ghostName;
-        public GhostNodeStateEnum respawnState;
-        public GhostNodeStateEnum ghostNodeState;
-
-        [SerializeField] private Animator ghostAnim;
-        [SerializeField] private SpriteRenderer body;
         [SerializeField] private GameObject ghostNodeLeft;
         [SerializeField] private GameObject ghostNodeRight;
         [SerializeField] private GameObject ghostNodeCentre;
         [SerializeField] private GameObject ghostNodeStart;
 
-        public GameObject startingNode;
-        [SerializeField] private GameManager gameManager;
-        [SerializeField] private GhostAnimator animator;
-
-        public Movement movement;
         private Vector3 targetPosition;
         private float speed = 1;
-        private Movement playerMovement;
         private Color32 bodyColor;
         private Color32 scaredColor = new Color32(0, 34, 255, 255);
 
         private Vector3 blinkyCorner = new Vector3(12.5f, 14.5f, 0);
         private Vector3 inkyCorner = new Vector3(12.5f, -13.5f, 0);
         private Vector3 pinkyCorner = new Vector3(-12.5f, 14.5f, 0);
-        private Vector3 cliveCorner = new Vector3(-12.5f, -13.5f, 0);
+        private Vector3 clydeCorner = new Vector3(-12.5f, -13.5f, 0);
 
         [SerializeField] private GameObject[] allGhosts;
         [SerializeField] private GameObject trackBlinky;
@@ -75,23 +43,26 @@ namespace CoreSystem
         // Start is called before the first frame update
         void Awake()
         {
-            ghostAnim = GetComponent<Animator>();
-            movement = GetComponent<Movement>();
-            gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-            animator = GetComponent<GhostAnimator>();
-            playerMovement = gameManager.PacMan.GetComponent<Movement>();
-            bodyColor = body.color;
+            InputHandler = GetComponent<GhostInputHandler>();
+            Movement = GetComponent<GhostMovement>();
+            Anim = GetComponent<GhostAnimator>();
+            Skin = GetComponent<SkinHandler>();
 
             GetStartPosition();
-            transform.position = startingNode.transform.position;
-            //movement.CurrentNode = startingNode;
         }
 
+        public void InitialiseGhost(GhostType ghostType, int skinIndex, int totalPelletCount, PlayerManager pacMan)
+        {
+            GhostType = ghostType;
+            //Anim.SetTrigger("Idle");
+            Skin.AssignSkin(skinIndex);
+            startingPelletCount = totalPelletCount;
+            PacMan = pacMan;
+        }
 
         private void Start()
         {
-            startingPelletCount = gameManager.PelletCount;
-            if (ghostName.Equals(GhostName.Inky))
+            if (GhostType.Equals(GhostType.Inky))
             {
                 allGhosts = GameObject.FindGameObjectsWithTag("Ghost");
                 foreach (GameObject ghost in allGhosts)
@@ -106,20 +77,20 @@ namespace CoreSystem
         // Update is called once per frame
         void Update()
         {
-            if (gameManager.PelletCount == (startingPelletCount - 10))
-            {
-                isTimerPaused = false;
-                isReadyToLeaveHome = true;
-            }
+            //if (gameManager.TotalPelletCount == (startingPelletCount - 10))
+            //{
+            //    isTimerPaused = false;
+            //    isReadyToLeaveHome = true;
+            //}
 
-            if (PlayerManager.Instance.isPowerMode)
-            {
-                if (!powerModeActivated)
-                {
-                    powerModeActivated = true;
-                    StartCoroutine(enterFrightenedMode());
-                }
-            }
+            //if (PlayerManager.Instance.isPowerMode)
+            //{
+            //    if (!powerModeActivated)
+            //    {
+            //        powerModeActivated = true;
+            //        StartCoroutine(enterFrightenedMode());
+            //    }
+            //}
 
 
             if (!isTimerPaused)
@@ -127,7 +98,7 @@ namespace CoreSystem
                 AlternateGhostModes();
             }
 
-            if (!PlayerManager.Instance.isAlive)
+            if (!PacMan.isAlive)
             {
                 if (commenceRound)
                 {
@@ -137,39 +108,55 @@ namespace CoreSystem
             }
         }
 
+        public void SetSpawnpoint(Vector3 position, Quaternion rotation)
+        {
+            transform.SetPositionAndRotation(position, rotation);
+            Collider[] colliders = Physics.OverlapSphere(position, 0.25f, LayerMask.GetMask("Nodes"));
+            if (colliders.Length == 0) return;
+
+            foreach (Collider collider in colliders)
+            {
+                if (collider.TryGetComponent(out NodeScript node))
+                {
+                    if (node.NodeType == NodeType.GhostStart)
+                    {
+                        StartNode = node;
+                        Movement.SetStartNode(StartNode);
+                        break;
+                    }
+                }
+            }
+        }
+
         IEnumerator enterFrightenedMode()
         {
             isReadyToLeaveHome = false;
             isTimerPaused = true;
-            ghostNodeState = GhostNodeStateEnum.Frightened;
+            ghostNodeState = GhostNodeState.Frightened;
 
             yield return new WaitForSeconds(10);
 
-            if (ghostNodeState == GhostNodeStateEnum.Frightened)
+            if (ghostNodeState == GhostNodeState.Frightened)
             {
-                ghostNodeState = GhostNodeStateEnum.MovingInNodes;
+                ghostNodeState = GhostNodeState.MovingInNodes;
             }
             isReadyToLeaveHome = true;
             powerModeActivated = false;
             isTimerPaused = true;
         }
 
-
-
         IEnumerator resetPosition()
         {
-
             isReadyToLeaveHome = false;
             yield return new WaitForSeconds(2);
 
-            startingPelletCount = gameManager.PelletCount;
+            //startingPelletCount = gameManager.TotalPelletCount;
 
             GetStartPosition();
-            transform.position = startingNode.transform.position;
+            transform.position = StartNode.transform.position;
             //movement.CurrentNode = startingNode;
             yield return new WaitForSeconds(1);
             commenceRound = true;
-
         }
 
         void AlternateGhostModes()
@@ -181,48 +168,48 @@ namespace CoreSystem
             }
             if (wave == 1 || wave == 2)
             {
-                if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.MovingInNodes)
+                if (timer <= 0 && ghostNodeState == GhostNodeState.MovingInNodes)
                 {
                     //Debug.Log("Scattering!");
-                    ghostNodeState = GhostNodeStateEnum.Scatter;
+                    ghostNodeState = GhostNodeState.Scatter;
                     directionChanged = false;
                     timer = 7;
                 }
-                else if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.Scatter)
+                else if (timer <= 0 && ghostNodeState == GhostNodeState.Scatter)
                 {
-                    ghostNodeState = GhostNodeStateEnum.MovingInNodes;
+                    ghostNodeState = GhostNodeState.MovingInNodes;
                     timer = 20;
                     wave++;
                 }
             }
             else if (wave == 3)
             {
-                if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.MovingInNodes)
+                if (timer <= 0 && ghostNodeState == GhostNodeState.MovingInNodes)
                 {
                     //Debug.Log("Scattering!");
-                    ghostNodeState = GhostNodeStateEnum.Scatter;
+                    ghostNodeState = GhostNodeState.Scatter;
                     directionChanged = false;
                     timer = 5;
                 }
-                else if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.Scatter)
+                else if (timer <= 0 && ghostNodeState == GhostNodeState.Scatter)
                 {
-                    ghostNodeState = GhostNodeStateEnum.MovingInNodes;
+                    ghostNodeState = GhostNodeState.MovingInNodes;
                     timer = 20;
                     wave++;
                 }
             }
             else if (wave == 4)
             {
-                if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.MovingInNodes)
+                if (timer <= 0 && ghostNodeState == GhostNodeState.MovingInNodes)
                 {
                     //Debug.Log("Scattering!");
-                    ghostNodeState = GhostNodeStateEnum.Scatter;
+                    ghostNodeState = GhostNodeState.Scatter;
                     directionChanged = false;
                     timer = 5;
                 }
-                else if (timer <= 0 && ghostNodeState == GhostNodeStateEnum.Scatter)
+                else if (timer <= 0 && ghostNodeState == GhostNodeState.Scatter)
                 {
-                    ghostNodeState = GhostNodeStateEnum.MovingInNodes;
+                    ghostNodeState = GhostNodeState.MovingInNodes;
                     wave++;
                 }
             }
@@ -231,64 +218,56 @@ namespace CoreSystem
 
         private void GetStartPosition()
         {
-            body.enabled = true;
-            body.color = bodyColor;
-            if (ghostName.Equals(GhostName.Blinky))
+            if (GhostType.Equals(GhostType.Blinky))
             {
-                ghostNodeState = GhostNodeStateEnum.StartNode;
-                respawnState = GhostNodeStateEnum.CentreNode;
-                startingNode = ghostNodeStart;
+                ghostNodeState = GhostNodeState.StartNode;
+                respawnState = GhostNodeState.CentreNode;
             }
-            else if (ghostName.Equals(GhostName.Pinky))
+            else if (GhostType.Equals(GhostType.Pinky))
             {
-                ghostNodeState = GhostNodeStateEnum.CentreNode;
-                respawnState = GhostNodeStateEnum.CentreNode;
-                startingNode = ghostNodeCentre;
+                ghostNodeState = GhostNodeState.CentreNode;
+                respawnState = GhostNodeState.CentreNode;
             }
-            else if (ghostName.Equals(GhostName.Inky))
+            else if (GhostType.Equals(GhostType.Inky))
             {
-                ghostNodeState = GhostNodeStateEnum.LeftNode;
-                respawnState = GhostNodeStateEnum.LeftNode;
-                startingNode = ghostNodeLeft;
+                ghostNodeState = GhostNodeState.LeftNode;
+                respawnState = GhostNodeState.LeftNode;
             }
-            else if (ghostName.Equals(GhostName.Clive))
+            else if (GhostType.Equals(GhostType.Clyde))
             {
-                ghostNodeState = GhostNodeStateEnum.RightNode;
-                respawnState = GhostNodeStateEnum.RightNode;
-                startingNode = ghostNodeRight;
+                ghostNodeState = GhostNodeState.RightNode;
+                respawnState = GhostNodeState.RightNode;
             }
         }
 
         public void ReachedNodeCentre(NodeScript nodeScript)
         {
-            if (ghostNodeState == GhostNodeStateEnum.MovingInNodes)
+            if (ghostNodeState == GhostNodeState.MovingInNodes)
             {
-                body.color = bodyColor;
-                if (ghostName == GhostName.Blinky)
+                if (GhostType == GhostType.Blinky)
                 {
                     DetermineBlinkyDirection();
                 }
-                else if (ghostName == GhostName.Pinky)
+                else if (GhostType == GhostType.Pinky)
                 {
                     DeterminePinkyDirection();
                 }
-                else if (ghostName == GhostName.Inky)
+                else if (GhostType == GhostType.Inky)
                 {
                     DetermineInkyDirection();
                 }
-                else if (ghostName == GhostName.Clive)
+                else if (GhostType == GhostType.Clyde)
                 {
-                    DetermineCliveDirection();
+                    DetermineClydeDirection();
                 }
             }
-            else if (ghostNodeState == GhostNodeStateEnum.Respawning)
+            else if (ghostNodeState == GhostNodeState.Respawning)
             {
                 //determine how to go home
                 GoBackToPen();
             }
-            else if (ghostNodeState == GhostNodeStateEnum.Scatter)
+            else if (ghostNodeState == GhostNodeState.Scatter)
             {
-                body.color = bodyColor;
                 if (!directionChanged)
                 {
                     GetOppositeDirection();
@@ -296,12 +275,12 @@ namespace CoreSystem
                 }
                 else
                 {
-                    ScatterToCorner(ghostName);
+                    ScatterToCorner(GhostType);
                 }
                 //scatter to corner
 
             }
-            else if (ghostNodeState == GhostNodeStateEnum.Frightened)
+            else if (ghostNodeState == GhostNodeState.Frightened)
             {
                 Scramble();
             }
@@ -309,24 +288,24 @@ namespace CoreSystem
             {
                 if (isReadyToLeaveHome)
                 {
-                    if (ghostNodeState == GhostNodeStateEnum.LeftNode)
+                    if (ghostNodeState == GhostNodeState.LeftNode)
                     {
-                        ghostNodeState = GhostNodeStateEnum.CentreNode;
+                        ghostNodeState = GhostNodeState.CentreNode;
                         //movement.SetDirection(ControlInput.Right);
                     }
-                    else if (ghostNodeState == GhostNodeStateEnum.RightNode)
+                    else if (ghostNodeState == GhostNodeState.RightNode)
                     {
-                        ghostNodeState = GhostNodeStateEnum.CentreNode;
+                        ghostNodeState = GhostNodeState.CentreNode;
                         //movement.SetDirection(ControlInput.Left);
                     }
-                    else if (ghostNodeState == GhostNodeStateEnum.CentreNode)
+                    else if (ghostNodeState == GhostNodeState.CentreNode)
                     {
-                        ghostNodeState = GhostNodeStateEnum.StartNode;
+                        ghostNodeState = GhostNodeState.StartNode;
                         //movement.SetDirection(ControlInput.Up);
                     }
-                    else if (ghostNodeState == GhostNodeStateEnum.StartNode)
+                    else if (ghostNodeState == GhostNodeState.StartNode)
                     {
-                        ghostNodeState = GhostNodeStateEnum.MovingInNodes;
+                        ghostNodeState = GhostNodeState.MovingInNodes;
                         //movement.SetDirection(ControlInput.Right);
                     }
                 }
@@ -335,19 +314,19 @@ namespace CoreSystem
 
         void GetOppositeDirection()
         {
-            if (movement.CurrentDirection.Equals(ControlInput.Up))
+            if (Movement.CurrentDirection.Equals(ControlInput.Up))
             {
                 //movement.SetDirection(ControlInput.Down);
             }
-            else if (movement.CurrentDirection.Equals(ControlInput.Down))
+            else if (Movement.CurrentDirection.Equals(ControlInput.Down))
             {
                 //movement.SetDirection(ControlInput.Up);
             }
-            else if (movement.CurrentDirection.Equals(ControlInput.Left))
+            else if (Movement.CurrentDirection.Equals(ControlInput.Left))
             {
                 //movement.SetDirection(ControlInput.Right);
             }
-            else if (movement.CurrentDirection.Equals(ControlInput.Right))
+            else if (Movement.CurrentDirection.Equals(ControlInput.Right))
             {
                 //movement.SetDirection(ControlInput.Left);
             }
@@ -355,7 +334,7 @@ namespace CoreSystem
 
         void DetermineBlinkyDirection()
         {
-            ControlInput direction = GetClosestDirection(gameManager.PacMan.transform.position);
+            ControlInput direction = GetClosestDirection(PacMan.transform.position);
             //movement.SetDirection(direction);
         }
         void DeterminePinkyDirection()
@@ -374,7 +353,7 @@ namespace CoreSystem
             //movement.SetDirection(direction);
         }
 
-        void DetermineCliveDirection()
+        void DetermineClydeDirection()
         {
             bool isTooClose = GetDistanceFromPacman();
             if (GetDistanceFromPacman())
@@ -387,24 +366,24 @@ namespace CoreSystem
             }
         }
 
-        void ScatterToCorner(GhostName ghostName)
+        void ScatterToCorner(GhostType GhostType)
         {
             Vector3 corner = new Vector3();
-            if (ghostName == GhostName.Blinky)
+            if (GhostType == GhostType.Blinky)
             {
                 corner = blinkyCorner;
             }
-            else if (ghostName == GhostName.Pinky)
+            else if (GhostType == GhostType.Pinky)
             {
                 corner = pinkyCorner;
             }
-            else if (ghostName == GhostName.Inky)
+            else if (GhostType == GhostType.Inky)
             {
                 corner = inkyCorner;
             }
-            else if (ghostName == GhostName.Clive)
+            else if (GhostType == GhostType.Clyde)
             {
-                corner = cliveCorner;
+                corner = clydeCorner;
             }
 
             ControlInput direction = GetClosestDirection(corner);
@@ -413,9 +392,8 @@ namespace CoreSystem
 
         void Scramble()
         {
-            body.color = scaredColor;
-            NodeScript nodeScript = movement.CurrentNode.GetComponent<NodeScript>();
-            ControlInput lastDirection = movement.CurrentDirection;
+            NodeScript nodeScript = Movement.CurrentNode.GetComponent<NodeScript>();
+            ControlInput lastDirection = Movement.CurrentDirection;
             List<ControlInput> canMove = new();
             if (nodeScript.CanMoveLeft && lastDirection != ControlInput.Right)
             {
@@ -442,8 +420,8 @@ namespace CoreSystem
         {
             float shortDistance = 0;
             ControlInput nextDirection = ControlInput.None;
-            ControlInput lastDirection = movement.CurrentDirection;
-            NodeScript nodeScript = movement.CurrentNode.GetComponent<NodeScript>();
+            ControlInput lastDirection = Movement.CurrentDirection;
+            NodeScript nodeScript = Movement.CurrentNode;
 
             if (nodeScript.CanMoveUp && lastDirection != ControlInput.Down)
             {
@@ -498,8 +476,8 @@ namespace CoreSystem
 
         private Vector3 GetTilesAhead(int tileCount)
         {
-            NodeScript nodeScript = playerMovement.CurrentNode.GetComponent<NodeScript>();
-            ControlInput lastDirection = playerMovement.CurrentDirection;
+            NodeScript nodeScript = PacMan.Movement.CurrentNode.GetComponent<NodeScript>();
+            ControlInput lastDirection = PacMan.Movement.CurrentDirection;
             NodeScript chosenNode = null;
             for (int i = 0; i < tileCount; i++)
             {
@@ -544,7 +522,7 @@ namespace CoreSystem
 
         private bool GetDistanceFromPacman()
         {
-            targetPosition = gameManager.PacMan.transform.position;
+            targetPosition = PacMan.transform.position;
             //get 8 tile radius from pacman (tiles are 1x1 so 8m)
             float distance = Vector2.Distance(targetPosition, transform.position);
             if (distance <= 8)
@@ -563,16 +541,15 @@ namespace CoreSystem
             }
             else if (transform.position == ghostNodeCentre.transform.position)
             {
-                if (respawnState == GhostNodeStateEnum.CentreNode)
+                if (respawnState == GhostNodeState.CentreNode)
                 {
                     ghostNodeState = respawnState;
-                    body.enabled = true;
                 }
-                else if (respawnState == GhostNodeStateEnum.LeftNode)
+                else if (respawnState == GhostNodeState.LeftNode)
                 {
                     direction = ControlInput.Left;
                 }
-                else if (respawnState == GhostNodeStateEnum.RightNode)
+                else if (respawnState == GhostNodeState.RightNode)
                 {
                     direction = ControlInput.Right;
                 }
@@ -581,11 +558,11 @@ namespace CoreSystem
             else if (transform.position == ghostNodeLeft.transform.position || transform.position == ghostNodeRight.transform.position)
             {
                 ghostNodeState = respawnState;
-                body.enabled = true;
+                //body.enabled = true;
             }
             else
             {
-                body.enabled = false;
+                // body.enabled = false;
                 direction = GetClosestDirection(ghostNodeStart.transform.position);
 
             }

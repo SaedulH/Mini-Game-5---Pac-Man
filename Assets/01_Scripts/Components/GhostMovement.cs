@@ -15,10 +15,10 @@ namespace CoreSystem
         protected override void Move()
         {
             transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
-            if (transform.position == CurrentNode.transform.position)
+            if (!ShouldTeleport() && transform.position == CurrentNode.transform.position)
             {
                 if ((CurrentNode.NodeType == NodeType.GhostStart && CachedDirection == ControlInput.Down)
-                    && (GhostManager.ghostNodeState != GhostManager.GhostNodeStateEnum.Respawning))
+                    && (GhostManager.ghostNodeState != GhostNodeState.Respawning))
                 {
                     if (CurrentDirection == ControlInput.Right)
                     {

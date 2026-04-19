@@ -12,8 +12,6 @@ namespace CoreSystem
         [field: SerializeField] public Rigidbody RB { get; private set; }
 
         [field: SerializeField] public NodeScript CurrentNode { get; protected set; }
-        [field: SerializeField] public NodeScript[] LeftTeleportNode { get; private set; }
-        [field: SerializeField] public NodeScript[] RightTeleportNode { get; private set; }
 
         [field: SerializeField] public ControlInput CurrentDirection = ControlInput.None;
         [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
@@ -118,19 +116,25 @@ namespace CoreSystem
             }
         }
 
-        //private void OnTriggerEnter(Collider collision)
-        //{
-        //    if (collision.gameObject.CompareTag("LeftTeleport"))
-        //    {
-        //        int index = collision
-        //        transform.position = new Vector3(15f, 2f, 0f);
-        //        CurrentNode = RightTeleportNode[];
-        //    }
-        //    else if (collision.gameObject.CompareTag("RightTeleport"))
-        //    {
-        //        transform.position = new Vector3(-14f, 2f, 0f);
-        //        CurrentNode = LeftTeleportNode;
-        //    }
-        //}
+        protected virtual bool ShouldTeleport()
+        {
+            if (CurrentNode.NodeType == NodeType.Teleport && transform.position == CurrentNode.transform.position)
+            {
+                if (CurrentDirection == ControlInput.Left && CurrentNode.TeleportNodeRight != null)
+                {
+                    transform.position = CurrentNode.TeleportNodeRight.transform.position;
+                    CurrentNode = CurrentNode.TeleportNodeRight;
+                    return true;
+                }
+                else if (CurrentDirection == ControlInput.Right && CurrentNode.TeleportNodeLeft != null)
+                {
+                    transform.position = CurrentNode.TeleportNodeLeft.transform.position;
+                    CurrentNode = CurrentNode.TeleportNodeLeft;
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

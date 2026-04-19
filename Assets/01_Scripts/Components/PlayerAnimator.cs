@@ -1,43 +1,70 @@
+using System;
 using UnityEngine;
 using Utilities;
 
 namespace CoreSystem
 {
-    public class PlayerAnimator : MonoBehaviour
+
+    public class PlayerAnimator : EntityAnimator
     {
-
-        [SerializeField] private Animator playerAnim;
-        [SerializeField] private Movement movement;
-
-        private ControlInput cachedMove;
-
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-            playerAnim = GetComponent<Animator>();
-            movement = GetComponent<Movement>();
-            cachedMove = movement.CachedDirection;
-            if (!cachedMove.Equals(""))
-            {
-                playerAnim.SetTrigger(cachedMove.ToString());
-            }
-
+            Anim = GetComponent<Animator>();
+            Movement = GetComponent<PlayerMovement>();
+            Body = GetComponentInChildren<MeshRenderer>().gameObject;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Start()
+        {
+            CurrentDirection = Movement.CachedDirection;
+            if (CurrentDirection != ControlInput.None)
+            {
+                RotateToDirection();
+            }
+        }
+
+        private void Update()
         {
             GetDirection();
         }
 
-
         private void GetDirection()
         {
-            if (!movement.CurrentDirection.Equals(cachedMove))
+            if (!Movement.CurrentDirection.Equals(CurrentDirection))
             {
-                cachedMove = movement.CurrentDirection;
-                //playerAnim.SetTrigger(cachedMove.ToString());
+                CurrentDirection = Movement.CurrentDirection;
+                RotateToDirection();
             }
+        }
+
+        private void RotateToDirection()
+        {
+            float yRotation = CurrentDirection switch
+            {
+                ControlInput.Right => 0f,
+                ControlInput.Down => 90f,
+                ControlInput.Left => 180f,
+                ControlInput.Up => 270f,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            Body.transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+        }
+
+        public void SetPowerMode(bool enabled)
+        {
+            if (enabled)
+            {
+                Anim.SetTrigger("PowerMove");
+            }
+            else 
+            { 
+                Anim.SetTrigger("Move");
+            }
+        }
+
+        public void SetDeath()
+        {
+            Anim.SetTrigger("Death");
         }
     }
 }

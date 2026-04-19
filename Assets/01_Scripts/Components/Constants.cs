@@ -5,10 +5,18 @@ namespace Utilities
     public static class Constants
     {
         // Score
-        public const int PELLET_SCORE = 50;
-        public const int POWER_PELLET_SCORE = 250;
-        public const int FRUIT_SCORE = 500;
-        public const int GHOST_SCORE = 800;
+        public const int PELLET_SCORE = 10;
+        public const int POWER_PELLET_SCORE = 50;
+
+        public const int FRUIT_CHERRY_SCORE = 100;
+        public const int FRUIT_STRAWBERRY_SCORE = 300;
+        public const int FRUIT_ORANGE_SCORE = 500;
+        public const int FRUIT_APPLE_SCORE = 700;
+        public const int FRUIT_MELON_SCORE = 1000;
+        public const int FRUIT_BELL_SCORE = 2000;
+        public const int FRUIT_KEY_SCORE = 4000;
+
+        public const int GHOST_SCORE = 200;
         public const int LEVEL_COMPLETE_SCORE = 1000;
 
         // UI Text
@@ -53,7 +61,39 @@ namespace Utilities
             {
                 NodeType.Pellet => PELLET_SCORE,
                 NodeType.PowerPellet => POWER_PELLET_SCORE,
-                NodeType.Fruit => FRUIT_SCORE,
+                _ => 0
+            };
+        }
+
+        public static FruitType GetFruitTypeForLevel(int currentLevel)
+        {
+            return currentLevel switch
+            {
+                1 => FruitType.Cherry,
+                2 => FruitType.Strawberry,
+                3 => FruitType.Orange,
+                4 => FruitType.Orange,
+                5 => FruitType.Apple,
+                6 => FruitType.Apple,
+                7 => FruitType.Melon,
+                8 => FruitType.Melon,
+                9 => FruitType.Bell,
+                10 => FruitType.Key,
+                _ => FruitType.Key
+            };
+        }
+
+        public static int GetFruitScore(FruitType fruitType)
+        {
+            return fruitType switch
+            {
+                FruitType.Cherry => FRUIT_CHERRY_SCORE,
+                FruitType.Strawberry => FRUIT_STRAWBERRY_SCORE,
+                FruitType.Orange => FRUIT_ORANGE_SCORE,
+                FruitType.Apple => FRUIT_APPLE_SCORE,
+                FruitType.Melon => FRUIT_MELON_SCORE,
+                FruitType.Bell => FRUIT_BELL_SCORE,
+                FruitType.Key => FRUIT_KEY_SCORE,
                 _ => 0
             };
         }
@@ -65,6 +105,18 @@ namespace Utilities
         Pinky,
         Inky,
         Clyde
+    }
+
+    public enum GhostNodeState
+    {
+        Respawning,
+        LeftNode,
+        RightNode,
+        CentreNode,
+        StartNode,
+        MovingInNodes,
+        Scatter,
+        Frightened
     }
 
     public enum GameState
@@ -136,6 +188,18 @@ namespace Utilities
         PowerPellet,
         Fruit,
         Teleport,
+        PacManStart,
         GhostStart
+    }
+
+    public enum FruitType
+    {
+        Apple,
+        Orange,
+        Cherry,
+        Strawberry,
+        Melon,
+        Bell,
+        Key
     }
 }

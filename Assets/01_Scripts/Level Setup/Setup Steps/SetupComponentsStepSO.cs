@@ -12,6 +12,9 @@ namespace CoreSystem
 
             //await AudioManager.Instance.ResetComponent();
             await MazeGenerator.Instance.ValidateNodes();
+
+            await MazeGenerator.Instance.SetTotalPelletCount();
+
             await Task.CompletedTask;
         }
     }

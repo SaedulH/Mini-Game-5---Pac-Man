@@ -4,6 +4,11 @@ namespace CoreSystem
 {
     public class TeleportScript : MonoBehaviour
     {
-        [field: SerializeField] public int TeleportIndex { get; private set; }
+        [field: SerializeField] public NodeScript ParentNode { get; private set; }
+
+        public void SetParentNode(NodeScript parentNode)
+        {
+            ParentNode = parentNode;
+        }
     }
 }

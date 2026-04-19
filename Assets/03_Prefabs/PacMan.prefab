@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9121791755893239364}
   - component: {fileID: 8358611863439539915}
   - component: {fileID: 8148894428843509862}
-  - component: {fileID: 7105275997038633953}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -91,27 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7105275997038633953
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735949031660785463}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7926657839902332771
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +106,7 @@ GameObject:
   - component: {fileID: 1426636522501425949}
   - component: {fileID: 6895071980631601792}
   - component: {fileID: 3181813490963804251}
+  - component: {fileID: 2751893944702687775}
   m_Layer: 0
   m_Name: PacMan
   m_TagString: Player
@@ -198,11 +177,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.PlayerMovement
   <RB>k__BackingField: {fileID: 0}
   <CurrentNode>k__BackingField: {fileID: 0}
-  <LeftTeleportNode>k__BackingField: []
-  <RightTeleportNode>k__BackingField: []
   CurrentDirection: 0
   CachedDirection: 0
-  <Speed>k__BackingField: 4
+  <Speed>k__BackingField: 10
 --- !u!114 &6032759971695592763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,8 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625ddbaa1fef3914a9acfd507d891f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnim: {fileID: 0}
-  movement: {fileID: 0}
+  <Anim>k__BackingField: {fileID: 0}
+  <Movement>k__BackingField: {fileID: 0}
+  <Body>k__BackingField: {fileID: 0}
 --- !u!114 &1426636522501425949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,3 +258,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!135 &2751893944702687775
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926657839902332771}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

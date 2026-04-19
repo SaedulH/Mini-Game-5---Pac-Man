@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
 
 namespace CoreSystem
 {
-    public class GhostAnimator : MonoBehaviour
+    public class GhostAnimator : EntityAnimator
     {
-
         [SerializeField] public Animator eyesAnim;
         [SerializeField] private GhostManager ghostManager;
         [SerializeField] private Movement movement;

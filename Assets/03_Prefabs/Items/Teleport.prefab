@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2400439213884381442}
-  - component: {fileID: 1558818425254770356}
-  - component: {fileID: 5092347486631121693}
-  m_Layer: 7
-  m_Name: Node
-  m_TagString: Untagged
+  - component: {fileID: 1951396227355478769}
+  - component: {fileID: 1765347276744808744}
+  m_Layer: 10
+  m_Name: Teleport
+  m_TagString: Pellets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,14 +26,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392866260437543541}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.5, y: -13.5, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1558818425254770356
+--- !u!135 &1951396227355478769
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +54,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5092347486631121693
+--- !u!114 &1765347276744808744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,21 +63,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4392866260437543541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 832d3d232b82a25499e24a270aa284d7, type: 3}
+  m_Script: {fileID: 11500000, guid: d521a5f5df8675546873d127afe889b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  <CanMoveUp>k__BackingField: 0
-  <CanMoveDown>k__BackingField: 0
-  <CanMoveLeft>k__BackingField: 0
-  <CanMoveRight>k__BackingField: 0
-  <NodeUp>k__BackingField: {fileID: 0}
-  <NodeDown>k__BackingField: {fileID: 0}
-  <NodeLeft>k__BackingField: {fileID: 0}
-  <NodeRight>k__BackingField: {fileID: 0}
-  <TeleportNodeLeft>k__BackingField: {fileID: 0}
-  <TeleportNodeRight>k__BackingField: {fileID: 0}
-  <NodeType>k__BackingField: 1
-  <PelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 4c33a06915b1d49488fff140733ab364, type: 3}
-  <PowerPelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 306e4fad9f4d0124a98f14d6d6a299fb, type: 3}
-  <FruitPrefab>k__BackingField: {fileID: 5314426414662464496, guid: fc7964624c9b8924dbb26bf3e218f9f1, type: 3}
-  <TeleportPrefab>k__BackingField: {fileID: 1765347276744808744, guid: 40ae0a8bf6c729d46a58b6cc26202467, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.TeleportScript
+  <ParentNode>k__BackingField: {fileID: 0}
