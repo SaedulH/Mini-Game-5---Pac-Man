@@ -35,7 +35,6 @@ namespace CoreSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"Item collided with {other.gameObject.name}");
             if (other.gameObject.CompareTag("Player"))
             {
                 CollectItem(other);

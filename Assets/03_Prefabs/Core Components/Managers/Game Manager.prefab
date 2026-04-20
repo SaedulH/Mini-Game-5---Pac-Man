@@ -103,4 +103,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  <PelletCount>k__BackingField: 246
+  <GhostMaterials>k__BackingField:
+  - {fileID: 2100000, guid: 4c32adfb495995848a2b9fbe2256bd87, type: 2}
+  - {fileID: 2100000, guid: 97c5a5a0ef5afd04686d20ad6088769e, type: 2}
+  - {fileID: 2100000, guid: ff70ea3989e9db9428eec4500499c1e1, type: 2}
+  - {fileID: 2100000, guid: fbd24d899f88a7540bfef9a466700590, type: 2}
+  <TotalPelletCount>k__BackingField: 246
+  <PelletsEaten>k__BackingField: 0
+  <CurrentLevel>k__BackingField: 1
+  <OnScoreUpdated>k__BackingField: {fileID: 11400000, guid: 5278adf5ea6920444b67965b81eb4063, type: 2}
+  <OnCollectItem>k__BackingField: {fileID: 11400000, guid: 37ece27375acb2e4dbc0e11c3269315f, type: 2}
+  <OnGameStateUpdated>k__BackingField: {fileID: 11400000, guid: 1e7794211ab69744589fb88c6368e6e0, type: 2}

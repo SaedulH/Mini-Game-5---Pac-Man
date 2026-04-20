@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Utilities
 {
@@ -18,6 +19,23 @@ namespace Utilities
 
         public const int GHOST_SCORE = 200;
         public const int LEVEL_COMPLETE_SCORE = 1000;
+
+        // Ghost Node Positions
+        public static readonly Vector3 BLINKY_START_POSITION = new(0, 0, 0);
+        public static readonly Vector3 PINKY_START_POSITION = new(0, 0, 0);
+        public static readonly Vector3 INKY_START_POSITION = new(0, 0, 0);
+        public static readonly Vector3 CLYDE_START_POSITION = new(0, 0, 0);
+
+        public static readonly Vector3 BLINKY_CORNER_POSITION = new(12.5f, 14.5f, 0);
+        public static readonly Vector3 INKY_CORNER_POSITION = new(12.5f, -13.5f, 0);
+        public static readonly Vector3 PINKY_CORNER_POSITION = new(-12.5f, 14.5f, 0);
+        public static readonly Vector3 CLYDE_CORNER_POSITION = new(-12.5f, -13.5f, 0);
+
+        // Timers
+        public const float EARLY_SCATTER_MODE_DURATION = 7f;
+        public const float LATE_SCATTER_MODE_DURATION = 5f;
+        public const float CHASE_MODE_DURATION = 20f;
+        public const float FRIGHTENED_MODE_DURATION = 10f;
 
         // UI Text
         public const string SOLO_RACE_WIN = "YOU WIN!";
@@ -107,14 +125,11 @@ namespace Utilities
         Clyde
     }
 
-    public enum GhostNodeState
+    public enum GhostState
     {
+        Standby,
         Respawning,
-        LeftNode,
-        RightNode,
-        CentreNode,
-        StartNode,
-        MovingInNodes,
+        Chasing,
         Scatter,
         Frightened
     }

@@ -8096,7 +8096,7 @@ MonoBehaviour:
   <NodeRight>k__BackingField: {fileID: 5428498025362621906}
   <TeleportNodeLeft>k__BackingField: {fileID: 0}
   <TeleportNodeRight>k__BackingField: {fileID: 0}
-  <NodeType>k__BackingField: 0
+  <NodeType>k__BackingField: 6
   <CurrentItem>k__BackingField: {fileID: 0}
   <PelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 4c33a06915b1d49488fff140733ab364, type: 3}
   <PowerPelletPrefab>k__BackingField: {fileID: 4889252119408565580, guid: 306e4fad9f4d0124a98f14d6d6a299fb, type: 3}
@@ -55222,7 +55222,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 27097
+  m_VersionIndex: 27103
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

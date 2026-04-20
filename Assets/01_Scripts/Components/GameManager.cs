@@ -1,3 +1,4 @@
+using EventSystem;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -23,11 +24,14 @@ namespace CoreSystem
         [field: SerializeField] public GameObject GhostPrefab { get; private set; }
         [field: SerializeField] public PlayerManager PacMan { get; private set; }
         [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clyde")] public GhostManager[] Ghosts { get; private set; }
+        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clyde")] public Material[] GhostMaterials { get; private set; }
         [field: SerializeField] public int TotalPelletCount { get; set; } = 246;
         [field: SerializeField] public int PelletsEaten { get; private set; } = 0;
         [field: SerializeField] public int CurrentLevel { get; private set; } = 1;
 
-        public event Action<GameState> OnGameStateChanged;
+        [field: SerializeField] public IntEventChannel OnScoreUpdated { get; private set; }
+        [field: SerializeField] public EventChannel OnCollectItem { get; private set; }
+        [field: SerializeField] public GameStateEventChannel OnGameStateUpdated { get; private set; }
 
         protected override void Awake()
         {
@@ -83,15 +87,17 @@ namespace CoreSystem
         {
             Debug.Log($"Entering Game State: {newState}");
             CurrentGameState = newState;
-            OnGameStateChanged?.Invoke(newState);
+            OnGameStateUpdated.Invoke(newState);
         }
 
         public async Task AddScore(int amount, bool isPellet)
         {
             CurrentScore += amount;
+            OnScoreUpdated.Invoke(CurrentScore);
             //scoreText.text = CurrentScore.ToString();
             if (isPellet)
             {
+                OnCollectItem.Invoke(new Empty());
                 await EatPellet();
             }
         }
@@ -99,9 +105,9 @@ namespace CoreSystem
         public async Task EatPellet()
         {
             PelletsEaten++;
-            if (PelletsEaten == TotalPelletCount)
+            if (PelletsEaten >= TotalPelletCount)
             {
-                Debug.Log("All pellets collected! Level Complete!");
+                Debug.Log("All Pellets Collected! Level Complete!");
                 EnterGameState(GameState.GameOver);
             }
             else if (PelletsEaten == 64 || PelletsEaten == 174)
@@ -125,55 +131,48 @@ namespace CoreSystem
             GhostManager ghost = Instantiate(GhostPrefab, Vector3.zero, Quaternion.identity).GetComponent<GhostManager>();
             ghost.name = ghostType.ToString();
 
-            ghost.InitialiseGhost(ghostType, skinIndex, TotalPelletCount, PacMan);
-            SetupGhostReferences(ghost);
+            ghost.InitialiseGhost(ghostType, skinIndex, PacMan);
+            SetupGhostReferences(ghost, ghostType);
             await Task.CompletedTask;
         }
 
-        private void SetupGhostReferences(GhostManager ghost)
+        public async Task AssignTargetTransforms()
+        {
+            if (Ghosts == null || Ghosts.Length != 4)
+            {
+                Debug.LogError("Ghost references are not properly set up. Cannot assign target transforms.");
+                return;
+            }
+            Ghosts[0].SetTargets(PacMan.transform, PacMan);
+            Ghosts[1].SetTargets(Ghosts[0].transform, PacMan);
+            Ghosts[2].SetTargets(PacMan.transform, PacMan);
+            Ghosts[3].SetTargets(PacMan.transform, PacMan);
+
+            await Task.CompletedTask;
+        }
+
+        private void SetupGhostReferences(GhostManager ghost, GhostType ghostType)
         {
             Ghosts = Ghosts ?? new GhostManager[4];
-            switch (ghost.GhostType)
+            switch (ghostType)
             {
                 case GhostType.Blinky:
                     Ghosts[0] = ghost;
+                    Ghosts[0].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[0];
                     break;
                 case GhostType.Inky:
                     Ghosts[1] = ghost;
+                    Ghosts[1].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[1];
                     break;
                 case GhostType.Pinky:
                     Ghosts[2] = ghost;
+                    Ghosts[2].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[2];
                     break;
                 case GhostType.Clyde:
                     Ghosts[3] = ghost;
+                    Ghosts[3].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[3];
                     break;
             }
         }
-
-        //public async Task ConfigureAI(Vehicle vehicle, string difficulty)
-        //{
-        //    PlayerTwo = Instantiate(AIPrefab, Vector3.zero, Quaternion.identity);
-        //    PlayerTwo.name = "CPU";
-        //    AIHandler input = PlayerTwo.GetOrAdd<AIHandler>();
-        //    if (Enum.TryParse(difficulty, out Difficulty parsedDifficulty))
-        //    {
-        //        input.Initialise(AIStats[(int)parsedDifficulty]);
-        //    }
-        //    else
-        //    {
-        //        input.Initialise(AIStats[0]);
-        //    }
-
-        //    VehicleSpriteHandler spriteHandler = PlayerTwo.GetOrAdd<VehicleSpriteHandler>();
-        //    spriteHandler.AssignSprite(vehicle.VisualSettings, vehicle.PlayerTwoVehicleChassisSprite);
-
-        //    Movement movement = PlayerTwo.GetOrAdd<Movement>();
-        //    movement.AssignVehicleStats(vehicle.Stats);
-
-        //    AddToCameraTargetGroup(2, PlayerTwo);
-        //    AddToCheckpointTargetGroup(2, PlayerTwo);
-        //    _playerTwoCompletedRace = false;
-        //    await Task.CompletedTask;
-        //}
     }
 }

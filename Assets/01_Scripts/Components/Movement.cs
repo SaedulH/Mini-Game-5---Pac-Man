@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utilities;
 
@@ -8,7 +7,7 @@ namespace CoreSystem
     [RequireComponent(typeof(Rigidbody))]
     public class Movement : MonoBehaviour
     {
-        [field: SerializeField] public IInputHandler InputHandler { get; private set; }
+        [field: SerializeField] public IInputHandler InputHandler { get; protected set; }
         [field: SerializeField] public Rigidbody RB { get; private set; }
 
         [field: SerializeField] public NodeScript CurrentNode { get; protected set; }
@@ -23,7 +22,7 @@ namespace CoreSystem
             RB = GetComponent<Rigidbody>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (GameManager.Instance.CurrentGameState == GameState.Playing)
             {

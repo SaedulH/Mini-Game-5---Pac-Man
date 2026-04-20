@@ -154,15 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdd044495988f647a2fc2fc9c977773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoUnparentOnAwake: 0
-  remainingLives: 4
-  isAlive: 1
-  isPowerMode: 0
-  <InputHandler>k__BackingField: {fileID: 0}
   <Movement>k__BackingField: {fileID: 0}
   <Anim>k__BackingField: {fileID: 0}
   <Skin>k__BackingField: {fileID: 0}
   <StartNode>k__BackingField: {fileID: 0}
+  <RemainingLives>k__BackingField: 4
+  <IsAlive>k__BackingField: 1
+  <IsPowerMode>k__BackingField: 0
+  <GhostKillCount>k__BackingField: 0
+  <OnPowerMode>k__BackingField: {fileID: 11400000, guid: 37af357021e6d304aa89a0410e2b9025, type: 2}
 --- !u!114 &2388569188094410049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +195,7 @@ MonoBehaviour:
   <Anim>k__BackingField: {fileID: 0}
   <Movement>k__BackingField: {fileID: 0}
   <Body>k__BackingField: {fileID: 0}
+  <CurrentDirection>k__BackingField: 0
 --- !u!114 &1426636522501425949
 MonoBehaviour:
   m_ObjectHideFlags: 0

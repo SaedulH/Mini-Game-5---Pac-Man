@@ -5,11 +5,10 @@ namespace CoreSystem
 {
     public class GhostMovement : Movement
     {
-        [field: SerializeField] public GhostManager GhostManager { get; private set; }
+        public new GhostInputHandler InputHandler { get => (GhostInputHandler)base.InputHandler; protected set => base.InputHandler = value; }
         protected override void Awake()
         {
             base.Awake(); 
-            GhostManager = GetComponent<GhostManager>();
         }
 
         protected override void Move()
@@ -18,7 +17,7 @@ namespace CoreSystem
             if (!ShouldTeleport() && transform.position == CurrentNode.transform.position)
             {
                 if ((CurrentNode.NodeType == NodeType.GhostStart && CachedDirection == ControlInput.Down)
-                    && (GhostManager.ghostNodeState != GhostNodeState.Respawning))
+                    && (!InputHandler.CurrentState.Equals(GhostState.Respawning)))
                 {
                     if (CurrentDirection == ControlInput.Right)
                     {
@@ -30,8 +29,7 @@ namespace CoreSystem
                     }
                 }
 
-                GhostManager.ReachedNodeCentre(CurrentNode);
-
+                InputHandler.OnReachedNodeCentre(CurrentNode);
                 GetNextDirection();
             }
         }

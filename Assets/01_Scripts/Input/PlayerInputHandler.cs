@@ -20,6 +20,14 @@ namespace CoreSystem
             SubscribeInputActions();
         }
 
+        public void OnReachedNodeCentre(NodeScript nodeScript)
+        {
+            if (nodeScript.NodeType == NodeType.PacManStart)
+            {
+                CachedInput = ControlInput.None;
+            }
+        }
+
         private void OnEnable()
         {
             if (PlayerInputActions == null)

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8661497686369794633}
   - component: {fileID: 1934917947290111364}
   - component: {fileID: 8324398853683231404}
-  - component: {fileID: 7622489364420515936}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -91,29 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7622489364420515936
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3647739430156703535}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7410896652128674152
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,12 +99,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4686897056468282396}
+  - component: {fileID: 5391315152264777535}
   - component: {fileID: 4988865449739674335}
-  - component: {fileID: 6575314620531449847}
+  - component: {fileID: 1145484937857354707}
   - component: {fileID: 5751035590868477905}
+  - component: {fileID: 3859195364725431131}
   - component: {fileID: 8554929073791489976}
   - component: {fileID: 8085194410050028204}
   - component: {fileID: 3473112591279277353}
+  - component: {fileID: 3978830712478173562}
+  - component: {fileID: 7540697211883766606}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -152,6 +132,18 @@ Transform:
   - {fileID: 8661497686369794633}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5391315152264777535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e654699542be51459a431f830664c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostInputHandler
 --- !u!114 &4988865449739674335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,28 +156,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7cc1dd0d86c61e43b23631648a17ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostManager
-  ghostName: 0
-  respawnState: 0
-  ghostNodeState: 0
-  ghostAnim: {fileID: 0}
-  body: {fileID: 0}
-  ghostNodeLeft: {fileID: 0}
-  ghostNodeRight: {fileID: 0}
-  ghostNodeCentre: {fileID: 0}
-  ghostNodeStart: {fileID: 0}
-  startingNode: {fileID: 0}
-  gameManager: {fileID: 0}
-  animator: {fileID: 5751035590868477905}
-  movement: {fileID: 6575314620531449847}
-  allGhosts: []
-  trackBlinky: {fileID: 0}
-  isReadyToLeaveHome: 0
-  isTimerPaused: 1
-  commenceRound: 1
-  powerModeActivated: 0
-  startingPelletCount: 0
-  directionChanged: 0
---- !u!114 &6575314620531449847
+  <Movement>k__BackingField: {fileID: 0}
+  <Anim>k__BackingField: {fileID: 0}
+  <Skin>k__BackingField: {fileID: 0}
+  <StartNode>k__BackingField: {fileID: 0}
+  CurrentGhostState: 0
+  _currentWave: 1
+  _collectedPellets: 0
+  _timer: 0
+  _isTimerPaused: 1
+--- !u!114 &1145484937857354707
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,19 +174,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7410896652128674152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b39ce0f082df4e145a6c39d10be8ebb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 62a6d30c176278d458081a5da13452e1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.Movement
-  <Speed>k__BackingField: 0
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostMovement
   <RB>k__BackingField: {fileID: 0}
   <CurrentNode>k__BackingField: {fileID: 0}
-  <NodeScript>k__BackingField: {fileID: 0}
-  <LeftTeleportNode>k__BackingField: {fileID: 0}
-  <RightTeleportNode>k__BackingField: {fileID: 0}
-  <IsGhost>k__BackingField: 0
-  <GhostManager>k__BackingField: {fileID: 0}
-  LastMove: 0
-  CachedMove: 0
+  CurrentDirection: 0
+  CachedDirection: 0
+  <Speed>k__BackingField: 4
 --- !u!114 &5751035590868477905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,10 +194,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b03d7442824ef4dadbe2efb64ef8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostAnimator
+  <Anim>k__BackingField: {fileID: 0}
+  <Movement>k__BackingField: {fileID: 0}
+  <Body>k__BackingField: {fileID: 0}
+  <CurrentDirection>k__BackingField: 0
   eyesAnim: {fileID: 0}
-  ghostManager: {fileID: 0}
   movement: {fileID: 0}
   cachedMove: 0
+--- !u!114 &3859195364725431131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c862e32933f49a640a6fd63202e4d47a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SkinHandler
+  <BodyRenderer>k__BackingField: {fileID: 0}
+  <SkinIndex>k__BackingField: 0
 --- !u!95 &8554929073791489976
 Animator:
   serializedVersion: 7
@@ -287,7 +279,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -295,3 +287,59 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3978830712478173562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270e233912a767e4a823628d24f1ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.BoolEventListener
+  eventChannel: {fileID: 11400000, guid: 37af357021e6d304aa89a0410e2b9025, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4988865449739674335}
+        m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
+        m_MethodName: OnPowerModeEvent
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!114 &7540697211883766606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb3581f594759e47af4ea510d2dc05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.EventListener
+  eventChannel: {fileID: 11400000, guid: 37ece27375acb2e4dbc0e11c3269315f, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4988865449739674335}
+        m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
+        m_MethodName: OnCollectPelletEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1

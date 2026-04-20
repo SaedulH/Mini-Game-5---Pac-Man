@@ -16,7 +16,9 @@ namespace CoreSystem
             await GameManager.Instance.SetupGhost(GhostType.Blinky, context.BlinkySkinIndex);          
             await GameManager.Instance.SetupGhost(GhostType.Inky, context.InkySkinIndex);          
             await GameManager.Instance.SetupGhost(GhostType.Pinky, context.PinkySkinIndex);          
-            await GameManager.Instance.SetupGhost(GhostType.Clyde, context.ClydeSkinIndex);          
+            await GameManager.Instance.SetupGhost(GhostType.Clyde, context.ClydeSkinIndex);
+
+            await GameManager.Instance.AssignTargetTransforms();
         }
     }
 }

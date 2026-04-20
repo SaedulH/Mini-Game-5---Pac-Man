@@ -15,5 +15,10 @@ namespace CoreSystem
         {
 
         }
+
+        public virtual void SetDeath(bool enabled)
+        {
+
+        }
     }
 }

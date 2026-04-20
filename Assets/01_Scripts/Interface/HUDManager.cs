@@ -28,35 +28,25 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
     {
         base.Awake();
 
-        Root = GetComponent<UIDocument>().rootVisualElement;
-        HUDElement = Root.Q<VisualElement>("HUD");
-        HUDElement.AddToClassList("hide");
+        //Root = GetComponent<UIDocument>().rootVisualElement;
+        //HUDElement = Root.Q<VisualElement>("HUD");
+        //HUDElement.AddToClassList("hide");
 
-        // Timer Elements
-        CountdownPopup = HUDElement.Q<VisualElement>("CountdownPopup");
-        CountdownPopup.AddToClassList("hide");
-        CountdownValue = CountdownPopup.Q<Label>("CountdownValue");
+        //// Timer Elements
+        //CountdownPopup = HUDElement.Q<VisualElement>("CountdownPopup");
+        //CountdownPopup.AddToClassList("hide");
+        //CountdownValue = CountdownPopup.Q<Label>("CountdownValue");
 
-        // Player Stats Elements
-        CurrentScore = HUDElement.Q<Label>("CurrentScore");
-        HighScore = HUDElement.Q<Label>("HighScore");
-        RemainingLivesCount = HUDElement.Q<Label>("RemainingLivesCount");
-        RemainingLivesImage = HUDElement.Q<Image>("RemainingLivesImage");
+        //// Player Stats Elements
+        //CurrentScore = HUDElement.Q<Label>("CurrentScore");
+        //HighScore = HUDElement.Q<Label>("HighScore");
+        //RemainingLivesCount = HUDElement.Q<Label>("RemainingLivesCount");
+        //RemainingLivesImage = HUDElement.Q<Image>("RemainingLivesImage");
     }
 
     private void Update()
     {
         if (_currentLevelContext == null) return;
-    }
-
-    private void OnEnable()
-    {
-        GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     public async Task SetupHUD(LevelContext LevelContext)
@@ -70,7 +60,7 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
         await Task.CompletedTask;
     }
 
-    private void OnGameStateChanged(GameState state)
+    public void OnGameStateUpdated(GameState state)
     {
     }
 
