@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 6895071980631601792}
   - component: {fileID: 3181813490963804251}
   - component: {fileID: 2751893944702687775}
+  - component: {fileID: 5013972610848548703}
   m_Layer: 0
   m_Name: PacMan
   m_TagString: Player
@@ -280,3 +281,31 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5013972610848548703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926657839902332771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd023a78a0fc7f4894f013a6bbd1b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.GameStateEventListener
+  eventChannel: {fileID: 11400000, guid: 1e7794211ab69744589fb88c6368e6e0, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7607579770083948777}
+        m_TargetAssemblyTypeName: CoreSystem.PlayerManager, Assembly-CSharp
+        m_MethodName: OnGameStateUpdated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

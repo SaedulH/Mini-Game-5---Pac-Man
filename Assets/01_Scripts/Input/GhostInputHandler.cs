@@ -6,16 +6,33 @@ namespace CoreSystem
 {
     public class GhostInputHandler : MonoBehaviour, IInputHandler
     {
-        public ControlInput CachedInput { get; set; }
+        public ControlInput CurrentInput { get; set; }
         [field: SerializeField] public GhostType GhostType { get; private set; }
         [field: SerializeField] public GhostState CurrentState { get; private set; }
-        [field: SerializeField] public NodeScript StartNode { get; private set; }
+        [field: SerializeField] public NodeScript RespawnNode { get; set; }
 
-        private PlayerManager _pacMan;
-        private Transform _targetTransform;
-        private Vector3 _corner = new();
-        private bool _hasChangedDirection = false;
-        private bool _canExit = false;
+        [SerializeField] private PlayerManager _pacMan;
+        [SerializeField] private Transform _targetTransform;
+        [SerializeField] private Vector3 _corner = new();
+        [SerializeField] private bool _hasChangedDirection = false;
+        [SerializeField] private int _pelletsToExitPen = 0;
+        [SerializeField] private float _timer = 0f;
+        [SerializeField] private bool _canExitPen = false;
+        [SerializeField] private bool _isActive = false;
+
+        private void Update()
+        {
+            if (!_isActive) return;
+
+            if (!_canExitPen && CurrentState.Equals(GhostState.Waiting))
+            {
+                _timer -= Time.deltaTime;
+                if (_timer < 0f)
+                {
+                    _canExitPen = true;
+                }
+            }
+        }
 
         #region Setters
         public void SetTargets(Transform target, PlayerManager pacMan)
@@ -24,79 +41,108 @@ namespace CoreSystem
             _pacMan = pacMan;
         }
 
-        public void SetStartNode(NodeScript startNode)
-        {
-            StartNode = startNode;
-        }
-
         public void SetGhostType(GhostType ghostType)
         {
+            _pelletsToExitPen = Constants.GetPelletsToExitPen(ghostType);
+
             GhostType = ghostType;
             switch (ghostType)
             {
                 case GhostType.Blinky:
+                    SetNewInput(ControlInput.Right);
                     _corner = Constants.BLINKY_CORNER_POSITION;
+                    _pelletsToExitPen = Constants.BLINKY_START_DELAY_PELLET_COUNT;
+                    _timer = 0f;
+                    _canExitPen = true;
                     break;
                 case GhostType.Pinky:
                     _corner = Constants.PINKY_CORNER_POSITION;
+                    _timer = Constants.PINKY_START_DELAY_DURATION;
+                    _pelletsToExitPen = Constants.PINKY_START_DELAY_PELLET_COUNT;
+                    _canExitPen = false;
                     break;
                 case GhostType.Inky:
                     _corner = Constants.INKY_CORNER_POSITION;
+                    _pelletsToExitPen = Constants.INKY_START_DELAY_PELLET_COUNT;
+                    _timer = Constants.INKY_START_DELAY_DURATION;
+                    _canExitPen = false;
                     break;
-                case GhostType.Clyde:
-                    _corner = Constants.CLYDE_CORNER_POSITION;
+                case GhostType.Clive:
+                    _corner = Constants.CLIVE_CORNER_POSITION;
+                    _pelletsToExitPen = Constants.CLIVE_START_DELAY_PELLET_COUNT;
+                    _timer = Constants.CLIVE_START_DELAY_DURATION;
+                    _canExitPen = false;
                     break;
             }
+        }
+
+        private void SetNewInput(ControlInput newInput)
+        {
+            if (CurrentInput.Equals(newInput)) return;
+            //Debug.Log($"Changing input from: [{CurrentInput}] to: [{newInput}]");
+            CurrentInput = newInput;
         }
 
         #endregion
 
         public void SetNewGhostState(GhostState newState)
         {
-            CurrentState = newState;
             switch (newState)
             {
                 case GhostState.Chasing:
-                    _canExit = true;
                     break;
-                case GhostState.Scatter:
-                    _canExit = true;
+                case GhostState.Scattering:
                     _hasChangedDirection = false;
                     break;
                 case GhostState.Frightened:
-                    _canExit = false;
+                    _hasChangedDirection = false;
+                    break;
+                case GhostState.Waiting:
+                    _canExitPen = false;
                     break;
             }
+            Debug.Log($"Changing state from: [{CurrentState}] to: [{newState}]");
+            CurrentState = newState;
         }
 
-        public void SetFrightenedState(bool isFrightened)
+        public void OnGameStateUpdated(GameState gameState)
         {
-            CurrentState = isFrightened
-                ? GhostState.Frightened : CurrentState.Equals(GhostState.Frightened)
-                ? GhostState.Frightened : CurrentState;
-            _canExit = !isFrightened;
+            _isActive = gameState.Equals(GameState.Playing);
         }
 
-        public void OnReachedNodeCentre(NodeScript currentNode)
+        public ControlInput OnReachedCurrentNode(NodeScript currentNode)
         {
             switch (CurrentState)
             {
                 case GhostState.Chasing:
                     DetermineDirection(currentNode);
                     break;
-                case GhostState.Scatter:
+                case GhostState.Scattering:
                     ScatterToCorner(currentNode);
                     break;
                 case GhostState.Frightened:
                     Scramble(currentNode);
                     break;
-                case GhostState.Respawning:
-                    GoBackToPen(currentNode);
+                case GhostState.Returning:
+                    ReturnToPen(currentNode);
                     break;
-                case GhostState.Standby:
+                case GhostState.Waiting:
                     ExitPen(currentNode);
                     break;
             }
+
+            return CurrentInput;
+        }
+
+        public bool IsEnoughPelletsToExit(int collectedPellets)
+        {
+            if (collectedPellets >= _pelletsToExitPen)
+            {
+                _canExitPen = true;
+                return true;
+            }
+
+            return false;
         }
 
         #region Determine Direction Methods
@@ -114,7 +160,7 @@ namespace CoreSystem
                 case GhostType.Inky:
                     DetermineInkyDirection(currentNode);
                     break;
-                case GhostType.Clyde:
+                case GhostType.Clive:
                     DetermineCliveDirection(currentNode);
                     break;
             }
@@ -123,85 +169,87 @@ namespace CoreSystem
         void DetermineBlinkyDirection(NodeScript currentNode)
         {
             //Get direction closest to pacman
-            CachedInput = GetClosestDirection(_targetTransform.position, currentNode);
+            SetNewInput(GetClosestDirection(_targetTransform.position, currentNode));
         }
 
         void DeterminePinkyDirection(NodeScript currentNode)
         {
-            //Get 4 tiles in front of pacman
+            // Get Node 4 Tiles Ahead
             Vector3 tilePosition = GetTilesAheadOfPacMan(4);
-            CachedInput = GetClosestDirection(tilePosition, currentNode);
+            SetNewInput(GetClosestDirection(tilePosition, currentNode));
         }
 
         void DetermineInkyDirection(NodeScript currentNode)
         {
-            //Get to twice the distance from blinky to pacman
-            Vector3 tilePosition = GetDoubleDistanceFromPacMan();
-            CachedInput = GetClosestDirection(tilePosition, currentNode);
+            // Get to twice the distance from Blinky to Pacman
+            // Get Node 2 Tiles Ahead
+            Vector3 halfPosition = GetTilesAheadOfPacMan(2);
+
+            //get distance from blinky
+            float xDistance = 2 * (halfPosition.x - _targetTransform.transform.position.x);
+            float zDistance = 2 * (halfPosition.z - _targetTransform.transform.position.z);
+
+            Vector3 tilePosition = new(xDistance, 1f, zDistance);
+            SetNewInput(GetClosestDirection(tilePosition, currentNode));
         }
 
         void DetermineCliveDirection(NodeScript currentNode)
         {
-            if (GetDistanceFromTarget())
+            float distance = Vector3.Distance(_targetTransform.position, transform.position);
+            if (distance <= 8f)
             {
-                CachedInput = GetClosestDirection(_corner, currentNode);
+                SetNewInput(GetClosestDirection(_corner, currentNode));
             }
             else
             {
-                CachedInput = GetClosestDirection(_targetTransform.position, currentNode);
+                SetNewInput(GetClosestDirection(_targetTransform.position, currentNode));
             }
         }
 
         private ControlInput GetClosestDirection(Vector3 target, NodeScript currentNode)
         {
-            float shortDistance = 0;
+            float shortestDistance = 0f;
             ControlInput nextDirection = ControlInput.None;
-            NodeScript nodeScript = currentNode;
 
-            if (nodeScript.CanMoveUp && !CachedInput.Equals(ControlInput.Down))
+            if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
             {
-                NodeScript nodeUp = nodeScript.NodeUp;
-                float distance = Vector3.Distance(nodeUp.transform.position, target);
+                float distance = Vector3.Distance(currentNode.NodeUp.transform.position, target);
 
-                if (distance < shortDistance || shortDistance == 0)
+                if (distance < shortestDistance || shortestDistance == 0f)
                 {
-                    shortDistance = distance;
+                    shortestDistance = distance;
                     nextDirection = ControlInput.Up;
                 }
             }
 
-            if (nodeScript.CanMoveDown && !CachedInput.Equals(ControlInput.Up))
+            if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
             {
-                NodeScript nodeDown = nodeScript.NodeDown;
-                float distance = Vector2.Distance(nodeDown.transform.position, target);
+                float distance = Vector3.Distance(currentNode.NodeDown.transform.position, target);
 
-                if (distance < shortDistance || shortDistance == 0)
+                if (distance < shortestDistance || shortestDistance == 0f)
                 {
-                    shortDistance = distance;
+                    shortestDistance = distance;
                     nextDirection = ControlInput.Down;
                 }
             }
 
-            if (nodeScript.CanMoveLeft && !CachedInput.Equals(ControlInput.Right))
+            if (currentNode.CanMoveLeft && !CurrentInput.Equals(ControlInput.Right))
             {
-                NodeScript nodeLeft = nodeScript.NodeLeft;
-                float distance = Vector2.Distance(nodeLeft.transform.position, target);
+                float distance = Vector3.Distance(currentNode.NodeLeft.transform.position, target);
 
-                if (distance < shortDistance || shortDistance == 0)
+                if (distance < shortestDistance || shortestDistance == 0f)
                 {
-                    shortDistance = distance;
+                    shortestDistance = distance;
                     nextDirection = ControlInput.Left;
                 }
             }
 
-            if (nodeScript.CanMoveRight && !CachedInput.Equals(ControlInput.Left))
+            if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
             {
-                NodeScript nodeRight = nodeScript.NodeRight;
-                float distance = Vector2.Distance(nodeRight.transform.position, target);
+                float distance = Vector3.Distance(currentNode.NodeRight.transform.position, target);
 
-                if (distance < shortDistance || shortDistance == 0)
+                if (distance < shortestDistance || shortestDistance == 0f)
                 {
-                    shortDistance = distance;
                     nextDirection = ControlInput.Right;
                 }
             }
@@ -218,19 +266,19 @@ namespace CoreSystem
             for (int i = 0; i < tileCount; i++)
             {
                 List<NodeScript> canMove = new List<NodeScript>();
-                if (currentNode.CanMoveLeft && !CachedInput.Equals(ControlInput.Right))
+                if (currentNode.CanMoveLeft && !CurrentInput.Equals(ControlInput.Right))
                 {
                     canMove.Add(currentNode.NodeLeft);
                 }
-                else if (currentNode.CanMoveRight && !CachedInput.Equals(ControlInput.Left))
+                else if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
                 {
                     canMove.Add(currentNode.NodeRight);
                 }
-                else if (currentNode.CanMoveUp && !CachedInput.Equals(ControlInput.Down))
+                else if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
                 {
                     canMove.Add(currentNode.NodeUp);
                 }
-                else if (currentNode.CanMoveDown && !CachedInput.Equals(ControlInput.Up))
+                else if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
                 {
                     canMove.Add(currentNode.NodeDown);
                 }
@@ -241,48 +289,23 @@ namespace CoreSystem
             return chosenNode.transform.position;
         }
 
-        private Vector3 GetDoubleDistanceFromPacMan()
-        {
-            //get node 2 tiles ahead
-            Vector3 halfPosition = GetTilesAheadOfPacMan(2);
-
-            //get distance from blinky
-            float xDistance = 2 * (halfPosition.x - _targetTransform.transform.position.x);
-            float yDistance = 2 * (halfPosition.y - _targetTransform.transform.position.y);
-
-            Vector3 targetlocation = new Vector3(xDistance, yDistance, 0);
-            return targetlocation;
-
-        }
-
-        private bool GetDistanceFromTarget()
-        {
-            //get 8 tile radius from pacman (tiles are 1x1 so 8m)
-            float distance = Vector2.Distance(_targetTransform.position, transform.position);
-            if (distance <= 8)
-            {
-                return true;
-            }
-            return false;
-        }
-
         #endregion
 
         void GetOppositeDirection()
         {
-            switch (CachedInput)
+            switch (CurrentInput)
             {
                 case ControlInput.Up:
-                    CachedInput = ControlInput.Down;
+                    SetNewInput(ControlInput.Down);
                     break;
                 case ControlInput.Down:
-                    CachedInput = ControlInput.Up;
+                    SetNewInput(ControlInput.Up);
                     break;
                 case ControlInput.Left:
-                    CachedInput = ControlInput.Right;
+                    SetNewInput(ControlInput.Right);
                     break;
                 case ControlInput.Right:
-                    CachedInput = ControlInput.Left;
+                    SetNewInput(ControlInput.Left);
                     break;
             }
         }
@@ -293,88 +316,92 @@ namespace CoreSystem
             {
                 GetOppositeDirection();
                 _hasChangedDirection = true;
+                return;
             }
-            else
-            {
-                CachedInput = GetClosestDirection(_corner, currentNode);
-            }
+
+            SetNewInput(GetClosestDirection(_corner, currentNode));
         }
 
         private void ExitPen(NodeScript currentNode)
         {
-            if (!_canExit) return;
+            if (!_canExitPen) return;
 
             if (currentNode.CanMoveUp)
             {
-                CachedInput = ControlInput.Up;
+                SetNewInput(ControlInput.Up);
             }
             else if (currentNode.CanMoveLeft)
             {
-                CachedInput = ControlInput.Left;
-
+                SetNewInput(ControlInput.Left);
             }
             else if (currentNode.CanMoveRight)
             {
-                CachedInput = ControlInput.Right;
+                SetNewInput(ControlInput.Right);
+            }
+
+            if (!currentNode.NodeType.Equals(NodeType.GhostStart))
+            {
+                SetNewGhostState(GhostState.Chasing);
             }
         }
 
         protected virtual void Scramble(NodeScript currentNode)
         {
+            if (!_hasChangedDirection)
+            {
+                GetOppositeDirection();
+                _hasChangedDirection = true;
+                return;
+            }
+
             List<ControlInput> canMove = new();
-            if (currentNode.CanMoveLeft && !CachedInput.Equals(ControlInput.Right))
+            if (currentNode.CanMoveLeft && !CurrentInput.Equals(ControlInput.Right))
             {
                 canMove.Add(ControlInput.Left);
             }
-            else if (currentNode.CanMoveRight && !CachedInput.Equals(ControlInput.Left))
+            else if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
             {
                 canMove.Add(ControlInput.Right);
             }
-            else if (currentNode.CanMoveUp && !CachedInput.Equals(ControlInput.Down))
+            else if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
             {
                 canMove.Add(ControlInput.Up);
             }
-            else if (currentNode.CanMoveDown && !CachedInput.Equals(ControlInput.Up))
+            else if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
             {
                 canMove.Add(ControlInput.Down);
             }
 
-            CachedInput = canMove[Random.Range(0, canMove.Count)];
+            SetNewInput(canMove[Random.Range(0, canMove.Count)]);
         }
 
-        void GoBackToPen(NodeScript currentNode)
+        void ReturnToPen(NodeScript currentNode)
         {
-            CachedInput = GetClosestDirection(StartNode.transform.position, currentNode);
+            if (currentNode.NodeType.Equals(NodeType.GhostStart))
+            {
+                if (currentNode == RespawnNode)
+                {
+                    _timer = Constants.RESPAWN_DELAY_DURATION;
+                    SetNewGhostState(GhostState.Waiting);
+                    return;
+                }
 
+                if (currentNode.CanMoveDown)
+                {
+                    SetNewInput(ControlInput.Down);
+                }
+                else if (currentNode.CanMoveLeft && currentNode.NodeLeft == RespawnNode)
+                {
+                    SetNewInput(ControlInput.Left);
+                }
+                else if (currentNode.CanMoveRight && currentNode.NodeRight == RespawnNode)
+                {
+                    SetNewInput(ControlInput.Right);
+                }
+                return;
+            }
 
-            //if (transform.position == StartNode.transform.position)
-            //{
-            //    CachedInput = ControlInput.Down;
-            //}
-            //else if (transform.position == ghostNodeCentre.transform.position)
-            //{
-            //    if (StartPenNode.Equals(GhostPenNode.CentreNode))
-            //    {
-            //        CurrentState = GhostState.Standby;
-            //    }
-            //    else if (StartPenNode.Equals(GhostPenNode.LeftNode))
-            //    {
-            //        CachedInput = ControlInput.Left;
-            //    }
-            //    else if (StartPenNode.Equals(GhostPenNode.RightNode))
-            //    {
-            //        CachedInput = ControlInput.Right;
-            //    }
-
-            //}
-            //else if (transform.position == ghostNodeLeft.transform.position || transform.position == ghostNodeRight.transform.position)
-            //{
-            //    ghostNodeState = respawnState;
-            //}
-            //else
-            //{
-            //    CachedInput = GetClosestDirection(StartNode.transform.position, currentNode);
-            //}
+            SetNewInput(GetClosestDirection(RespawnNode.transform.position, currentNode));
         }
     }
 }

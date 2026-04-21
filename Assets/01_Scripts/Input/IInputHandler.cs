@@ -5,6 +5,8 @@ namespace CoreSystem
 {
     public interface IInputHandler
     {
-        ControlInput CachedInput { get; set; }
+        ControlInput CurrentInput { get; set; }
+
+        void OnGameStateUpdated(GameState gameState);
     }
 }

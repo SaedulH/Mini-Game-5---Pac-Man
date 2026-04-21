@@ -12,8 +12,6 @@ namespace CoreSystem
     {
         public new GhostInputHandler InputHandler { get => (GhostInputHandler)base.InputHandler; protected set => base.InputHandler = value; }
 
-        public GhostState CurrentGhostState;
-
         [SerializeField] private int _currentWave = 1;
         [SerializeField] private int _collectedPellets = 0;
         [SerializeField] private float _timer = 0f;
@@ -45,6 +43,12 @@ namespace CoreSystem
             SetGhostType(ghostType);
         }
 
+        public override void OnGameStateUpdated(GameState gameState)
+        {
+            base.OnGameStateUpdated(gameState);
+            _isTimerPaused = !gameState.Equals(GameState.Playing);
+        }
+
         private void SetGhostType(GhostType ghostType)
         {
             InputHandler.SetGhostType(ghostType);
@@ -55,7 +59,7 @@ namespace CoreSystem
             }
             else
             {
-                SetNewGhostState(GhostState.Standby);
+                SetNewGhostState(GhostState.Waiting);
                 _isTimerPaused = true;
             }
         }
@@ -78,7 +82,7 @@ namespace CoreSystem
                     if (node.NodeType == NodeType.GhostStart)
                     {
                         StartNode = node;
-                        InputHandler.SetStartNode(StartNode);
+                        InputHandler.RespawnNode = StartNode;
                         Movement.SetStartNode(StartNode);
                         break;
                     }
@@ -103,14 +107,14 @@ namespace CoreSystem
             _timer -= Time.deltaTime;
             if (_timer > 0) return;
 
-            switch (CurrentGhostState)
+            switch (InputHandler.CurrentState)
             {
                 case GhostState.Chasing:
-                    SetNewGhostState(GhostState.Scatter);
+                    SetNewGhostState(GhostState.Scattering);
                     _timer = GetScatterDuration(_currentWave);
                     break;
 
-                case GhostState.Scatter:
+                case GhostState.Scattering:
                     SetNewGhostState(GhostState.Chasing);
                     _timer = Constants.CHASE_MODE_DURATION;
                     _currentWave++;
@@ -132,7 +136,7 @@ namespace CoreSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if (CurrentGhostState.Equals(GhostState.Respawning)) return;
+            if (InputHandler.CurrentState.Equals(GhostState.Returning)) return;
 
             if (other.gameObject.CompareTag("Player"))
             {
@@ -145,7 +149,7 @@ namespace CoreSystem
                     else
                     {
                         _ = GameManager.Instance.AddScore(playerManager.GetKillGhostScore(), false);
-                        SetNewGhostState(GhostState.Respawning);
+                        SetNewGhostState(GhostState.Returning);
                     }
                 }
             }
@@ -153,37 +157,42 @@ namespace CoreSystem
 
         private void SetNewGhostState(GhostState newState)
         {
-            CurrentGhostState = newState;
             InputHandler.SetNewGhostState(newState);
         }
 
         public void OnPowerModeEvent(bool enabled)
         {
+            Debug.Log($"Power Mode: {enabled}");
+            _isTimerPaused = enabled;
             if (enabled)
             {
-                _isTimerPaused = true;
-                if (CurrentGhostState != GhostState.Respawning)
+                if (CanEnterFrightenedState(InputHandler.CurrentState))
                 {
                     SetNewGhostState(GhostState.Frightened);
                 }
             }
             else
             {
-                _isTimerPaused = false;
-                if (CurrentGhostState == GhostState.Frightened)
+                if (InputHandler.CurrentState.Equals(GhostState.Frightened))
                 {
                     SetNewGhostState(GhostState.Chasing);
                 }
             }
         }
 
+        private bool CanEnterFrightenedState(GhostState ghostState)
+        {
+            return InputHandler.CurrentState.Equals(GhostState.Chasing) ||
+                InputHandler.CurrentState.Equals(GhostState.Scattering);
+        }
+
         public void OnCollectPelletEvent()
         {
             _collectedPellets++;
-            if (_collectedPellets == 10)
+            if (InputHandler.IsEnoughPelletsToExit(_collectedPellets))
             {
-                SetNewGhostState(GhostState.Chasing);
                 _isTimerPaused = false;
+                _collectedPellets = 0;       
             }
         }
     }

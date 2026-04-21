@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 3473112591279277353}
   - component: {fileID: 3978830712478173562}
   - component: {fileID: 7540697211883766606}
+  - component: {fileID: 4564520280015312220}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -144,6 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e654699542be51459a431f830664c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostInputHandler
+  <GhostType>k__BackingField: 0
+  <CurrentState>k__BackingField: 0
+  <RespawnNode>k__BackingField: {fileID: 0}
 --- !u!114 &4988865449739674335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +164,6 @@ MonoBehaviour:
   <Anim>k__BackingField: {fileID: 0}
   <Skin>k__BackingField: {fileID: 0}
   <StartNode>k__BackingField: {fileID: 0}
-  CurrentGhostState: 0
   _currentWave: 1
   _collectedPellets: 0
   _timer: 0
@@ -306,14 +309,14 @@ MonoBehaviour:
       - m_Target: {fileID: 4988865449739674335}
         m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
         m_MethodName: OnPowerModeEvent
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 1
 --- !u!114 &7540697211883766606
 MonoBehaviour:
@@ -343,3 +346,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+--- !u!114 &4564520280015312220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd023a78a0fc7f4894f013a6bbd1b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.GameStateEventListener
+  eventChannel: {fileID: 11400000, guid: 1e7794211ab69744589fb88c6368e6e0, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4988865449739674335}
+        m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
+        m_MethodName: OnGameStateUpdated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -9,6 +10,12 @@ namespace CoreSystem
         [field: SerializeField] public EntityAnimator Anim { get; protected set; }
         [field: SerializeField] public SkinHandler Skin { get; protected set; }
 
-        [field: SerializeField] public NodeScript StartNode { get; protected set; }
+        [field: SerializeField] public NodeScript StartNode { get; set; }
+
+        public virtual void OnGameStateUpdated(GameState gameState)
+        {
+            Movement.OnGameStateUpdated(gameState);
+            InputHandler.OnGameStateUpdated(gameState);
+        }
     }
 }

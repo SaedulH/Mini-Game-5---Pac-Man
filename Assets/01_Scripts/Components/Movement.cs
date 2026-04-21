@@ -16,6 +16,9 @@ namespace CoreSystem
         [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
 
         [field: SerializeField] public float Speed { get; private set; }
+
+        protected bool _isPlaying = false;
+
         protected virtual void Awake()
         {
             InputHandler = GetComponent<IInputHandler>();
@@ -24,20 +27,24 @@ namespace CoreSystem
 
         protected virtual void Update()
         {
-            if (GameManager.Instance.CurrentGameState == GameState.Playing)
-            {
-                ReadInput();
-                Move();
-            }
+            if (!_isPlaying) return;
+
+            ReadInput();
+            Move();
+        }
+
+        public virtual void OnGameStateUpdated(GameState gameState)
+        { 
+            _isPlaying = gameState.Equals(GameState.Playing);
         }
 
         private void ReadInput()
         {
-            if (InputHandler.CachedInput.Equals(ControlInput.None)) return;
+            if (InputHandler.CurrentInput.Equals(ControlInput.None)) return;
 
-            if (!InputHandler.CachedInput.Equals(CachedDirection))
+            if (!InputHandler.CurrentInput.Equals(CachedDirection))
             {
-                CachedDirection = InputHandler.CachedInput;
+                CachedDirection = InputHandler.CurrentInput;
             }
         }
 

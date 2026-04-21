@@ -1,6 +1,7 @@
 using EventSystem;
 using System;
 using System.Threading.Tasks;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -23,8 +24,8 @@ namespace CoreSystem
         [field: SerializeField] public GameObject PacManPrefab { get; private set; }
         [field: SerializeField] public GameObject GhostPrefab { get; private set; }
         [field: SerializeField] public PlayerManager PacMan { get; private set; }
-        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clyde")] public GhostManager[] Ghosts { get; private set; }
-        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clyde")] public Material[] GhostMaterials { get; private set; }
+        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public GhostManager[] Ghosts { get; private set; }
+        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public Material[] GhostMaterials { get; private set; }
         [field: SerializeField] public int TotalPelletCount { get; set; } = 246;
         [field: SerializeField] public int PelletsEaten { get; private set; } = 0;
         [field: SerializeField] public int CurrentLevel { get; private set; } = 1;
@@ -168,11 +169,16 @@ namespace CoreSystem
                     Ghosts[2] = ghost;
                     Ghosts[2].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[2];
                     break;
-                case GhostType.Clyde:
+                case GhostType.Clive:
                     Ghosts[3] = ghost;
                     Ghosts[3].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[3];
                     break;
             }
+        }
+
+        public void SetBlinkyRespawnNode()
+        {
+            Ghosts[0].InputHandler.RespawnNode = Ghosts[2].StartNode;
         }
     }
 }

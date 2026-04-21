@@ -11,7 +11,7 @@ namespace CoreSystem
         [field: SerializeField] public PlayerInputActions PlayerInputActions { get; private set; }
         [field: SerializeField] public PlayerInputActions.PacmanActions PlayerInput { get; private set; }
 
-        public ControlInput CachedInput { get; set; }
+        public ControlInput CurrentInput { get; set; }
 
         public void SetInputActions(PlayerInputActions inputActions)
         {
@@ -20,12 +20,9 @@ namespace CoreSystem
             SubscribeInputActions();
         }
 
-        public void OnReachedNodeCentre(NodeScript nodeScript)
+        public void OnGameStateUpdated(GameState gameState)
         {
-            if (nodeScript.NodeType == NodeType.PacManStart)
-            {
-                CachedInput = ControlInput.None;
-            }
+
         }
 
         private void OnEnable()
@@ -65,26 +62,26 @@ namespace CoreSystem
 
         private void OnUpPerformed(InputAction.CallbackContext context)
         {
-            if (CachedInput == ControlInput.Up) return;
-            CachedInput = ControlInput.Up;
+            if (CurrentInput == ControlInput.Up) return;
+            CurrentInput = ControlInput.Up;
         }
 
         private void OnDownPerformed(InputAction.CallbackContext context)
         {
-            if (CachedInput == ControlInput.Down) return;
-            CachedInput = ControlInput.Down;
+            if (CurrentInput == ControlInput.Down) return;
+            CurrentInput = ControlInput.Down;
         }
 
         private void OnLeftPerformed(InputAction.CallbackContext context)
         {
-            if (CachedInput == ControlInput.Left) return;
-            CachedInput = ControlInput.Left;
+            if (CurrentInput == ControlInput.Left) return;
+            CurrentInput = ControlInput.Left;
         }
 
         private void OnRightPerformed(InputAction.CallbackContext context)
         {
-            if (CachedInput == ControlInput.Right) return;
-            CachedInput = ControlInput.Right;
+            if (CurrentInput == ControlInput.Right) return;
+            CurrentInput = ControlInput.Right;
         }
     }
 }

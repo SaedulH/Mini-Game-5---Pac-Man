@@ -11,28 +11,35 @@ namespace CoreSystem
             base.Awake(); 
         }
 
+        protected override void Update()
+        {
+            if (!_isPlaying) return;
+
+            Move();
+        }
+
         protected override void Move()
         {
             transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
             if (!ShouldTeleport() && transform.position == CurrentNode.transform.position)
             {
-                if ((CurrentNode.NodeType == NodeType.GhostStart && CachedDirection == ControlInput.Down)
-                    && (!InputHandler.CurrentState.Equals(GhostState.Respawning)))
-                {
-                    if (CurrentDirection == ControlInput.Right)
-                    {
-                        CurrentNode = CurrentNode.NodeRight;
-                    }
-                    else
-                    {
-                        CurrentNode = CurrentNode.NodeLeft;
-                    }
-                }
-
-                InputHandler.OnReachedNodeCentre(CurrentNode);
+                SetCachedDirection();
                 GetNextDirection();
             }
         }
 
+        private void SetCachedDirection()
+        {
+            CachedDirection = InputHandler.OnReachedCurrentNode(CurrentNode);
+
+            if (CurrentNode.NodeType.Equals(NodeType.GhostStart)
+                && !InputHandler.CurrentState.Equals(GhostState.Returning)
+                && CachedDirection.Equals(ControlInput.Down)
+                && CurrentNode.NodeDown != null)
+            {
+                Debug.Log("Avoid Returning To Pen");
+                CachedDirection = CurrentDirection.Equals(ControlInput.Left) ? ControlInput.Left : ControlInput.Right;
+            }
+        }
     }
 }
