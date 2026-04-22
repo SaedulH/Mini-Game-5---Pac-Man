@@ -1,14 +1,10 @@
 using EventSystem;
-using System;
 using System.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Utilities;
 
 namespace CoreSystem
 {
-
     public class GameManager : NonPersistentSingleton<GameManager>
     {
         [field: SerializeField] public PlayerInputActions InputActions { get; private set; }
@@ -25,8 +21,9 @@ namespace CoreSystem
         [field: SerializeField] public GameObject GhostPrefab { get; private set; }
         [field: SerializeField] public PlayerManager PacMan { get; private set; }
         [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public GhostManager[] Ghosts { get; private set; }
-        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public Material[] GhostMaterials { get; private set; }
+        [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public GhostConfig[] GhostConfigs { get; private set; }
         [field: SerializeField] public int TotalPelletCount { get; set; } = 246;
+        [field: SerializeField] public float TimeSinceLastItemCollected { get; private set; } = 0;
         [field: SerializeField] public int PelletsEaten { get; private set; } = 0;
         [field: SerializeField] public int CurrentLevel { get; private set; } = 1;
 
@@ -55,12 +52,20 @@ namespace CoreSystem
             InputActions.Disable();
         }
 
+        private void Update()
+        {
+            if (!CurrentGameState.Equals(GameState.Playing)) return;
+
+            GetNextGhostForEarlyExit();
+        }
+
         private async Task InitialiseGame()
         {
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
             CurrentScore = 0;
             Highscore = PlayerPrefs.GetInt("Highscore", 0);
+            TimeSinceLastItemCollected = 0f;
             await Task.Delay(100);
 
             CurrentLevelContext = new LevelContext
@@ -68,11 +73,6 @@ namespace CoreSystem
                 MapName = MapName.Pacman,
                 RemainingLives = RemainingLives,
                 LevelNumber = 1,
-                PacManSkinIndex = 0,
-                BlinkySkinIndex = 0,
-                PinkySkinIndex = 0,
-                InkySkinIndex = 0,
-                ClydeSkinIndex = 0
             };
 
             await SetupScene(GameLevelInfo, CurrentLevelContext);
@@ -109,7 +109,7 @@ namespace CoreSystem
             if (PelletsEaten >= TotalPelletCount)
             {
                 Debug.Log("All Pellets Collected! Level Complete!");
-                EnterGameState(GameState.GameOver);
+                EnterGameState(GameState.LevelComplete);
             }
             else if (PelletsEaten == 64 || PelletsEaten == 174)
             {
@@ -117,23 +117,21 @@ namespace CoreSystem
             }
         }
 
-        public async Task SetupPlayer(int skinIndex)
+        public async Task SetupPlayer(int levelNumber)
         {
             PacMan = Instantiate(PacManPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerManager>();
             PacMan.name = "PacMan";
 
-            PacMan.InitialisePlayer(InputActions, RemainingLives, skinIndex);
+            PacMan.InitialisePlayer(InputActions, levelNumber);
             await Task.CompletedTask;
         }
 
-        public async Task SetupGhost(GhostType ghostType, int skinIndex)
+        public async Task SetupGhost(GhostType ghostType, int levelNumber)
         {
             //GhostPrefab
             GhostManager ghost = Instantiate(GhostPrefab, Vector3.zero, Quaternion.identity).GetComponent<GhostManager>();
             ghost.name = ghostType.ToString();
-
-            ghost.InitialiseGhost(ghostType, skinIndex, PacMan);
-            SetupGhostReferences(ghost, ghostType);
+            SetupGhostConfiguration(ghost, ghostType, levelNumber);
             await Task.CompletedTask;
         }
 
@@ -152,33 +150,90 @@ namespace CoreSystem
             await Task.CompletedTask;
         }
 
-        private void SetupGhostReferences(GhostManager ghost, GhostType ghostType)
+        private int GetGhostIndex(GhostType type)
         {
-            Ghosts = Ghosts ?? new GhostManager[4];
-            switch (ghostType)
+            return type switch
             {
-                case GhostType.Blinky:
-                    Ghosts[0] = ghost;
-                    Ghosts[0].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[0];
-                    break;
-                case GhostType.Inky:
-                    Ghosts[1] = ghost;
-                    Ghosts[1].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[1];
-                    break;
-                case GhostType.Pinky:
-                    Ghosts[2] = ghost;
-                    Ghosts[2].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[2];
-                    break;
-                case GhostType.Clive:
-                    Ghosts[3] = ghost;
-                    Ghosts[3].GetComponentInChildren<MeshRenderer>().material = GhostMaterials[3];
-                    break;
+                GhostType.Blinky => 0,
+                GhostType.Inky => 1,
+                GhostType.Pinky => 2,
+                GhostType.Clive => 3,
+                _ => 0
+            };
+        }
+
+        private void SetupGhostConfiguration(GhostManager ghost, GhostType type, int levelNumber)
+        {
+            Ghosts ??= new GhostManager[4];
+
+            int index = GetGhostIndex(type);
+
+            Ghosts[index] = ghost;
+
+            GhostConfig config = GhostConfigs[index];
+
+            var renderer = ghost.GetComponentInChildren<MeshRenderer>();
+            if (renderer != null)
+            {
+                renderer.material = config.Material;
             }
+
+            ghost.InitialiseGhost(type, config, levelNumber);
         }
 
         public void SetBlinkyRespawnNode()
         {
             Ghosts[0].InputHandler.RespawnNode = Ghosts[2].StartNode;
+        }
+
+
+        private void GetNextGhostForEarlyExit()
+        {
+            TimeSinceLastItemCollected += Time.deltaTime;
+            if (TimeSinceLastItemCollected >= Constants.FORCE_GHOST_EXIT_PEN_TIME)
+            {
+                for (int i = 0; i < Ghosts.Length; i++)
+                {
+                    GhostManager ghost = Ghosts[i];
+                    if (ghost == null || ghost.InputHandler == null) continue;
+
+                    if (ghost.InputHandler.AllowExitPenEarly())
+                    {
+                        TimeSinceLastItemCollected = 0f;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void OnCollectedItem()
+        {
+            TimeSinceLastItemCollected = 0f;
+        }
+
+        public void OnPacManHit()
+        {
+            EnterGameState(GameState.Stopped);
+        }
+
+        public void OnGhostHit()
+        {
+            Debug.Log("Ghost Hit, Stop time for 0.1s");
+        }
+
+        public async void OnDeath()
+        {
+            RemainingLives--;
+            if (RemainingLives == 0)
+            {
+                EnterGameState(GameState.GameOver);
+            }
+            else
+            {
+                EnterGameState(GameState.Resetting);
+                await Task.Delay(3000);
+                EnterGameState(GameState.Playing);
+            }
         }
     }
 }

@@ -1,3 +1,5 @@
+using EventSystem;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utilities;
 
@@ -8,14 +10,33 @@ namespace CoreSystem
         [field: SerializeField] public IInputHandler InputHandler { get; protected set; }
         [field: SerializeField] public Movement Movement { get; protected set; }
         [field: SerializeField] public EntityAnimator Anim { get; protected set; }
-        [field: SerializeField] public SkinHandler Skin { get; protected set; }
 
         [field: SerializeField] public NodeScript StartNode { get; set; }
+        [field: SerializeField] public EventChannel OnHit { get; private set; }
 
         public virtual void OnGameStateUpdated(GameState gameState)
         {
             Movement.OnGameStateUpdated(gameState);
             InputHandler.OnGameStateUpdated(gameState);
+
+            if (gameState.Equals(GameState.Resetting))
+            {
+                _ = ResetPosition();
+            }
+        }
+
+        protected virtual async Task ResetPosition()
+        {
+
+        }
+
+        public virtual void OnHitEvent()
+        {
+            OnHit.Invoke(new Empty());
+        }
+
+        protected virtual void OnDeathEvent()
+        {
         }
     }
 }

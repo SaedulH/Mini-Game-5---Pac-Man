@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utilities;
 
@@ -52,6 +53,11 @@ namespace CoreSystem
         {
             CurrentNode = startNode;
             transform.position = startNode.transform.position;
+        }
+
+        public void SetSpeed(int levelNumber)
+        {
+            Speed = Constants.BASE_SPEED + (Constants.SPEED_MULTIPLIER * (levelNumber - 1));
         }
 
         protected virtual void Move()

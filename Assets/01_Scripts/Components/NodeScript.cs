@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utilities;
 
@@ -81,12 +80,6 @@ namespace CoreSystem
                 CanMoveLeft = true;
                 NodeLeft = hitLeft.collider.GetComponent<NodeScript>();
             }
-
-            //if (isGhostStartingNode)
-            //{
-            //    CanMoveDown = true;
-            //    NodeDown = GameManager.Instance.nodeCentre;
-            //}
         }
 
         [ContextMenu("ValidateNodePosition")]
@@ -98,7 +91,7 @@ namespace CoreSystem
             {
                 string wallNames = string.Join(", ", System.Array.ConvertAll(walls, wall => wall.gameObject.name));
                 Debug.LogError($"Node '{gameObject.name}' is overlapping with wall(s): {wallNames}. Please adjust the node's position.");
-                return false;   
+                return false;
             }
             return true;
         }
@@ -112,7 +105,7 @@ namespace CoreSystem
         public void SetNodeType(NodeType nodeType)
         {
             NodeType = nodeType;
-            switch(nodeType)
+            switch (nodeType)
             {
                 case NodeType.Path:
                     break;
@@ -155,7 +148,7 @@ namespace CoreSystem
                 {
                     TeleportNodeRight = otherTeleport.ParentNode;
                     otherTeleport.ParentNode.TeleportNodeLeft = this;
-                } 
+                }
                 else
                 {
                     TeleportNodeLeft = otherTeleport.ParentNode;
@@ -172,7 +165,7 @@ namespace CoreSystem
                 if (existingItem.ItemType == item.ItemType)
                 {
                     DestroyImmediate(existingItem.gameObject);
-                } 
+                }
                 else
                 {
                     if (item.ItemType == NodeType.Fruit && IsCurrentlyActivePellet(existingItem))
@@ -195,7 +188,7 @@ namespace CoreSystem
 
         private bool IsCurrentlyActivePellet(ItemScript item)
         {
-            return CurrentItem != null && CurrentItem == item && CurrentItem.IsActive && 
+            return CurrentItem != null && CurrentItem == item && CurrentItem.IsActive &&
                 (CurrentItem.ItemType == NodeType.Pellet || CurrentItem.ItemType == NodeType.PowerPellet);
         }
     }

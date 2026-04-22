@@ -38,7 +38,7 @@ namespace CoreSystem
                 && CurrentNode.NodeDown != null)
             {
                 Debug.Log("Avoid Returning To Pen");
-                CachedDirection = CurrentDirection.Equals(ControlInput.Left) ? ControlInput.Left : ControlInput.Right;
+                CachedDirection = CurrentDirection.Equals(ControlInput.Right) ? ControlInput.Right : ControlInput.Left;
             }
         }
     }

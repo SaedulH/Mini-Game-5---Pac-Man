@@ -103,7 +103,6 @@ GameObject:
   - component: {fileID: 7607579770083948777}
   - component: {fileID: 2388569188094410049}
   - component: {fileID: 6032759971695592763}
-  - component: {fileID: 1426636522501425949}
   - component: {fileID: 6895071980631601792}
   - component: {fileID: 3181813490963804251}
   - component: {fileID: 2751893944702687775}
@@ -157,13 +156,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Movement>k__BackingField: {fileID: 0}
   <Anim>k__BackingField: {fileID: 0}
-  <Skin>k__BackingField: {fileID: 0}
   <StartNode>k__BackingField: {fileID: 0}
-  <RemainingLives>k__BackingField: 4
-  <IsAlive>k__BackingField: 1
+  <OnHit>k__BackingField: {fileID: 11400000, guid: d8215cd428d81ee4b80bf82aeeb642ea, type: 2}
   <IsPowerMode>k__BackingField: 0
-  <GhostKillCount>k__BackingField: 0
+  <GhostHitCount>k__BackingField: 0
   <OnPowerMode>k__BackingField: {fileID: 11400000, guid: 37af357021e6d304aa89a0410e2b9025, type: 2}
+  <OnDeath>k__BackingField: {fileID: 11400000, guid: 4b35c17a22221b24dbe42c81cae895c4, type: 2}
 --- !u!114 &2388569188094410049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,20 +195,6 @@ MonoBehaviour:
   <Movement>k__BackingField: {fileID: 0}
   <Body>k__BackingField: {fileID: 0}
   <CurrentDirection>k__BackingField: 0
---- !u!114 &1426636522501425949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926657839902332771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c862e32933f49a640a6fd63202e4d47a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SkinHandler
-  <BodyRenderer>k__BackingField: {fileID: 0}
-  <SkinIndex>k__BackingField: 0
 --- !u!95 &6895071980631601792
 Animator:
   serializedVersion: 7

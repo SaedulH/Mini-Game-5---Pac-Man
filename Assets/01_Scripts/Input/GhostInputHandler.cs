@@ -7,7 +7,8 @@ namespace CoreSystem
     public class GhostInputHandler : MonoBehaviour, IInputHandler
     {
         public ControlInput CurrentInput { get; set; }
-        [field: SerializeField] public GhostType GhostType { get; private set; }
+        [field: SerializeField] public GhostType Type { get; private set; }
+        [field: SerializeField] public GhostConfig Config { get; private set; }
         [field: SerializeField] public GhostState CurrentState { get; private set; }
         [field: SerializeField] public NodeScript RespawnNode { get; set; }
 
@@ -16,8 +17,8 @@ namespace CoreSystem
         [SerializeField] private Vector3 _corner = new();
         [SerializeField] private bool _hasChangedDirection = false;
         [SerializeField] private int _pelletsToExitPen = 0;
-        [SerializeField] private float _timer = 0f;
         [SerializeField] private bool _canExitPen = false;
+        [SerializeField] private float _timerToExitPen = 0f;
         [SerializeField] private bool _isActive = false;
 
         private void Update()
@@ -26,8 +27,8 @@ namespace CoreSystem
 
             if (!_canExitPen && CurrentState.Equals(GhostState.Waiting))
             {
-                _timer -= Time.deltaTime;
-                if (_timer < 0f)
+                _timerToExitPen -= Time.deltaTime;
+                if (_timerToExitPen < 0f)
                 {
                     _canExitPen = true;
                 }
@@ -40,47 +41,42 @@ namespace CoreSystem
             _targetTransform = target;
             _pacMan = pacMan;
         }
-
-        public void SetGhostType(GhostType ghostType)
-        {
-            _pelletsToExitPen = Constants.GetPelletsToExitPen(ghostType);
-
-            GhostType = ghostType;
-            switch (ghostType)
-            {
-                case GhostType.Blinky:
-                    SetNewInput(ControlInput.Right);
-                    _corner = Constants.BLINKY_CORNER_POSITION;
-                    _pelletsToExitPen = Constants.BLINKY_START_DELAY_PELLET_COUNT;
-                    _timer = 0f;
-                    _canExitPen = true;
-                    break;
-                case GhostType.Pinky:
-                    _corner = Constants.PINKY_CORNER_POSITION;
-                    _timer = Constants.PINKY_START_DELAY_DURATION;
-                    _pelletsToExitPen = Constants.PINKY_START_DELAY_PELLET_COUNT;
-                    _canExitPen = false;
-                    break;
-                case GhostType.Inky:
-                    _corner = Constants.INKY_CORNER_POSITION;
-                    _pelletsToExitPen = Constants.INKY_START_DELAY_PELLET_COUNT;
-                    _timer = Constants.INKY_START_DELAY_DURATION;
-                    _canExitPen = false;
-                    break;
-                case GhostType.Clive:
-                    _corner = Constants.CLIVE_CORNER_POSITION;
-                    _pelletsToExitPen = Constants.CLIVE_START_DELAY_PELLET_COUNT;
-                    _timer = Constants.CLIVE_START_DELAY_DURATION;
-                    _canExitPen = false;
-                    break;
-            }
-        }
-
         private void SetNewInput(ControlInput newInput)
         {
             if (CurrentInput.Equals(newInput)) return;
             //Debug.Log($"Changing input from: [{CurrentInput}] to: [{newInput}]");
             CurrentInput = newInput;
+        }
+
+        public void SetGhostType(GhostType type, GhostConfig config)
+        {
+            Config = config;
+            Type = type;
+
+            _corner = config.Corner;
+            _timerToExitPen = config.StartTimer;
+            _pelletsToExitPen = config.StartPellets;
+            _canExitPen = config.CanExitImmediately;
+            SetNewInput(config.InitialInput);
+        }
+
+        public void SetEndExitVariables()
+        {
+            _pelletsToExitPen = Config.EndPellets;
+            _timerToExitPen = Config.EndTimer;
+            _canExitPen = false;
+            SetNewInput(Config.InitialInput);
+        }
+
+        public bool AllowExitPenEarly()
+        {
+            if (CurrentState.Equals(GhostState.Waiting))
+            {
+                _canExitPen = true;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
@@ -149,7 +145,7 @@ namespace CoreSystem
 
         private void DetermineDirection(NodeScript currentNode)
         {
-            switch (GhostType)
+            switch (Type)
             {
                 case GhostType.Blinky:
                     DetermineBlinkyDirection(currentNode);
@@ -270,15 +266,15 @@ namespace CoreSystem
                 {
                     canMove.Add(currentNode.NodeLeft);
                 }
-                else if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
+                if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
                 {
                     canMove.Add(currentNode.NodeRight);
                 }
-                else if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
+                if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
                 {
                     canMove.Add(currentNode.NodeUp);
                 }
-                else if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
+                if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
                 {
                     canMove.Add(currentNode.NodeDown);
                 }
@@ -288,8 +284,6 @@ namespace CoreSystem
             }
             return chosenNode.transform.position;
         }
-
-        #endregion
 
         void GetOppositeDirection()
         {
@@ -359,15 +353,15 @@ namespace CoreSystem
             {
                 canMove.Add(ControlInput.Left);
             }
-            else if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
+            if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
             {
                 canMove.Add(ControlInput.Right);
             }
-            else if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
+            if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
             {
                 canMove.Add(ControlInput.Up);
             }
-            else if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
+            if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
             {
                 canMove.Add(ControlInput.Down);
             }
@@ -381,7 +375,7 @@ namespace CoreSystem
             {
                 if (currentNode == RespawnNode)
                 {
-                    _timer = Constants.RESPAWN_DELAY_DURATION;
+                    _timerToExitPen = Constants.RESPAWN_DELAY_DURATION;
                     SetNewGhostState(GhostState.Waiting);
                     return;
                 }
@@ -404,4 +398,6 @@ namespace CoreSystem
             SetNewInput(GetClosestDirection(RespawnNode.transform.position, currentNode));
         }
     }
+
+        #endregion
 }

@@ -1,10 +1,12 @@
 using System;
-using UnityEngine;
 
 namespace Utilities
 {
     public static class Constants
     {
+        public const float BASE_SPEED = 5f;
+        public const float SPEED_MULTIPLIER = 0.3f;
+
         // Score
         public const int PELLET_SCORE = 10;
         public const int POWER_PELLET_SCORE = 50;
@@ -20,32 +22,14 @@ namespace Utilities
         public const int GHOST_SCORE = 200;
         public const int LEVEL_COMPLETE_SCORE = 1000;
 
-        // Ghost Node Positions
-        public static readonly Vector3 BLINKY_START_POSITION = new(0, 0, 0);
-        public static readonly Vector3 PINKY_START_POSITION = new(0, 0, 0);
-        public static readonly Vector3 INKY_START_POSITION = new(0, 0, 0);
-        public static readonly Vector3 CLIVE_START_POSITION = new(0, 0, 0);
-
-        public static readonly Vector3 BLINKY_CORNER_POSITION = new(12.5f, 14.5f, 0);
-        public static readonly Vector3 INKY_CORNER_POSITION = new(12.5f, -13.5f, 0);
-        public static readonly Vector3 PINKY_CORNER_POSITION = new(-12.5f, 14.5f, 0);
-        public static readonly Vector3 CLIVE_CORNER_POSITION = new(-12.5f, -13.5f, 0);
-
         // Timers
         public const float EARLY_SCATTER_MODE_DURATION = 7f;
         public const float LATE_SCATTER_MODE_DURATION = 5f;
         public const float CHASE_MODE_DURATION = 20f;
         public const float FRIGHTENED_MODE_DURATION = 10f;
 
-        public const float INKY_START_DELAY_DURATION = 5f;
-        public const float PINKY_START_DELAY_DURATION = 10f;
-        public const float CLIVE_START_DELAY_DURATION = 15f;
         public const float RESPAWN_DELAY_DURATION = 10f;
-
-        public const int BLINKY_START_DELAY_PELLET_COUNT = -1;
-        public const int INKY_START_DELAY_PELLET_COUNT = 10;
-        public const int PINKY_START_DELAY_PELLET_COUNT = 20;
-        public const int CLIVE_START_DELAY_PELLET_COUNT = 40;
+        public const float FORCE_GHOST_EXIT_PEN_TIME = 5f;
 
         // UI Text
         public const string SOLO_RACE_WIN = "YOU WIN!";
@@ -125,18 +109,6 @@ namespace Utilities
                 _ => 0
             };
         }
-
-        public static int GetPelletsToExitPen(GhostType ghostType)
-        {
-            return ghostType switch
-            {
-                GhostType.Blinky => BLINKY_START_DELAY_PELLET_COUNT,
-                GhostType.Inky => INKY_START_DELAY_PELLET_COUNT,
-                GhostType.Pinky => PINKY_START_DELAY_PELLET_COUNT,
-                GhostType.Clive => CLIVE_START_DELAY_PELLET_COUNT,
-                _ => -1
-            };
-        }
     }
 
     public enum GhostType
@@ -161,7 +133,10 @@ namespace Utilities
         Menu,
         Loading,
         Playing,
+        Stopped,
+        Resetting,
         Paused,
+        LevelComplete,
         GameOver
     }
 

@@ -103,7 +103,6 @@ GameObject:
   - component: {fileID: 4988865449739674335}
   - component: {fileID: 1145484937857354707}
   - component: {fileID: 5751035590868477905}
-  - component: {fileID: 3859195364725431131}
   - component: {fileID: 8554929073791489976}
   - component: {fileID: 8085194410050028204}
   - component: {fileID: 3473112591279277353}
@@ -145,9 +144,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e654699542be51459a431f830664c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostInputHandler
-  <GhostType>k__BackingField: 0
+  <Type>k__BackingField: 0
+  <Config>k__BackingField: {fileID: 0}
   <CurrentState>k__BackingField: 0
   <RespawnNode>k__BackingField: {fileID: 0}
+  _pacMan: {fileID: 0}
+  _targetTransform: {fileID: 0}
+  _corner: {x: 0, y: 0, z: 0}
+  _hasChangedDirection: 0
+  _pelletsToExitPen: 0
+  _canExitPen: 0
+  _timerToExitPen: 0
+  _isActive: 0
 --- !u!114 &4988865449739674335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,8 +170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.GhostManager
   <Movement>k__BackingField: {fileID: 0}
   <Anim>k__BackingField: {fileID: 0}
-  <Skin>k__BackingField: {fileID: 0}
   <StartNode>k__BackingField: {fileID: 0}
+  <OnHit>k__BackingField: {fileID: 11400000, guid: 1141fc333275534488e29f02e081f9e8, type: 2}
   _currentWave: 1
   _collectedPellets: 0
   _timer: 0
@@ -202,22 +210,6 @@ MonoBehaviour:
   <Body>k__BackingField: {fileID: 0}
   <CurrentDirection>k__BackingField: 0
   eyesAnim: {fileID: 0}
-  movement: {fileID: 0}
-  cachedMove: 0
---- !u!114 &3859195364725431131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7410896652128674152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c862e32933f49a640a6fd63202e4d47a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SkinHandler
-  <BodyRenderer>k__BackingField: {fileID: 0}
-  <SkinIndex>k__BackingField: 0
 --- !u!95 &8554929073791489976
 Animator:
   serializedVersion: 7
@@ -228,7 +220,7 @@ Animator:
   m_GameObject: {fileID: 7410896652128674152}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f3a482428afa529499c0626449c5922a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 070a6326b3c2c8f44bb4967f92a11c9d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

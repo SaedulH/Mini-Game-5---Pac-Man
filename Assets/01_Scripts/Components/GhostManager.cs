@@ -1,4 +1,5 @@
-using System.Collections;
+using EventSystem;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utilities;
 
@@ -7,7 +8,6 @@ namespace CoreSystem
     [RequireComponent(typeof(GhostInputHandler))]
     [RequireComponent(typeof(GhostMovement))]
     [RequireComponent(typeof(GhostAnimator))]
-    [RequireComponent(typeof(SkinHandler))]
     public class GhostManager : EntityManager
     {
         public new GhostInputHandler InputHandler { get => (GhostInputHandler)base.InputHandler; protected set => base.InputHandler = value; }
@@ -22,7 +22,6 @@ namespace CoreSystem
             InputHandler = GetComponent<GhostInputHandler>();
             Movement = GetComponent<GhostMovement>();
             Anim = GetComponent<GhostAnimator>();
-            Skin = GetComponent<SkinHandler>();
         }
 
         void Update()
@@ -32,26 +31,35 @@ namespace CoreSystem
             AlternateGhostModes();
         }
 
-        public void InitialiseGhost(GhostType ghostType, int skinIndex, PlayerManager pacMan)
+        public void InitialiseGhost(GhostType ghostType, GhostConfig ghostConfig, int levelNumber)
         {
             _currentWave = 1;
             _collectedPellets = 0;
             _timer = Constants.CHASE_MODE_DURATION;
             //Anim.SetTrigger("Idle");
-            Skin.AssignSkin(skinIndex);
-
-            SetGhostType(ghostType);
+            Movement.SetSpeed(levelNumber);
+            SetGhostType(ghostType, ghostConfig);
         }
 
         public override void OnGameStateUpdated(GameState gameState)
         {
-            base.OnGameStateUpdated(gameState);
             _isTimerPaused = !gameState.Equals(GameState.Playing);
+            base.OnGameStateUpdated(gameState);
         }
 
-        private void SetGhostType(GhostType ghostType)
+        protected override async Task ResetPosition()
         {
-            InputHandler.SetGhostType(ghostType);
+            Debug.Log($"Resetting {gameObject.name}");
+            Anim.Disappear();
+            InputHandler.SetEndExitVariables();
+            await Task.Delay(1000);
+            Movement.SetStartNode(StartNode);
+            Anim.Reappear();
+        }
+
+        private void SetGhostType(GhostType ghostType, GhostConfig ghostConfig)
+        {
+            InputHandler.SetGhostType(ghostType, ghostConfig);
             if (ghostType == GhostType.Blinky)
             {
                 SetNewGhostState(GhostState.Chasing);
@@ -88,16 +96,6 @@ namespace CoreSystem
                     }
                 }
             }
-        }
-
-        protected virtual IEnumerator ResetPosition()
-        {
-            _collectedPellets = 0;
-            _timer = Constants.CHASE_MODE_DURATION;
-            yield return new WaitForSeconds(2);
-
-            transform.position = StartNode.transform.position;
-            //Movement.CurrentNode = StartNode;
         }
 
         private void AlternateGhostModes()
@@ -144,12 +142,13 @@ namespace CoreSystem
                 {
                     if (!playerManager.IsPowerMode)
                     {
-                        playerManager.KillPacMan();
+                        Debug.Log("PacMan Hit");
+                        playerManager.OnHitEvent();
                     }
                     else
                     {
-                        _ = GameManager.Instance.AddScore(playerManager.GetKillGhostScore(), false);
-                        SetNewGhostState(GhostState.Returning);
+                        _ = GameManager.Instance.AddScore(playerManager.GetHitGhostScore(), false);
+                        OnHitEvent();
                     }
                 }
             }
@@ -192,8 +191,19 @@ namespace CoreSystem
             if (InputHandler.IsEnoughPelletsToExit(_collectedPellets))
             {
                 _isTimerPaused = false;
-                _collectedPellets = 0;       
+                _collectedPellets = 0;
             }
+        }
+
+        public override void OnHitEvent()
+        {
+            Anim.SetDeath(true);
+            OnHit.Invoke(new Empty());
+        }
+
+        protected override void OnDeathEvent()
+        {
+            SetNewGhostState(GhostState.Returning);
         }
     }
 }

@@ -1,5 +1,6 @@
 using EventSystem;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utilities;
 
@@ -9,37 +10,50 @@ namespace CoreSystem
     [RequireComponent(typeof(PlayerInputHandler))]
     [RequireComponent(typeof(PlayerMovement))]
     [RequireComponent(typeof(PlayerAnimator))]
-    [RequireComponent(typeof(SkinHandler))]
     public class PlayerManager : EntityManager
     {
         public new PlayerInputHandler InputHandler { get => (PlayerInputHandler)base.InputHandler; protected set => base.InputHandler = value; }
 
-        [field: SerializeField] public int RemainingLives { get; private set; } = 4;
-        [field: SerializeField] public bool IsAlive { get; private set; } = true;
         [field: SerializeField] public bool IsPowerMode { get; private set; } = false;
-        [field: SerializeField] public int GhostKillCount { get; private set; } = 0;
+        [field: SerializeField] public int GhostHitCount { get; private set; } = 0;
 
+        private bool _isActive = true;
         private Coroutine _powerModeCoroutine;
+
         [field: SerializeField] public BoolEventChannel OnPowerMode { get; private set; }
+        [field: SerializeField] public EventChannel OnDeath { get; private set; }
 
         private void Awake()
         {
             InputHandler = GetComponent<PlayerInputHandler>();
             Movement = GetComponent<PlayerMovement>();
             Anim = GetComponent<PlayerAnimator>();
-            Skin = GetComponent<SkinHandler>();
         }
 
-        public void InitialisePlayer(PlayerInputActions inputActions, int remainingLives, int skinIndex)
+        public void InitialisePlayer(PlayerInputActions inputActions, int levelNumber)
         {
-            this.RemainingLives = remainingLives;
-            this.IsAlive = true;
-            this.IsPowerMode = false;
+            _isActive = true;
+            IsPowerMode = false;
 
             InputHandler.SetInputActions(inputActions);
             Movement.CurrentDirection = ControlInput.Right;
             //Anim.SetTrigger("Idle");
-            Skin.AssignSkin(skinIndex);
+            Movement.SetSpeed(levelNumber);
+        }
+
+        public override void OnGameStateUpdated(GameState gameState)
+        {
+            _isActive = gameState.Equals(GameState.Playing);
+            base.OnGameStateUpdated(gameState);
+        }
+
+        protected override async Task ResetPosition()
+        {
+            Anim.Disappear();
+            await Task.Delay(1000);
+            Movement.SetStartNode(StartNode);
+            Movement.CurrentDirection = ControlInput.Right;
+            Anim.Reappear();
         }
 
         public void SetSpawnpoint(Vector3 position, Quaternion rotation)
@@ -75,7 +89,7 @@ namespace CoreSystem
 
         public IEnumerator PowerMode()
         {
-            GhostKillCount = 0;
+            GhostHitCount = 0;
             IsPowerMode = true;
             Anim.SetPowerMode(true);
             OnPowerMode.Invoke(true);
@@ -86,38 +100,24 @@ namespace CoreSystem
             OnPowerMode.Invoke(false);
             Debug.Log("End Power Mode");
         }
-
-        public void KillPacMan()
+        public int GetHitGhostScore()
         {
-            if (!IsAlive) return;
-            IsAlive = false;
+            GhostHitCount++;
+            return GhostHitCount * Constants.GHOST_SCORE;
+        }
+
+        public override void OnHitEvent()
+        {
+            if (!_isActive) return;
+
+            _isActive = false;
             Anim.SetDeath(true);
-            StartCoroutine(RespawnPacman());
+            OnHit.Invoke(new Empty());
         }
 
-        private IEnumerator RespawnPacman()
+        protected override void OnDeathEvent()
         {
-            if (RemainingLives > 1)
-            {
-                RemainingLives--;
-                yield return new WaitForSeconds(2);
-                //transform.position = startPosition;
-                //Movement.CurrentNode = startNode;
-                Movement.CurrentDirection = ControlInput.Right;
-                yield return new WaitForSeconds(1);
-                IsAlive = true;
-            }
-            else
-            {
-                //gameOver screen
-                yield return new WaitForSeconds(1);
-            }
-        }
-
-        public int GetKillGhostScore()
-        {
-            GhostKillCount++;
-            return GhostKillCount * Constants.GHOST_SCORE;
+            OnDeath.Invoke(new Empty());
         }
     }
 }

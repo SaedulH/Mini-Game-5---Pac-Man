@@ -10,13 +10,13 @@ namespace CoreSystem
         public override async Task Run(LevelContext context)
         {
             // Setup Player
-            await GameManager.Instance.SetupPlayer(context.PacManSkinIndex);
+            await GameManager.Instance.SetupPlayer(context.LevelNumber);
 
             // Setup AI
-            await GameManager.Instance.SetupGhost(GhostType.Blinky, context.BlinkySkinIndex);          
-            await GameManager.Instance.SetupGhost(GhostType.Inky, context.InkySkinIndex);          
-            await GameManager.Instance.SetupGhost(GhostType.Pinky, context.PinkySkinIndex);          
-            await GameManager.Instance.SetupGhost(GhostType.Clive, context.ClydeSkinIndex);
+            await GameManager.Instance.SetupGhost(GhostType.Blinky, context.LevelNumber);          
+            await GameManager.Instance.SetupGhost(GhostType.Inky, context.LevelNumber);          
+            await GameManager.Instance.SetupGhost(GhostType.Pinky, context.LevelNumber);          
+            await GameManager.Instance.SetupGhost(GhostType.Clive, context.LevelNumber);
 
             await GameManager.Instance.AssignTargetTransforms();
         }
