@@ -37,7 +37,7 @@ namespace CoreSystem
             _collectedPellets = 0;
             _timer = Constants.CHASE_MODE_DURATION;
             //Anim.SetTrigger("Idle");
-            Movement.SetSpeed(levelNumber);
+            Movement.SetCurrentLevelSpeed(levelNumber);
             SetGhostType(ghostType, ghostConfig);
         }
 
@@ -199,11 +199,12 @@ namespace CoreSystem
         {
             Anim.SetDeath(true);
             OnHit.Invoke(new Empty());
+            SetNewGhostState(GhostState.Returning);
         }
 
         protected override void OnDeathEvent()
         {
-            SetNewGhostState(GhostState.Returning);
+            Anim.SetDeath(false);
         }
     }
 }

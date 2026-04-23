@@ -4,8 +4,10 @@ namespace Utilities
 {
     public static class Constants
     {
+        public const float BASE_PACMAN_SPEED = 6f;
         public const float BASE_SPEED = 5f;
-        public const float SPEED_MULTIPLIER = 0.3f;
+        public const float LEVEL_SPEED_MULTIPLIER = 0.3f;
+        public const float GHOST_RETURN_SPEED = 12f;
 
         // Score
         public const int PELLET_SCORE = 10;

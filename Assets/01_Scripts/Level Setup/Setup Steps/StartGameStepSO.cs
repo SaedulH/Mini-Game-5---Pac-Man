@@ -11,7 +11,7 @@ namespace CoreSystem
         {
             if (context.LevelNumber > 0)
             {
-                //await HUDManager.Instance.BeginCountdown(CountdownDuration);
+                await HUDManager.Instance.BeginCountdown(CountdownDuration);
             }
         }
     }

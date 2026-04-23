@@ -33,6 +33,7 @@ namespace UserInterface
             }
             else
             {
+                _levelNumber.text = $"Level {context.LevelNumber}";
                 _levelNumber.RemoveFromClassList("hide");
             }
 

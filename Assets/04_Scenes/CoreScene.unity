@@ -174,10 +174,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8103459867322629148, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 788325302}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
 --- !u!4 &183407698 stripped
 Transform:
@@ -471,50 +468,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1560565929628751692, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
   m_PrefabInstance: {fileID: 628298483}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &788325295 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8103459867322629148, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
-  m_PrefabInstance: {fileID: 183407697}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &788325300 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 485663024312562149, guid: 85925cd773ff83e4387a67a0de987668, type: 3}
-  m_PrefabInstance: {fileID: 183407697}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788325295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deb101d3c7dc0644eae15b9043d5dcbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
---- !u!114 &788325302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 788325295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb3581f594759e47af4ea510d2dc05a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.EventListener
-  eventChannel: {fileID: 11400000, guid: 1141fc333275534488e29f02e081f9e8, type: 2}
-  unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 788325300}
-        m_TargetAssemblyTypeName: CoreSystem.GameManager, Assembly-CSharp
-        m_MethodName: OnHit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &1173720816
 PrefabInstance:
   m_ObjectHideFlags: 0

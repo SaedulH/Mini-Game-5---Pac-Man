@@ -9,9 +9,7 @@ namespace CoreSystem
 
         public override async Task Run(LevelContext context)
         {
-            string difficulty = PlayerPrefs.GetString("Difficulty");
-
-            //await HUDManager.Instance.SetupHUD(context);
+            await HUDManager.Instance.SetupHUD(context);
         }
 
     }

@@ -16,7 +16,7 @@ namespace CoreSystem
         [field: SerializeField] public ControlInput CurrentDirection = ControlInput.None;
         [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
 
-        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float Speed { get; protected set; }
 
         protected bool _isPlaying = false;
 
@@ -55,9 +55,9 @@ namespace CoreSystem
             transform.position = startNode.transform.position;
         }
 
-        public void SetSpeed(int levelNumber)
+        public virtual void SetCurrentLevelSpeed(int levelNumber)
         {
-            Speed = Constants.BASE_SPEED + (Constants.SPEED_MULTIPLIER * (levelNumber - 1));
+            Speed = Constants.BASE_SPEED + (Constants.LEVEL_SPEED_MULTIPLIER * (levelNumber - 1));
         }
 
         protected virtual void Move()

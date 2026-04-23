@@ -1,5 +1,6 @@
 using AudioSystem;
 using CoreSystem;
+using EventSystem;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,73 +11,82 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
 {
     [field: SerializeField] public VisualElement Root { get; set; }
     [field: SerializeField] public VisualElement HUDElement { get; set; }
-    [field: SerializeField] public Label CurrentStage { get; set; }
+
+    [field: SerializeField] public Label Level { get; set; }
     [field: SerializeField] public Label CurrentScore { get; set; }
     [field: SerializeField] public Label HighScore { get; set; }
-    [field: SerializeField] public Label RemainingLivesCount { get; set; }
+
     [field: SerializeField] public Image RemainingLivesImage { get; set; }
     [field: SerializeField] public VisualElement CountdownPopup { get; set; }
     [field: SerializeField] public Label CountdownValue { get; set; }
 
-    private int _remainingLives = 0;
-    private float _currentScore = 0f;
-    private float _highScore = 0f;
+    private bool _isActive = false;
+    private int _remainingLives;
+    private int _highScore;
 
     private LevelContext _currentLevelContext;
+
+    [field: SerializeField] public EventChannel StartLevel { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
 
-        //Root = GetComponent<UIDocument>().rootVisualElement;
-        //HUDElement = Root.Q<VisualElement>("HUD");
-        //HUDElement.AddToClassList("hide");
+        Root = GetComponent<UIDocument>().rootVisualElement;
+        HUDElement = Root.Q<VisualElement>("HUD");
+        HUDElement.AddToClassList("hide");
 
-        //// Timer Elements
-        //CountdownPopup = HUDElement.Q<VisualElement>("CountdownPopup");
-        //CountdownPopup.AddToClassList("hide");
-        //CountdownValue = CountdownPopup.Q<Label>("CountdownValue");
+        // Timer Elements
+        CountdownPopup = HUDElement.Q<VisualElement>("CountdownPopup");
+        CountdownPopup.AddToClassList("hide");
+        CountdownValue = CountdownPopup.Q<Label>("CountdownValue");
 
-        //// Player Stats Elements
-        //CurrentScore = HUDElement.Q<Label>("CurrentScore");
-        //HighScore = HUDElement.Q<Label>("HighScore");
-        //RemainingLivesCount = HUDElement.Q<Label>("RemainingLivesCount");
-        //RemainingLivesImage = HUDElement.Q<Image>("RemainingLivesImage");
+        // Player Stats Elements
+        Level = HUDElement.Q<Label>("LevelValue");
+        CurrentScore = HUDElement.Q<Label>("ScoreValue");
+        HighScore = HUDElement.Q<Label>("HighScoreValue");
+        RemainingLivesImage = HUDElement.Q<Image>("LivesValue");
     }
 
     private void Update()
     {
-        if (_currentLevelContext == null) return;
+        if (_isActive) return;
     }
 
-    public async Task SetupHUD(LevelContext LevelContext)
+    public async Task SetupHUD(LevelContext levelContext)
     {
-        _currentLevelContext = LevelContext;
-        CurrentStage.text = $"Stage {_currentLevelContext.LevelNumber + 1}";
-        CurrentScore.text = "0";
-        HighScore.text = PlayerPrefs.GetInt("Highscore", 0).ToString();
-        RemainingLivesCount.text = GameManager.Instance.RemainingLives.ToString();
+        _currentLevelContext = levelContext;
+        _remainingLives = levelContext.RemainingLives;
+        _highScore = PlayerPrefs.GetInt("Highscore", 0);
+
+        Level.text = _currentLevelContext.LevelNumber.ToString();
+        CurrentScore.text = 0.ToString();
+        HighScore.text = _highScore.ToString();
+
         HUDElement.RemoveFromClassList("hide");
+
         await Task.CompletedTask;
     }
 
     public void OnGameStateUpdated(GameState state)
     {
+        _isActive = state.Equals(GameState.Playing);
     }
 
-    //public RaceCompleteDetails GetResults()
-    //{
-    //    RaceCompleteDetails details = new RaceCompleteDetails();
-    //    details.PlayerCount = _currentLevelContext.PlayerCount;
-    //    details.GameMode = _currentLevelContext.GameMode;
-    //    details.WinningPlayer = _playerOneCurrentPosition == 1 ? "Player One" : "Player Two";
-    //    details.WinningTime = Constants.FormatTime(_bestLapTime);
-    //    details.AwardedMedal = _currentMedal;
+    public void OnUpdateScore(int score)
+    {
+        CurrentScore.text = score.ToString();
+        if(score > _highScore)
+        {
+            _highScore = score;
+            HighScore.text = score.ToString();
+        }
+    }
 
-    //    Debug.Log($"HUDManager GetResults: PlayerCount={details.PlayerCount}, GameMode={details.GameMode}, WinningPlayer={details.WinningPlayer}, WinningTime={details.WinningTime}, AwardedMedal={details.AwardedMedal}");
-
-    //    return details;
-    //}
+    public void OnUpdateLives(int remainingLives)
+    {
+        _remainingLives = remainingLives;
+    }
 
     #region Timer Management
 
@@ -130,7 +140,7 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
             .WithParent(transform)
             .Play(AudioCollection.Instance.BeginAudio);
 
-        //GameManager.Instance.StartRace();
+        StartLevel.Invoke(new Empty());
     }
 
     public async Task HideCountdownPopup()

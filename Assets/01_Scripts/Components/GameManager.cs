@@ -1,6 +1,9 @@
 using EventSystem;
+using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utilities;
 
 namespace CoreSystem
@@ -39,17 +42,19 @@ namespace CoreSystem
 
         void Start()
         {
-            _ = InitialiseGame();
+            _ = InitialiseLevel();
         }
 
         private void OnEnable()
         {
             InputActions.Enable();
+            InputActions.Pacman.Pause.performed += OnPausedPerformed;
         }
 
         private void OnDisable()
         {
             InputActions.Disable();
+            InputActions.Pacman.Pause.performed -= OnPausedPerformed;
         }
 
         private void Update()
@@ -59,20 +64,40 @@ namespace CoreSystem
             GetNextGhostForEarlyExit();
         }
 
-        private async Task InitialiseGame()
+        private async Task InitialiseLevel()
         {
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
             CurrentScore = 0;
             Highscore = PlayerPrefs.GetInt("Highscore", 0);
             TimeSinceLastItemCollected = 0f;
+            CurrentLevel = 1;
+            PelletsEaten = 0;
             await Task.Delay(100);
 
             CurrentLevelContext = new LevelContext
             {
                 MapName = MapName.Pacman,
                 RemainingLives = RemainingLives,
-                LevelNumber = 1,
+                LevelNumber = CurrentLevel,
+            };
+
+            await SetupScene(GameLevelInfo, CurrentLevelContext);
+        }
+
+        private async Task GetNextLevel()
+        {
+            EnterGameState(GameState.LevelComplete);
+            TimeSinceLastItemCollected = 0f;
+            PelletsEaten = 0;
+            CurrentLevel++;
+            await Task.Delay(100);
+
+            CurrentLevelContext = new LevelContext
+            {
+                MapName = MapName.Pacman,
+                RemainingLives = RemainingLives,
+                LevelNumber = CurrentLevel,
             };
 
             await SetupScene(GameLevelInfo, CurrentLevelContext);
@@ -109,7 +134,7 @@ namespace CoreSystem
             if (PelletsEaten >= TotalPelletCount)
             {
                 Debug.Log("All Pellets Collected! Level Complete!");
-                EnterGameState(GameState.LevelComplete);
+                _ = GetNextLevel();
             }
             else if (PelletsEaten == 64 || PelletsEaten == 174)
             {
@@ -206,6 +231,23 @@ namespace CoreSystem
             }
         }
 
+        private void OnPausedPerformed(InputAction.CallbackContext context)
+        {
+            if (CurrentGameState.Equals(GameState.Playing))
+            {
+                EnterGameState(GameState.Paused);
+            } 
+            else if (CurrentGameState.Equals(GameState.Paused))
+            {
+                EnterGameState(GameState.Playing);
+            }
+        }
+
+        public void OnStartLevel()
+        {
+            EnterGameState(GameState.Playing);
+        }
+
         public void OnCollectedItem()
         {
             TimeSinceLastItemCollected = 0f;
@@ -219,14 +261,25 @@ namespace CoreSystem
         public void OnGhostHit()
         {
             Debug.Log("Ghost Hit, Stop time for 0.1s");
+            StartCoroutine(TimeStop(0.25f));
+        }
+
+        private IEnumerator TimeStop(float duration)
+        {
+            Time.timeScale = 0f;
+            yield return new WaitForSecondsRealtime(duration);
+            Time.timeScale = 1f;
         }
 
         public async void OnDeath()
         {
+            if (RemainingLives <= 0) return;
+
             RemainingLives--;
             if (RemainingLives == 0)
             {
                 EnterGameState(GameState.GameOver);
+                Debug.Log("Game Over!!");
             }
             else
             {

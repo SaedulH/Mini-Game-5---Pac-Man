@@ -38,7 +38,7 @@ namespace CoreSystem
             InputHandler.SetInputActions(inputActions);
             Movement.CurrentDirection = ControlInput.Right;
             //Anim.SetTrigger("Idle");
-            Movement.SetSpeed(levelNumber);
+            Movement.SetCurrentLevelSpeed(levelNumber);
         }
 
         public override void OnGameStateUpdated(GameState gameState)

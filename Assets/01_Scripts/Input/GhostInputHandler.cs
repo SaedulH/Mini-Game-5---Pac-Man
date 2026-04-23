@@ -97,7 +97,7 @@ namespace CoreSystem
                     _canExitPen = false;
                     break;
             }
-            Debug.Log($"Changing state from: [{CurrentState}] to: [{newState}]");
+            Debug.Log($"{gameObject.name}: Changing state from: [{CurrentState}] to: [{newState}]");
             CurrentState = newState;
         }
 
@@ -257,30 +257,38 @@ namespace CoreSystem
         {
             if (_pacMan == null) return Vector3.zero;
 
+            ControlInput pacManDirection = _pacMan.Movement.CurrentDirection;
             NodeScript currentNode = _pacMan.Movement.CurrentNode;
             NodeScript chosenNode = null;
             for (int i = 0; i < tileCount; i++)
             {
                 List<NodeScript> canMove = new List<NodeScript>();
-                if (currentNode.CanMoveLeft && !CurrentInput.Equals(ControlInput.Right))
+                if (currentNode.CanMoveLeft && !pacManDirection.Equals(ControlInput.Right))
                 {
                     canMove.Add(currentNode.NodeLeft);
                 }
-                if (currentNode.CanMoveRight && !CurrentInput.Equals(ControlInput.Left))
+                if (currentNode.CanMoveRight && !pacManDirection.Equals(ControlInput.Left))
                 {
                     canMove.Add(currentNode.NodeRight);
                 }
-                if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
+                if (currentNode.CanMoveUp && !pacManDirection.Equals(ControlInput.Down))
                 {
                     canMove.Add(currentNode.NodeUp);
                 }
-                if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
+                if (currentNode.CanMoveDown && !pacManDirection.Equals(ControlInput.Up))
                 {
                     canMove.Add(currentNode.NodeDown);
                 }
 
-                chosenNode = canMove[Random.Range(0, canMove.Count)];
-                currentNode = chosenNode.GetComponent<NodeScript>();
+                if (canMove.Count < 0)
+                {
+                    chosenNode = canMove[Random.Range(0, canMove.Count)];
+                    currentNode = chosenNode.GetComponent<NodeScript>();
+                } 
+                else
+                {
+                    return currentNode.transform.position;
+                } 
             }
             return chosenNode.transform.position;
         }
@@ -320,6 +328,12 @@ namespace CoreSystem
         {
             if (!_canExitPen) return;
 
+            if (!currentNode.NodeType.Equals(NodeType.GhostStart))
+            {
+                SetNewGhostState(GhostState.Chasing);
+                return;
+            }
+
             if (currentNode.CanMoveUp)
             {
                 SetNewInput(ControlInput.Up);
@@ -332,22 +346,10 @@ namespace CoreSystem
             {
                 SetNewInput(ControlInput.Right);
             }
-
-            if (!currentNode.NodeType.Equals(NodeType.GhostStart))
-            {
-                SetNewGhostState(GhostState.Chasing);
-            }
         }
 
         protected virtual void Scramble(NodeScript currentNode)
         {
-            if (!_hasChangedDirection)
-            {
-                GetOppositeDirection();
-                _hasChangedDirection = true;
-                return;
-            }
-
             List<ControlInput> canMove = new();
             if (currentNode.CanMoveLeft && !CurrentInput.Equals(ControlInput.Right))
             {
@@ -364,6 +366,13 @@ namespace CoreSystem
             if (currentNode.CanMoveDown && !CurrentInput.Equals(ControlInput.Up))
             {
                 canMove.Add(ControlInput.Down);
+            }
+
+            if (!_hasChangedDirection || canMove.Count == 0)
+            {
+                GetOppositeDirection();
+                _hasChangedDirection = true;
+                return;
             }
 
             SetNewInput(canMove[Random.Range(0, canMove.Count)]);
