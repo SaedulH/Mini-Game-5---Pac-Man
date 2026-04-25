@@ -11,13 +11,16 @@ GameObject:
   - component: {fileID: 181354779659506175}
   - component: {fileID: 6181019321707554012}
   - component: {fileID: 3884490889270044809}
+  - component: {fileID: 7892178095478011024}
+  - component: {fileID: 8395257785153512920}
+  - component: {fileID: 3794661789407816018}
   m_Layer: 0
   m_Name: Settings Tab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &181354779659506175
 Transform:
   m_ObjectHideFlags: 0
@@ -63,16 +66,56 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4071186218732128391}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3015afb22f8c5824eb33dd7b4c9b94a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SettingsManager
-  <AudioMixer>k__BackingField: {fileID: 0}
-  <InputMappingIcons>k__BackingField: {fileID: 0}
-  <PlayerInput>k__BackingField: {fileID: 0}
-  <DefaultIcon>k__BackingField: {fileID: 0}
+  <CurrentSettingsTab>k__BackingField: {fileID: 7892178095478011024}
+  <GameSettings>k__BackingField: {fileID: 7892178095478011024}
+  <AudioSettings>k__BackingField: {fileID: 8395257785153512920}
+  <ControlSettings>k__BackingField: {fileID: 3794661789407816018}
   <CurrentScreen>k__BackingField: 0
   <CachedScreen>k__BackingField: 0
   <ScreenTransitionTime>k__BackingField: 0.1
+--- !u!114 &7892178095478011024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071186218732128391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640cffa7d8174ab4ea628664179bcaea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.GameSettings
+--- !u!114 &8395257785153512920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071186218732128391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb60c81f967c8f749a8c2824f1ef1271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.AudioSettings
+  <AudioMixer>k__BackingField: {fileID: 0}
   <SliderLerpSpeed>k__BackingField: 50
+--- !u!114 &3794661789407816018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071186218732128391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9cdb0b563fd7f44a81b404fcc620c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.ControlSettings
+  <InputMappingIcons>k__BackingField: {fileID: 0}
+  <PlayerInput>k__BackingField: {fileID: 0}
+  <DefaultIcon>k__BackingField: {fileID: 0}

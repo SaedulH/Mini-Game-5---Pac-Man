@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AutoUnparentOnAwake: 0
   <CurrentGameState>k__BackingField: 0
+  <MainMenuInfo>k__BackingField: {fileID: 11400000, guid: d433dc9013bc82541825973d6714c21a, type: 2}
   <GameLevelInfo>k__BackingField: {fileID: 11400000, guid: fdd1a11a18c02d04b96156213fd5bc64, type: 2}
   <CurrentLevelContext>k__BackingField:
     MapName: 0

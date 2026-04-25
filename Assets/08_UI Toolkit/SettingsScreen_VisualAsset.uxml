@@ -1,0 +1,61 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08_UI%20Toolkit/SettingsScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=818fc9cd3de032446b1a114d7f13e9c1&amp;type=3#SettingsScreen_StyleSheet"/>
+    <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
+    <ui:VisualElement name="SettingsScreen" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.39);">
+        <ui:VisualElement name="Main" style="flex-grow: 0; height: 80%; justify-content: flex-start; align-items: center; align-content: flex-start;">
+            <ui:TabView name="SettingsTab" style="transition-duration: 0.2s; margin-top: 5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
+                <ui:Tab label="Game" name="GameSettings" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
+                    <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="Difficulty">
+                        <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Easy" class="selectionButton"/>
+                        <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Hard" class="selectionButton"/>
+                    </ui:ToggleButtonGroup>
+                    <ui:ToggleButtonGroup label="Camera" value="10" is-multiple-selection="false" name="Camera">
+                        <ui:Button text="Fixed" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Fixed" class="selectionButton"/>
+                        <ui:Button text="Dynamic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Dynamic" class="selectionButton"/>
+                    </ui:ToggleButtonGroup>
+                    <ui:ToggleButtonGroup label="Screen Shake" value="10" is-multiple-selection="false" name="ScreenShake">
+                        <ui:Button text="Off" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Off" class="selectionButton"/>
+                        <ui:Button text="Low" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Low" class="selectionButton"/>
+                        <ui:Button text="High" parse-escape-sequences="true" display-tooltip-when-elided="true" name="High" class="selectionButton"/>
+                    </ui:ToggleButtonGroup>
+                </ui:Tab>
+                <ui:Tab label="Audio" name="AudioSettings" style="width: 100%; height: 100%; align-content: center; align-items: center; justify-content: center; align-self: center; flex-grow: 1;">
+                    <ui:Label tabindex="-1" text="Master" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MasterAudio" enable-rich-text="true" focusable="false" class="subheader" style="font-size: 45px; -unity-text-align: upper-center; margin-top: 30px;"/>
+                    <ui:SliderInt label="" value="54" high-value="100" name="MasterVolume" fill="true" enabled="true" show-input-field="true" class="audioSlider"/>
+                    <ui:Label tabindex="-1" text="Music" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MusicAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center;"/>
+                    <ui:SliderInt label="" value="42" high-value="100" name="MusicVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                    <ui:Label tabindex="-1" text="UI" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UIAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center;"/>
+                    <ui:SliderInt label="" value="42" high-value="100" name="UIVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                    <ui:Label tabindex="-1" text="Vehicle" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EffectsAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center; display: flex;"/>
+                    <ui:SliderInt label="" value="42" high-value="100" name="EffectsVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                </ui:Tab>
+                <ui:Tab label="Control" name="ControlSettings" style="width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; align-self: center;">
+                    <ui:GroupBox name="Throttle" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                        <ui:Label text="Throttle" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ThrottleText" class="controlText" style="margin-top: 30px;"/>
+                        <ui:Button text="?" name="PlayerOneThrottleInput" class="controlInput"/>
+                    </ui:GroupBox>
+                    <ui:GroupBox name="Reverse" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                        <ui:Label tabindex="-1" text="Reverse" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ReverseText" class="controlText" style="margin-top: 30px;"/>
+                        <ui:Button text="?" name="PlayerOneReverseInput" class="controlInput"/>
+                    </ui:GroupBox>
+                    <ui:GroupBox name="SteerLeft" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                        <ui:Label tabindex="-1" text="Left" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SteerLeftText" class="controlText" style="margin-top: 30px;"/>
+                        <ui:Button text="?" name="PlayerOneLeftInput" class="controlInput"/>
+                    </ui:GroupBox>
+                    <ui:GroupBox name="SteerRight" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                        <ui:Label tabindex="-1" text="Right" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SteerRightText" class="controlText" style="margin-top: 30px;"/>
+                        <ui:Button text="?" name="PlayerOneRightInput" class="controlInput"/>
+                    </ui:GroupBox>
+                    <ui:GroupBox name="Handbrake" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                        <ui:Label tabindex="-1" text="Handbrake" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HandbrakeText" class="controlText" style="margin-top: 30px;"/>
+                        <ui:Button text="?" name="PlayerOneHandbrakeInput" class="controlInput"/>
+                    </ui:GroupBox>
+                </ui:Tab>
+            </ui:TabView>
+        </ui:VisualElement>
+        <ui:VisualElement name="Footer" style="flex-grow: 1; flex-direction: row; justify-content: center; align-items: center;">
+            <ui:Button text="Back" name="Back" class="button"/>
+            <ui:Button text="Reset" name="Reset" class="button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

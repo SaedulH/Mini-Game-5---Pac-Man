@@ -68,9 +68,34 @@ public class HUDManager : NonPersistentSingleton<HUDManager>
         await Task.CompletedTask;
     }
 
-    public void OnGameStateUpdated(GameState state)
+    public void OnGameStateUpdated(GameState gameState)
     {
-        _isActive = state.Equals(GameState.Playing);
+        _isActive = gameState.Equals(GameState.Playing);
+
+        if (!CanShowHUD(gameState))
+        {
+            HUDElement.AddToClassList("hide");
+        } else
+        {
+            HUDElement.RemoveFromClassList("hide");
+        }
+    }
+
+    private bool CanShowHUD(GameState gameState)
+    {
+        switch (gameState)
+        {
+            case GameState.Playing:
+            case GameState.Stopped:
+            case GameState.Resetting:
+                return true;
+            case GameState.Menu:
+            case GameState.Loading:
+            case GameState.GameOver:
+                return false;
+            default:
+                return false;        
+        }
     }
 
     public void OnUpdateScore(int score)

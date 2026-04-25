@@ -62,6 +62,11 @@ namespace Utilities
         public const float DYNAMIC_VOLUME_LERP_SPEED = 5f;
         public const float DYNAMIC_PITCH_LERP_SPEED = 5f;
 
+        public const string PACMAN_ACTION_MAP = "Pacman";
+        public const string MENU_ACTION_MAP = "Menu";
+        public const string HORIZONTAL_ACTION = "Horizontal";
+        public const string VERTICAL_ACTION = "Vertical";
+
         public static string FormatTime(float lapTime)
         {
             string formattedTime = TimeSpan.FromSeconds(lapTime).ToString(@"mm\:ss\.ff");
@@ -148,6 +153,8 @@ namespace Utilities
         Settings
     }
 
+    #region Settings
+
     public enum SettingScreenType
     {
         Game,
@@ -169,6 +176,16 @@ namespace Utilities
         High
     }
 
+    public enum AudioGroup
+    {
+        Master,
+        Music,
+        UI,
+        Effects
+    }
+
+    #endregion
+
     public enum ControlInput
     {
         None,
@@ -187,6 +204,7 @@ namespace Utilities
 
     public enum MapName
     {
+        Menu,
         Pacman,
         MsPacman1,
         MsPacman2,

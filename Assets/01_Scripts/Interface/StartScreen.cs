@@ -8,34 +8,37 @@ namespace UserInterface
     [RequireComponent(typeof(UIDocument))]
     public class StartScreen : MonoBehaviour
     {
-        private VisualElement _root;
-        private Button _startButton;
-        private Button _settingsButton;
-        private Button _quitButton;
+        private VisualElement _startScreen;
+
+        private Button _start;
+        private Button _settings;
+        private Button _quit;
 
         private void Awake()
         {
-            _root = GetComponent<UIDocument>().rootVisualElement;
+            VisualElement _root = GetComponent<UIDocument>().rootVisualElement;
+            _startScreen = _root.Q<VisualElement>("StartScreen");
 
-            _startButton = _root.Q<Button>("Start");
-            _settingsButton = _root.Q<Button>("Settings");
-            _quitButton = _root.Q<Button>("Quit");
+            _start = _root.Q<Button>("Start");
+            _start.clicked += OnStartClicked;
 
-            _startButton.clicked += OnStartClicked;
-            _settingsButton.clicked += OnSettingsClicked;
-            _quitButton.clicked += OnQuitClicked;
+            _settings = _root.Q<Button>("Settings");
+            _settings.clicked += OnSettingsClicked;
+
+            _quit = _root.Q<Button>("Quit");
+            _quit.clicked += OnQuitClicked;
         }
 
         private void Start()
         {
-            AudioCollection.Instance.SetupHoverAudio(_root);
+            AudioCollection.Instance.SetupHoverAudio(_startScreen);
         }
 
         private void OnDisable()
         {
-            _startButton.clicked -= OnStartClicked;
-            _settingsButton.clicked -= OnSettingsClicked;
-            _quitButton.clicked -= OnQuitClicked;
+            _start.clicked -= OnStartClicked;
+            _settings.clicked -= OnSettingsClicked;
+            _quit.clicked -= OnQuitClicked;
         }
 
         private void OnStartClicked()
@@ -45,6 +48,7 @@ namespace UserInterface
                 .WithVolume(0.8f)
                 .Play(AudioCollection.Instance.StartAudio);
             // Load scene, start game, etc.
+            GameManager.Instance.InitialiseLevel();
         }
 
         private void OnSettingsClicked()

@@ -1,0 +1,234 @@
+.audioSlider {
+    width: 65%;
+    -unity-text-align: middle-left;
+    -unity-font-style: normal;
+    color: rgb(217, 217, 217);
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    text-overflow: clip;
+    white-space: nowrap;
+    font-size: 22px;
+    flex-direction: column;
+    -unity-font-definition: initial;
+    letter-spacing: 10px;
+    height: 20%;
+    align-items: stretch;
+    display: flex;
+    flex-grow: 1;
+}
+
+#AudioSettings SliderInt #unity-drag-container {
+    margin-right: 5%;
+}
+
+#AudioSettings SliderInt #unity-tracker {
+    display: flex;
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    height: 50%;
+    width: 100%;
+    opacity: 1;
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgba(20, 23, 67, 0.59);
+    border-left-color: rgb(20, 23, 67);
+    border-right-color: rgb(20, 23, 67);
+    border-top-color: rgb(20, 23, 67);
+    border-bottom-color: rgb(20, 23, 67);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+#AudioSettings SliderInt #unity-dragger {
+    display: flex;
+    background-color: rgb(0, 148, 255);
+    height: 70%;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+#AudioSettings SliderInt #unity-fill {
+    background-color: rgb(0, 148, 255);
+}
+
+#AudioSettings SliderInt #unity-text-field {
+    width: 10%;
+}
+
+#AudioSettings SliderInt #unity-text-input {
+    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left-color: rgba(0, 148, 255, 0.2);
+    border-right-color: rgba(0, 148, 255, 0.2);
+    border-top-color: rgba(0, 148, 255, 0.2);
+    border-bottom-color: rgba(0, 148, 255, 0.2);
+    background-color: rgba(0, 163, 255, 0.66);
+    background-image: url("project://database/Assets/Sprites/Misc/background-inverted.png?fileID=2800000&guid=31953fe7d7122194fa329c6ae6f95161&type=3#background-inverted");
+    -unity-background-scale-mode: scale-and-crop;
+    -unity-slice-type: sliced;
+    -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
+    font-size: 30px;
+    color: rgb(183, 183, 183);
+    flex-grow: 1;
+    width: 100%;
+}
+
+.controlMapping {
+    align-items: stretch;
+    align-content: center;
+    align-self: stretch;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.controlText {
+    margin-right: 0%;
+    margin-left: 5%;
+    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    color: rgb(183, 183, 183);
+    font-size: 35px;
+    -unity-text-align: middle-left;
+}
+
+.controlInput {
+    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left-color: rgba(0, 148, 255, 0.2);
+    border-right-color: rgba(0, 148, 255, 0.2);
+    border-top-color: rgba(0, 148, 255, 0.2);
+    border-bottom-color: rgba(0, 148, 255, 0.2);
+    background-color: rgba(0, 163, 255, 0.66);
+    background-image: url("project://database/Assets/Sprites/Misc/background-inverted.png?fileID=2800000&guid=31953fe7d7122194fa329c6ae6f95161&type=3#background-inverted");
+    -unity-background-scale-mode: scale-and-crop;
+    -unity-slice-type: sliced;
+    -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
+    font-size: 45px;
+    color: rgb(183, 183, 183);
+    width: 40%;
+    margin-right: 10%;
+}
+
+.controlInput:hover {
+    scale: 1.15 1.15;
+    color: rgb(0, 148, 255);
+    transition-duration: 0.15s;
+    border-left-color: rgb(0, 148, 255);
+    border-right-color: rgb(0, 148, 255);
+    border-top-color: rgb(0, 148, 255);
+    border-bottom-color: rgb(0, 148, 255);
+    background-color: rgba(0, 112, 176, 0.59);
+    -unity-background-image-tint-color: rgba(20, 23, 67, 0.59);
+    -unity-slice-type: sliced;
+    -unity-slice-left: 0;
+    -unity-slice-top: 20;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 20;
+}
+
+.controlInput:active {
+    scale: 0.9 0.9;
+    -unity-background-image-tint-color: rgba(20, 23, 67, 0.78);
+    background-color: rgba(0, 112, 176, 0.59);
+    transition-duration: 0.05s;
+}
+
+.inputPopupText {
+    align-self: center;
+    align-items: center;
+    font-size: 40px;
+    color: rgb(183, 183, 183);
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    -unity-font-style: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -unity-font-definition: initial;
+}
+
+TabView .unity-tab-view__content-viewport {
+    width: 100%;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    justify-content: center;
+    flex-grow: 0;
+    height: 5%;
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    overflow: visible;
+}
+
+TabView RepeatButton {
+    overflow: visible;
+    visibility: hidden;
+    display: none;
+    opacity: 1;
+}
+
+TabView #unity-tab__header {
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+TabView #unity-tab-view__header-container {
+    width: 50%;
+    align-items: center;
+    align-self: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+TabView #unity-tab__header-label {
+    margin-right: 5%;
+    margin-left: 5%;
+    overflow: hidden;
+    visibility: visible;
+    justify-content: flex-start;
+    align-items: center;
+    -unity-text-align: upper-center;
+}
+
+TabView #unity-tab__header-underline {
+    margin-right: 5%;
+    margin-left: 5%;
+    overflow: visible;
+    visibility: hidden;
+    justify-content: flex-start;
+    align-items: center;
+    width: 15%;
+    -unity-text-align: upper-center;
+    display: none;
+    opacity: 0;
+}

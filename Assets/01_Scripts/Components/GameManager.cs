@@ -12,6 +12,7 @@ namespace CoreSystem
     {
         [field: SerializeField] public PlayerInputActions InputActions { get; private set; }
         [field: SerializeField] public GameState CurrentGameState { get; set; }
+        [field: SerializeField] public LevelInfo MainMenuInfo { get; set; }
         [field: SerializeField] public LevelInfo GameLevelInfo { get; set; }
         [field: SerializeField] public LevelContext CurrentLevelContext { get; set; }
 
@@ -42,7 +43,7 @@ namespace CoreSystem
 
         void Start()
         {
-            _ = InitialiseLevel();
+            InitialiseMenu();
         }
 
         private void OnEnable()
@@ -64,7 +65,18 @@ namespace CoreSystem
             GetNextGhostForEarlyExit();
         }
 
-        private async Task InitialiseLevel()
+        public async void InitialiseMenu()
+        {
+            CurrentLevelContext = new LevelContext
+            {
+                MapName = MapName.Menu,
+                RemainingLives = 0,
+                LevelNumber = 0,
+            };
+            await SetupScene(MainMenuInfo, CurrentLevelContext);
+        }
+
+        public async void InitialiseLevel()
         {
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
@@ -233,10 +245,15 @@ namespace CoreSystem
 
         private void OnPausedPerformed(InputAction.CallbackContext context)
         {
+            OnPauseEvent();
+        }
+
+        public void OnPauseEvent()
+        {
             if (CurrentGameState.Equals(GameState.Playing))
             {
                 EnterGameState(GameState.Paused);
-            } 
+            }
             else if (CurrentGameState.Equals(GameState.Paused))
             {
                 EnterGameState(GameState.Playing);

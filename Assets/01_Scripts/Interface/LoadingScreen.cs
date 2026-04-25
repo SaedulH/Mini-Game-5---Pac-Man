@@ -9,7 +9,7 @@ namespace UserInterface
     [RequireComponent(typeof(UIDocument))]
     public class LoadingScreen : NonPersistentSingleton<LoadingScreen>
     {
-        private VisualElement _root;
+        private VisualElement _loadingScreen;
         private Label _levelNumber;
         private Slider _loadingBar;
         [field: SerializeField, Min(0f)] public float CurrentProgress { get; protected set; }
@@ -18,11 +18,11 @@ namespace UserInterface
         protected override void Awake()
         {
             base.Awake();
-            _root = GetComponent<UIDocument>().rootVisualElement;
-            _root = _root.Q<VisualElement>("LoadingScreen");
+            VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+            _loadingScreen = root.Q<VisualElement>("LoadingScreen");
 
-            _levelNumber = _root.Q<Label>("LevelNumber");
-            _loadingBar = _root.Q<Slider>("LoadingBar");
+            _levelNumber = _loadingScreen.Q<Label>("LevelNumber");
+            _loadingBar = _loadingScreen.Q<Slider>("LoadingBar");
         }
 
         public async Task SetLevelInfo(LevelContext context)
@@ -49,9 +49,9 @@ namespace UserInterface
         {
             Debug.Log("Show Loading Screen");
 
-            _root.style.display = DisplayStyle.Flex;
+            _loadingScreen.style.display = DisplayStyle.Flex;
             await Task.Yield();
-            _root.RemoveFromClassList("hide");
+            _loadingScreen.RemoveFromClassList("hide");
 
             await Task.Delay(400);
         }
@@ -60,9 +60,9 @@ namespace UserInterface
         {
             Debug.Log("Hide Loading Screen");
 
-            _root.AddToClassList("hide");
+            _loadingScreen.AddToClassList("hide");
             await Task.Delay(400);
-            _root.style.display = DisplayStyle.None;
+            _loadingScreen.style.display = DisplayStyle.None;
         }
 
         public void UpdateLoadingProgress(float weight)
