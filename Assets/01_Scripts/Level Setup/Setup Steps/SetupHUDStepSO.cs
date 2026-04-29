@@ -9,7 +9,7 @@ namespace CoreSystem
 
         public override async Task Run(LevelContext context)
         {
-            await HUDManager.Instance.SetupHUD(context);
+            await UIManager.Instance.SetupHUD(context);
         }
 
     }

@@ -6,41 +6,50 @@ using Utilities;
 
 namespace UserInterface
 {
-    [RequireComponent(typeof(UIDocument))]
-    public class PauseScreen : MonoBehaviour
+    public class UIScript : MonoBehaviour
     {
+
+    }
+
+    [RequireComponent(typeof(UIDocument))]
+    public class PauseScreen : UIScript
+    {
+        private VisualElement _root;
         private VisualElement _pauseScreen;
+
         private Button _resume;
+        private Button _restart;
         private Button _settings;
         private Button _quit;
 
         private void Awake()
         {
-            VisualElement _root = GetComponent<UIDocument>().rootVisualElement;
+            _root = GetComponent<UIDocument>().rootVisualElement;
+        }
+
+        private void OnEnable()
+        {
             _pauseScreen = _root.Q<VisualElement>("PauseScreen");
 
             _resume = _pauseScreen.Q<Button>("Resume");
             _resume.clicked += OnResumeClicked;
+
+            _restart = _pauseScreen.Q<Button>("Restart");
+            _restart.clicked += OnRestartClicked;
 
             _settings = _pauseScreen.Q<Button>("Settings");
             _settings.clicked += OnSettingsClicked;
 
             _quit = _pauseScreen.Q<Button>("Quit");
             _quit.clicked += OnQuitClicked;
+
+            _pauseScreen.AddToClassList("hide");
         }
 
         private void Start()
         {
             AudioCollection.Instance.SetupHoverAudio(_pauseScreen);
         }
-
-        private void OnDisable()
-        {
-            _resume.clicked -= OnResumeClicked;
-            _settings.clicked -= OnSettingsClicked;
-            _quit.clicked -= OnQuitClicked;
-        }
-
 
         public void OnGameStateUpdated(GameState gameState)
         {
@@ -59,6 +68,7 @@ namespace UserInterface
                 _pauseScreen.AddToClassList("hide");
             }
         }
+
         private void OnResumeClicked()
         {
             AudioManager.Instance.CreateAudioBuilder()
@@ -67,10 +77,19 @@ namespace UserInterface
             GameManager.Instance.OnPauseEvent();
         }
 
+        private void OnRestartClicked()
+        {
+            AudioManager.Instance.CreateAudioBuilder()
+                .WithVolume(0.8f)
+                .Play(AudioCollection.Instance.StartAudio);
+            GameManager.Instance.RestartLevel();
+        }
+
         private void OnSettingsClicked()
         {
             Debug.Log("Settings clicked");
             AudioCollection.Instance.PlaySelectAudio();
+
         }
 
         private void OnQuitClicked()

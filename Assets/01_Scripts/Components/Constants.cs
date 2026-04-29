@@ -137,25 +137,33 @@ namespace Utilities
 
     public enum GameState
     {
-        Menu,
         Loading,
         Playing,
-        Stopped,
-        Resetting,
-        Paused,
-        LevelComplete,
-        GameOver
+        Paused
     }
 
-    public enum MenuScreenType
+    public enum LevelState
     {
-        Selection,
-        Settings
+        None,
+        Starting,
+        Playing,
+        Stopping,
+        Resetting
+    }
+
+    public enum UIState
+    {
+        Start,
+        HUD,
+        Pause,
+        Settings,
+        Result,
+        Loading
     }
 
     #region Settings
 
-    public enum SettingScreenType
+    public enum SettingsType
     {
         Game,
         Audio,

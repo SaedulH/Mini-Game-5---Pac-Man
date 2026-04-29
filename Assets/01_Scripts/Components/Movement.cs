@@ -36,7 +36,11 @@ namespace CoreSystem
 
         public virtual void OnGameStateUpdated(GameState gameState)
         { 
-            _isPlaying = gameState.Equals(GameState.Playing);
+        }
+
+        public virtual void OnLevelStateUpdated(LevelState levelState)
+        {
+            _isPlaying = levelState.Equals(LevelState.Playing);
         }
 
         private void ReadInput()

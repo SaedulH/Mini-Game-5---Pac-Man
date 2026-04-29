@@ -8,7 +8,7 @@ namespace SettingsSystem
 {
     public abstract class SettingsTab : MonoBehaviour
     {
-        [field: SerializeField] public VisualElement SettingsScreen { get; set; }
+        [field: SerializeField] public Tab TabElement { get; set; }
 
         public virtual void InitialiseSettings(VisualElement root)
         {
@@ -20,8 +20,8 @@ namespace SettingsSystem
             GetSettings();
 
             yield return new WaitForSeconds(transitionTime);
-            SettingsScreen.SetEnabled(true);
-            SettingsScreen.RemoveFromClassList("hide");
+            TabElement.SetEnabled(true);
+            TabElement.RemoveFromClassList("hide");
         }
 
         protected virtual void GetSettings()

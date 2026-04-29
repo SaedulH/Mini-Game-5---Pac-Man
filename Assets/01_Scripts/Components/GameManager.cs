@@ -1,5 +1,4 @@
 using EventSystem;
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,6 +11,7 @@ namespace CoreSystem
     {
         [field: SerializeField] public PlayerInputActions InputActions { get; private set; }
         [field: SerializeField] public GameState CurrentGameState { get; set; }
+        [field: SerializeField] public LevelState CurrentLevelState { get; set; }
         [field: SerializeField] public LevelInfo MainMenuInfo { get; set; }
         [field: SerializeField] public LevelInfo GameLevelInfo { get; set; }
         [field: SerializeField] public LevelContext CurrentLevelContext { get; set; }
@@ -34,6 +34,7 @@ namespace CoreSystem
         [field: SerializeField] public IntEventChannel OnScoreUpdated { get; private set; }
         [field: SerializeField] public EventChannel OnCollectItem { get; private set; }
         [field: SerializeField] public GameStateEventChannel OnGameStateUpdated { get; private set; }
+        [field: SerializeField] public LevelStateEventChannel OnLevelStateUpdated { get; private set; }
 
         protected override void Awake()
         {
@@ -76,7 +77,7 @@ namespace CoreSystem
             await SetupScene(MainMenuInfo, CurrentLevelContext);
         }
 
-        public async void InitialiseLevel()
+        private void ResetVariables()
         {
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
@@ -85,6 +86,11 @@ namespace CoreSystem
             TimeSinceLastItemCollected = 0f;
             CurrentLevel = 1;
             PelletsEaten = 0;
+        }
+
+        public async void InitialiseLevel()
+        {
+            ResetVariables();
             await Task.Delay(100);
 
             CurrentLevelContext = new LevelContext
@@ -97,9 +103,18 @@ namespace CoreSystem
             await SetupScene(GameLevelInfo, CurrentLevelContext);
         }
 
+
+        public async void RestartLevel()
+        {
+            ResetVariables();
+            await Task.Delay(100);
+
+            await SetupScene(GameLevelInfo, CurrentLevelContext);
+        }
+
         private async Task GetNextLevel()
         {
-            EnterGameState(GameState.LevelComplete);
+            EnterLevelState(LevelState.Stopping);
             TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
             CurrentLevel++;
@@ -128,6 +143,13 @@ namespace CoreSystem
             OnGameStateUpdated.Invoke(newState);
         }
 
+        public void EnterLevelState(LevelState newState)
+        {
+            Debug.Log($"Entering Level State: {newState}");
+            CurrentLevelState = newState;
+            OnLevelStateUpdated.Invoke(newState);
+        }
+
         public async Task AddScore(int amount, bool isPellet)
         {
             CurrentScore += amount;
@@ -146,7 +168,7 @@ namespace CoreSystem
             if (PelletsEaten >= TotalPelletCount)
             {
                 Debug.Log("All Pellets Collected! Level Complete!");
-                _ = GetNextLevel();
+                await GetNextLevel();
             }
             else if (PelletsEaten == 64 || PelletsEaten == 174)
             {
@@ -272,7 +294,7 @@ namespace CoreSystem
 
         public void OnPacManHit()
         {
-            EnterGameState(GameState.Stopped);
+            EnterLevelState(LevelState.Stopping);
         }
 
         public void OnGhostHit()
@@ -295,14 +317,14 @@ namespace CoreSystem
             RemainingLives--;
             if (RemainingLives == 0)
             {
-                EnterGameState(GameState.GameOver);
+                EnterLevelState(LevelState.Stopping);
                 Debug.Log("Game Over!!");
             }
             else
             {
-                EnterGameState(GameState.Resetting);
+                EnterLevelState(LevelState.Resetting);
                 await Task.Delay(3000);
-                EnterGameState(GameState.Playing);
+                EnterLevelState(LevelState.Playing);
             }
         }
     }

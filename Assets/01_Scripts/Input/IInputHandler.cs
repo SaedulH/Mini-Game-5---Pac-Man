@@ -1,4 +1,3 @@
-using UnityEngine;
 using Utilities;
 
 namespace CoreSystem
@@ -8,5 +7,6 @@ namespace CoreSystem
         ControlInput CurrentInput { get; set; }
 
         void OnGameStateUpdated(GameState gameState);
+        void OnLevelStateUpdated(LevelState levelState);
     }
 }

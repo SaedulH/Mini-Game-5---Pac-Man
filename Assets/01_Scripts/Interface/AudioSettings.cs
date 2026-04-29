@@ -18,14 +18,14 @@ namespace SettingsSystem
 
         public override void InitialiseSettings(VisualElement root)
         {
-            SettingsScreen = root.Q<VisualElement>("AudioSettings");
+            TabElement = root.Q<Tab>("Audio");
 
             _sliders = new Dictionary<AudioGroup, SliderInt>
             {
-                { AudioGroup.Master, SettingsScreen.Q<SliderInt>("MasterVolume") },
-                { AudioGroup.Music, SettingsScreen.Q<SliderInt>("MusicVolume") },
-                { AudioGroup.UI, SettingsScreen.Q<SliderInt>("UIVolume") },
-                { AudioGroup.Effects, SettingsScreen.Q<SliderInt>("EffectsVolume") }
+                { AudioGroup.Master, TabElement.Q<SliderInt>("MasterVolume") },
+                { AudioGroup.Music, TabElement.Q<SliderInt>("MusicVolume") },
+                { AudioGroup.UI, TabElement.Q<SliderInt>("UIVolume") },
+                { AudioGroup.Effects, TabElement.Q<SliderInt>("EffectsVolume") }
             };
 
             foreach (var (group, slider) in _sliders)
@@ -41,7 +41,7 @@ namespace SettingsSystem
                 });
             }
 
-            SettingsScreen.AddToClassList("hide");
+            TabElement.AddToClassList("hide");
         }
 
         protected override void GetSettings()

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -11,7 +12,7 @@ namespace CoreSystem
         {
             if (context.LevelNumber > 0)
             {
-                await HUDManager.Instance.BeginCountdown(CountdownDuration);
+                await UIManager.Instance.BeginCountdown(CountdownDuration);
             }
         }
     }

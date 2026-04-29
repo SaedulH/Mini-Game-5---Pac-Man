@@ -18,8 +18,14 @@ namespace CoreSystem
         {
             Movement.OnGameStateUpdated(gameState);
             InputHandler.OnGameStateUpdated(gameState);
+        }
 
-            if (gameState.Equals(GameState.Resetting))
+        public virtual void OnLevelStateUpdated(LevelState levelState)
+        {
+            Movement.OnLevelStateUpdated(levelState);
+            InputHandler.OnLevelStateUpdated(levelState);
+
+            if (levelState.Equals(LevelState.Resetting))
             {
                 _ = ResetPosition();
             }

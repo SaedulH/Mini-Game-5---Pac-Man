@@ -22,7 +22,10 @@ namespace CoreSystem
 
         public void OnGameStateUpdated(GameState gameState)
         {
+        }
 
+        public void OnLevelStateUpdated(LevelState levelState)
+        {
         }
 
         private void OnEnable()
@@ -83,5 +86,7 @@ namespace CoreSystem
             if (CurrentInput == ControlInput.Right) return;
             CurrentInput = ControlInput.Right;
         }
+
+
     }
 }

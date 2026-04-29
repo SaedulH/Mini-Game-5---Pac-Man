@@ -1,4 +1,3 @@
-using AudioSystem;
 using CoreSystem;
 using System;
 using System.Threading.Tasks;
@@ -14,23 +13,19 @@ namespace SettingsSystem
     public class SettingsManager : MonoBehaviour
     {
         [field: SerializeField] public SettingsTab CurrentSettingsTab { get; private set; }
-        [field: SerializeField] public TabView SettingsTab { get; private set; }
         [field: SerializeField] public GameSettings GameSettings { get; private set; }
         [field: SerializeField] public AudioSettings AudioSettings { get; private set; }
         [field: SerializeField] public ControlSettings ControlSettings { get; private set; }
 
-        [field: SerializeField] public VisualElement Root { get; set; }
-        [field: SerializeField] public VisualElement SettingsScreen { get; set; }
-        [field: SerializeField] public Button GameButton { get; set; }
-        [field: SerializeField] public Button AudioButton { get; set; }
-        [field: SerializeField] public Button ControlsButton { get; set; }
+        private VisualElement _root;
+        private VisualElement _settingsScreen;
+        private TabView _settingsTabs;
 
         // Footer
-        [field: SerializeField] public Button BackButton { get; set; }
-        [field: SerializeField] public Button ResetButton { get; set; }
-        [field: SerializeField] public Action HideSettingsAction { get; set; }
-        [field: SerializeField] public SettingScreenType CurrentScreen { get; private set; }
-        [field: SerializeField] public SettingScreenType CachedScreen { get; private set; }
+        private Button _backButton;
+        private Button _resetButton;
+        [field: SerializeField] public SettingsType CurrentScreen { get; private set; }
+        [field: SerializeField] public SettingsType CachedScreen { get; private set; }
 
         [field: SerializeField] public float ScreenTransitionTime { get; private set; } = 0.1f;
 
@@ -41,8 +36,49 @@ namespace SettingsSystem
             ControlSettings = GetComponent<ControlSettings>();
             CurrentSettingsTab = GameSettings;
 
-            Root = GetComponent<UIDocument>().rootVisualElement;
-            //PlayerInput = GetComponent<PlayerInput>();
+            _root = GetComponent<UIDocument>().rootVisualElement;
+        }
+
+        private void OnEnable()
+        {
+            _settingsScreen = _root.Q<VisualElement>("SettingsScreen");
+
+            _settingsTabs = _settingsScreen.Q<TabView>("SettingsTabs");
+            _settingsTabs.activeTabChanged += OnActiveTabChanged;
+
+            // Footer
+            _backButton = _settingsScreen.Q<Button>("Back");
+            _backButton.clicked += OnBackClicked;
+
+            _resetButton = _settingsScreen.Q<Button>("Reset");
+            _resetButton.clicked += OnResetClicked;
+
+            _settingsScreen.AddToClassList("hide");
+        }
+
+        private void OnActiveTabChanged(Tab previousTab, Tab newTab)
+        {
+            Debug.Log($"Settings Tab Changed From {previousTab} To {newTab}");
+            if (Enum.TryParse(newTab.name, out SettingsType settingsType))
+            {
+                switch (settingsType)
+                {
+                    case SettingsType.Game:
+                    default:
+                        OnGameClicked();
+                        break;
+                    case SettingsType.Audio:
+                        OnAudioClicked();
+                        break;
+                    case SettingsType.Controls:
+                        OnControlsClicked();
+                        break;
+                }
+            }
+            else
+            {
+                OnGameClicked();
+            }
         }
 
         private void Start()
@@ -50,51 +86,32 @@ namespace SettingsSystem
             InitialiseSettings();
         }
 
-        private void OnEnable()
-        {
-            SettingsScreen = Root.Q<VisualElement>("Settings");
-            SettingsTab = SettingsScreen.Q<TabView>("SettingsTab");
-
-            GameButton = SettingsScreen.Q<Button>("Game");
-            GameButton.clicked += () => OnGameClicked();
-
-            AudioButton = SettingsScreen.Q<Button>("Audio");
-            AudioButton.clicked += () => OnAudioClicked();
-
-            ControlsButton = SettingsScreen.Q<Button>("Controls");
-            ControlsButton.clicked += () => OnControlsClicked();
-
-            // Footer
-            BackButton = SettingsScreen.Q<Button>("Back");
-            BackButton.clicked += OnBackClicked;
-
-            ResetButton = SettingsScreen.Q<Button>("Reset");
-            ResetButton.clicked += OnResetClicked;
-        }
-
         private void InitialiseSettings()
         {
-            CurrentScreen = SettingScreenType.Game;
+            CurrentScreen = SettingsType.Game;
 
-            GameSettings.InitialiseSettings(SettingsScreen);
-            AudioSettings.InitialiseSettings(SettingsScreen);
-            ControlSettings.InitialiseSettings(SettingsScreen);
+            GameSettings.InitialiseSettings(_settingsScreen);
+            AudioSettings.InitialiseSettings(_settingsScreen);
+            ControlSettings.InitialiseSettings(_settingsScreen);
 
-            AudioCollection.Instance.SetupHoverAudio(SettingsScreen);
+            AudioCollection.Instance.SetupHoverAudio(_settingsScreen);
+        }
 
-            SettingsScreen.AddToClassList("hide");
+        public void OnMenuStateUpdated(GameState gameState)
+        {
+            bool enabled = gameState.Equals(GameState.Paused);
         }
 
         private void HandleBackAction()
         {
             switch (CurrentScreen)
             {
-                case SettingScreenType.Game:
-                case SettingScreenType.Audio:
-                case SettingScreenType.Controls:
+                case SettingsType.Game:
+                case SettingsType.Audio:
+                case SettingsType.Controls:
                     OnBackClicked();
                     break;
-                case SettingScreenType.InputPopup:
+                case SettingsType.InputPopup:
                     //HideInputPopup();
                     break;
             }
@@ -102,46 +119,46 @@ namespace SettingsSystem
 
         #region Screen Transitions
 
+        public async void ShowSettingsScreen()
+        {
+            _settingsTabs.selectedTabIndex = (int)CachedScreen;
+            _settingsScreen.style.display = DisplayStyle.Flex;
+
+            await Task.Delay((int)ScreenTransitionTime);
+
+            _settingsScreen.RemoveFromClassList("hide");
+        }
+
         private async void HideSettingsScreen()
         {
             CachedScreen = CurrentScreen;
-            SettingsScreen.AddToClassList("hide");
+            _settingsScreen.AddToClassList("hide");
 
             await Task.Delay((int)ScreenTransitionTime);
-            SettingsScreen.style.display = DisplayStyle.None;
-            HideSettingsAction?.Invoke();
+            _settingsScreen.style.display = DisplayStyle.None;
         }
 
         private void OnGameClicked(bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
-            //Debug.Log($"Screen: Game");
-            GameButton.SetEnabled(false);
-            AudioButton.SetEnabled(true);
-            ControlsButton.SetEnabled(true);
-
+            Debug.Log($"Screen: Game");
+            CurrentScreen = SettingsType.Game;
             StartCoroutine(GameSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 
         private void OnAudioClicked(bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
-            //Debug.Log($"Screen: Audio");
-            GameButton.SetEnabled(true);
-            AudioButton.SetEnabled(false);
-            ControlsButton.SetEnabled(true);
-
+            Debug.Log($"Screen: Audio");
+            CurrentScreen = SettingsType.Audio;
             StartCoroutine(AudioSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 
         private void OnControlsClicked(bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
-            //Debug.Log($"Screen: Controls");
-            GameButton.SetEnabled(true);
-            AudioButton.SetEnabled(true);
-            ControlsButton.SetEnabled(false);
-
+            Debug.Log($"Screen: Controls");
+            CurrentScreen = SettingsType.Controls;
             StartCoroutine(ControlSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 

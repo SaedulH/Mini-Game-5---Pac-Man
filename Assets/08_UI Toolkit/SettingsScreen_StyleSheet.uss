@@ -232,3 +232,10 @@ TabView #unity-tab__header-underline {
     display: none;
     opacity: 0;
 }
+
+TabView #unity-tab__content-container {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}

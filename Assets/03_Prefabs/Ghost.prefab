@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 3978830712478173562}
   - component: {fileID: 7540697211883766606}
   - component: {fileID: 4564520280015312220}
+  - component: {fileID: 8808962935431795124}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -357,6 +358,34 @@ MonoBehaviour:
       - m_Target: {fileID: 4988865449739674335}
         m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
         m_MethodName: OnGameStateUpdated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8808962935431795124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410896652128674152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8952d0d8a742090479e5f4e974cac98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.LevelStateEventListener
+  eventChannel: {fileID: 11400000, guid: 3f1d735dd998d9344a2b460c71e82391, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4988865449739674335}
+        m_TargetAssemblyTypeName: CoreSystem.GhostManager, Assembly-CSharp
+        m_MethodName: OnLevelStateUpdated
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,9 +1,7 @@
 using CoreSystem;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.ProBuilder;
 using UnityEngine.UIElements;
 using Utilities;
 
@@ -11,7 +9,7 @@ namespace SettingsSystem
 {
     public class ControlSettings : SettingsTab
     {
-        [field: SerializeField] public PlayerInput PlayerInput { get; set; }
+        [field: SerializeField] public PlayerInputActions PlayerInput { get; set; }
         [field: SerializeField] public InputMappingIcons InputMappingIcons { get; set; }
         [field: SerializeField] public Sprite DefaultIcon { get; set; }
         private InputActionMap _playerActions;
@@ -28,27 +26,31 @@ namespace SettingsSystem
 
         public override void InitialiseSettings(VisualElement root)
         {
-            _playerActions = PlayerInput.actions.FindActionMap(Constants.PACMAN_ACTION_MAP);
-            _menuActions = PlayerInput.actions.FindActionMap(Constants.MENU_ACTION_MAP);
+            if (PlayerInput == null)
+            {
+                PlayerInput = GameManager.Instance.InputActions;
+            }
+            _playerActions = PlayerInput.asset.FindActionMap(Constants.PACMAN_ACTION_MAP);
+            _menuActions = PlayerInput.asset.FindActionMap(Constants.MENU_ACTION_MAP);
 
-            SettingsScreen = root.Q<Button>("ControlSettings");
+            TabElement = root.Q<Tab>("Controls");
 
-            _upInput = SettingsScreen.Q<Button>("UpInput");
+            _upInput = TabElement.Q<Button>("UpInput");
             _upInput.clicked += () => OnPacmanInputChanged(ControlInput.Up);
 
-            _downInput = SettingsScreen.Q<Button>("DownInput");
+            _downInput = TabElement.Q<Button>("DownInput");
             _downInput.clicked += () => OnPacmanInputChanged(ControlInput.Down);
 
-            _leftInput = SettingsScreen.Q<Button>("LeftInput");
+            _leftInput = TabElement.Q<Button>("LeftInput");
             _leftInput.clicked += () => OnPacmanInputChanged(ControlInput.Left);
 
-            _rightInput = SettingsScreen.Q<Button>("RightInput");
+            _rightInput = TabElement.Q<Button>("RightInput");
             _rightInput.clicked += () => OnPacmanInputChanged(ControlInput.Right);
 
             _inputPopup = root.Q<VisualElement>("InputPopup");
             _currentInputButton = _inputPopup.Q<Label>("InputButtonLabel");
 
-            SettingsScreen.AddToClassList("hide");
+            TabElement.AddToClassList("hide");
             _inputPopup.AddToClassList("hide");
 
             LoadOverrideBindings();
@@ -192,14 +194,14 @@ namespace SettingsSystem
         {
             if (PlayerPrefs.HasKey("rebinds"))
             {
-                PlayerInput.actions.LoadBindingOverridesFromJson(PlayerPrefs.GetString("rebinds"));
+                PlayerInput.asset.LoadBindingOverridesFromJson(PlayerPrefs.GetString("rebinds"));
             }
         }
 
         private void SaveNewInput(ControlInput controlInput, InputActionMap actionMap)
         {
             SetInputLabel(controlInput, actionMap);
-            PlayerPrefs.SetString("rebinds", PlayerInput.actions.SaveBindingOverridesAsJson());
+            PlayerPrefs.SetString("rebinds", PlayerInput.asset.SaveBindingOverridesAsJson());
             PlayerPrefs.Save();
         }
 
@@ -278,7 +280,7 @@ namespace SettingsSystem
         {
             PlayResetAudio();
 
-            PlayerInput.actions.RemoveAllBindingOverrides();
+            PlayerInput.asset.RemoveAllBindingOverrides();
 
             PlayerPrefs.DeleteKey("rebinds");
 

@@ -16,44 +16,44 @@ namespace SettingsSystem
 
         public override void InitialiseSettings(VisualElement root)
         {
-            SettingsScreen = root.Q<Button>("GameSettings");
+            TabElement = root.Q<Tab>("Game");
 
-            _fixedCameraToggle = SettingsScreen.Q<Toggle>("Fixed");
+            _fixedCameraToggle = TabElement.Q<Toggle>("Fixed");
             _fixedCameraToggle.RegisterValueChangedCallback(e =>
             {
                 if (!e.newValue) return;
                 OnCameraModeChanged(CameraMode.Fixed);
             });
 
-            _dynamicCameraToggle = SettingsScreen.Q<Toggle>("Dynamic");
+            _dynamicCameraToggle = TabElement.Q<Toggle>("Dynamic");
             _dynamicCameraToggle.RegisterValueChangedCallback(e =>
             {
                 if (!e.newValue) return;
                 OnCameraModeChanged(CameraMode.Dynamic);
             });
 
-            _screenShakeOffToggle = SettingsScreen.Q<Toggle>("Off");
+            _screenShakeOffToggle = TabElement.Q<Toggle>("Off");
             _screenShakeOffToggle.RegisterValueChangedCallback(e =>
             {
                 if (!e.newValue) return;
                 OnScreenShakeChanged(ScreenShake.Off);
             });
 
-            _screenShakeLowToggle = SettingsScreen.Q<Toggle>("Low");
+            _screenShakeLowToggle = TabElement.Q<Toggle>("Low");
             _screenShakeLowToggle.RegisterValueChangedCallback(e =>
             {
                 if (!e.newValue) return;
                 OnScreenShakeChanged(ScreenShake.Low);
             });
 
-            _screenShakeHighToggle = SettingsScreen.Q<Toggle>("High");
+            _screenShakeHighToggle = TabElement.Q<Toggle>("High");
             _screenShakeHighToggle.RegisterValueChangedCallback(e =>
             {
                 if (!e.newValue) return;
                 OnScreenShakeChanged(ScreenShake.High);
             });
 
-            SettingsScreen.RemoveFromClassList("hide");
+            TabElement.RemoveFromClassList("hide");
         }
 
         private void OnScreenShakeChanged(ScreenShake setting, bool playSound = true)

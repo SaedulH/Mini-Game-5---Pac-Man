@@ -72,7 +72,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HUDManager
   AutoUnparentOnAwake: 0
-  <LerpSpeed>k__BackingField: 10
   <StartLevel>k__BackingField: {fileID: 11400000, guid: 166b65231cbdf5541af823aa71dc83c9, type: 2}
 --- !u!114 &752130462392294858
 MonoBehaviour:

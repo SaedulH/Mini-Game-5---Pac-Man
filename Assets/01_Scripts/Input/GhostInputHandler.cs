@@ -106,6 +106,10 @@ namespace CoreSystem
             _isActive = gameState.Equals(GameState.Playing);
         }
 
+        public void OnLevelStateUpdated(LevelState levelState)
+        {
+        }
+
         public ControlInput OnReachedCurrentNode(NodeScript currentNode)
         {
             switch (CurrentState)
