@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UserInterface;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -9,7 +9,8 @@ namespace CoreSystem
     {
         public override async Task Run(LevelContext context)
         {
-            await LoadingScreen.Instance.HideLoadingScreen();
+            GameManager.Instance.EnterGameState(GameState.Playing);
+            await Task.CompletedTask;
         }
     }
 }

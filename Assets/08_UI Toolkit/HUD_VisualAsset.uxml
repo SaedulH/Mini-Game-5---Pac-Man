@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/HUD_StyleSheet.uss?fileID=7433441132597879392&amp;guid=cd94fb98a67573f408bf8711a9f15f42&amp;type=3#HUD_StyleSheet"/>
-    <ui:VisualElement name="HUD" style="flex-grow: 1; align-self: auto; align-items: center; width: 100%; height: 100%; justify-content: space-between;">
+    <ui:VisualElement name="HUD" class="hide" style="flex-grow: 1; align-self: auto; align-items: center; width: 100%; height: 100%; justify-content: space-between;">
         <ui:VisualElement name="Top" style="flex-grow: 0; flex-direction: row; height: 10%; flex-shrink: 0; width: 100%; justify-content: space-evenly; align-content: center; align-items: stretch;">
             <ui:VisualElement name="Score" style="flex-grow: 0; width: 25%; align-items: center; flex-direction: row;">
                 <ui:Label text="Score" name="" class="subHeader"/>

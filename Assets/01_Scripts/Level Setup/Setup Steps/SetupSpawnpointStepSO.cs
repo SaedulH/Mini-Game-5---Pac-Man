@@ -14,16 +14,8 @@ namespace CoreSystem
 
         public override async Task Run(LevelContext context)
         {
-            GameManager.Instance.PacMan.SetSpawnpoint(PacManSpawnPosition, PlayerOneSpawnRotation);
-            if (GameManager.Instance.Ghosts != null && GameManager.Instance.Ghosts.Length > 0)
-            {
-                for (int i = 0; i < GameManager.Instance.Ghosts.Length; i++)
-                {
-                    GameManager.Instance.Ghosts[i].SetSpawnpoint(GhostSpawnPosition[i], GhostSpawnRotation[i]);
-                }
-            }
-            GameManager.Instance.SetBlinkyRespawnNode();
-            await Task.CompletedTask;
+            await GameManager.Instance.SetupEntitySpawnpoints(PacManSpawnPosition, PlayerOneSpawnRotation, 
+                GhostSpawnPosition, GhostSpawnRotation);
         }
     }
 }

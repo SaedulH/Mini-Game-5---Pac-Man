@@ -1,5 +1,27 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/ResultsScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=c9dd8ab261182aa479c27e95735b415a&amp;type=3#ResultsScreen_StyleSheet"/>
-    <ui:VisualElement name="ResultsScreen" style="flex-grow: 1; background-color: rgb(0, 2, 29);"/>
+    <ui:VisualElement name="ResultsScreen" class="hide" style="flex-grow: 1;">
+        <ui:VisualElement style="flex-grow: 0; height: 25%; justify-content: center;">
+            <ui:Label text="GAME OVER" name="ResultsTitle" class="header"/>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; align-items: center; height: 75%;">
+            <ui:GroupBox name="LevelGroup" style="flex-direction: row;">
+                <ui:Label text="Level: " class="subHeader"/>
+                <ui:Label text="" name="CurrentLevel" class="subHeader"/>
+            </ui:GroupBox>
+            <ui:GroupBox name="ScoreGroup" style="flex-direction: row;">
+                <ui:Label text="Score: " class="subHeader"/>
+                <ui:Label text="" name="CurrentScore" class="subHeader"/>
+            </ui:GroupBox>
+            <ui:GroupBox name="HighScoreGroup" style="flex-direction: row;">
+                <ui:Label text="High Score: " class="subHeader"/>
+                <ui:Label text="" name="HighScore" class="subHeader"/>
+            </ui:GroupBox>
+            <ui:Label text="" name="NewHighScoreText" class="subHeader"/>
+            <ui:Button text="Restart" name="Restart" class="button"/>
+            <ui:Button text="Settings" name="Settings" class="button"/>
+            <ui:Button text="Quit" name="Quit" class="button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

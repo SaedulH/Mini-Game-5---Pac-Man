@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UserInterface;
 using Utilities;
 
 namespace SettingsSystem
@@ -10,14 +11,13 @@ namespace SettingsSystem
     [RequireComponent(typeof(GameSettings))]
     [RequireComponent(typeof(AudioSettings))]
     [RequireComponent(typeof(ControlSettings))]
-    public class SettingsManager : MonoBehaviour
+    public class SettingsManager : UIScript
     {
         [field: SerializeField] public SettingsTab CurrentSettingsTab { get; private set; }
         [field: SerializeField] public GameSettings GameSettings { get; private set; }
         [field: SerializeField] public AudioSettings AudioSettings { get; private set; }
         [field: SerializeField] public ControlSettings ControlSettings { get; private set; }
 
-        private VisualElement _root;
         private VisualElement _settingsScreen;
         private TabView _settingsTabs;
 
@@ -29,14 +29,14 @@ namespace SettingsSystem
 
         [field: SerializeField] public float ScreenTransitionTime { get; private set; } = 0.1f;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             GameSettings = GetComponent<GameSettings>();
             AudioSettings = GetComponent<AudioSettings>();
             ControlSettings = GetComponent<ControlSettings>();
             CurrentSettingsTab = GameSettings;
-
-            _root = GetComponent<UIDocument>().rootVisualElement;
         }
 
         private void OnEnable()
@@ -86,6 +86,24 @@ namespace SettingsSystem
             InitialiseSettings();
         }
 
+        public override void Show()
+        {
+            base.Show();
+            if (IsActive) return;
+
+            _settingsScreen.RemoveFromClassList("hide");
+            IsActive = true;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            if (!IsActive) return;
+
+            _settingsScreen.AddToClassList("hide");
+            IsActive = false;
+        }
+
         private void InitialiseSettings()
         {
             CurrentScreen = SettingsType.Game;
@@ -95,11 +113,6 @@ namespace SettingsSystem
             ControlSettings.InitialiseSettings(_settingsScreen);
 
             AudioCollection.Instance.SetupHoverAudio(_settingsScreen);
-        }
-
-        public void OnMenuStateUpdated(GameState gameState)
-        {
-            bool enabled = gameState.Equals(GameState.Paused);
         }
 
         private void HandleBackAction()

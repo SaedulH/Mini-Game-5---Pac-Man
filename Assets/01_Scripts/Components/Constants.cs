@@ -137,6 +137,7 @@ namespace Utilities
 
     public enum GameState
     {
+        Menu,
         Loading,
         Playing,
         Paused
@@ -146,13 +147,14 @@ namespace Utilities
     {
         None,
         Starting,
-        Playing,
-        Stopping,
-        Resetting
+        Active,
+        Death,
+        Respawning
     }
 
     public enum UIState
     {
+        None,
         Start,
         HUD,
         Pause,

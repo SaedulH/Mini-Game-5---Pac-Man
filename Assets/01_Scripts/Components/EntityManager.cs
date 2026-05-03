@@ -25,7 +25,7 @@ namespace CoreSystem
             Movement.OnLevelStateUpdated(levelState);
             InputHandler.OnLevelStateUpdated(levelState);
 
-            if (levelState.Equals(LevelState.Resetting))
+            if (levelState.Equals(LevelState.Respawning))
             {
                 _ = ResetPosition();
             }

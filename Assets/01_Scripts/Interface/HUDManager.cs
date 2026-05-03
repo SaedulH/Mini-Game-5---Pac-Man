@@ -4,55 +4,50 @@ using EventSystem;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utilities;
 
 namespace UserInterface
 {
-    [RequireComponent(typeof(UIDocument))]
-    public class HUDManager : NonPersistentSingleton<HUDManager>
+    public class HUDManager : UIScript
     {
-        [field: SerializeField] public VisualElement Root { get; set; }
-        [field: SerializeField] public VisualElement HUDElement { get; set; }
+        private VisualElement _hudOverlay;
 
-        [field: SerializeField] public Label Level { get; set; }
-        [field: SerializeField] public Label CurrentScore { get; set; }
-        [field: SerializeField] public Label HighScore { get; set; }
+        private Label _currentLevel;
+        private Label _currentScoreLabel;
+        private Label _highScoreLabel;
 
-        [field: SerializeField] public Image RemainingLivesImage { get; set; }
-        [field: SerializeField] public VisualElement CountdownPopup { get; set; }
-        [field: SerializeField] public Label CountdownValue { get; set; }
+        private Image _remainingLivesImage;
+        private VisualElement _countdownPopup;
+        private Label _countdownValue;
 
-        private bool _isActive = false;
         private int _remainingLives;
         private int _highScore;
 
         private LevelContext _currentLevelContext;
 
-        [field: SerializeField] public EventChannel StartLevel { get; set; }
+        [field: SerializeField] public EventChannel StartLevel { get; private set; }
 
         protected override void Awake()
         {
             base.Awake();
 
-            Root = GetComponent<UIDocument>().rootVisualElement;
-            HUDElement = Root.Q<VisualElement>("HUD");
-            HUDElement.AddToClassList("hide");
+            _hudOverlay = _root.Q<VisualElement>("HUD");
+            _hudOverlay.AddToClassList("hide");
 
             // Timer Elements
-            CountdownPopup = HUDElement.Q<VisualElement>("CountdownPopup");
-            CountdownPopup.AddToClassList("hide");
-            CountdownValue = CountdownPopup.Q<Label>("CountdownValue");
+            _countdownPopup = _hudOverlay.Q<VisualElement>("CountdownPopup");
+            _countdownPopup.AddToClassList("hide");
+            _countdownValue = _countdownPopup.Q<Label>("CountdownValue");
 
             // Player Stats Elements
-            Level = HUDElement.Q<Label>("LevelValue");
-            CurrentScore = HUDElement.Q<Label>("ScoreValue");
-            HighScore = HUDElement.Q<Label>("HighScoreValue");
-            RemainingLivesImage = HUDElement.Q<Image>("LivesValue");
+            _currentLevel = _hudOverlay.Q<Label>("LevelValue");
+            _currentScoreLabel = _hudOverlay.Q<Label>("ScoreValue");
+            _highScoreLabel = _hudOverlay.Q<Label>("HighScoreValue");
+            _remainingLivesImage = _hudOverlay.Q<Image>("LivesValue");
         }
 
         private void Update()
         {
-            if (_isActive) return;
+            if (!IsActive) return;
         }
 
         public async Task SetupHUD(LevelContext levelContext)
@@ -61,35 +56,40 @@ namespace UserInterface
             _remainingLives = levelContext.RemainingLives;
             _highScore = PlayerPrefs.GetInt("Highscore", 0);
 
-            Level.text = _currentLevelContext.LevelNumber.ToString();
-            CurrentScore.text = 0.ToString();
-            HighScore.text = _highScore.ToString();
+            _currentLevel.text = _currentLevelContext.LevelNumber.ToString();
+            _currentScoreLabel.text = 0.ToString();
+            _highScoreLabel.text = _highScore.ToString();
 
-            HUDElement.RemoveFromClassList("hide");
+            _hudOverlay.RemoveFromClassList("hide");
 
             await Task.CompletedTask;
         }
 
-        public void OnGameStateUpdated(GameState gameState)
+        public override void Show()
         {
-            _isActive = gameState.Equals(GameState.Playing);
-            if (_isActive)
-            {
-                HUDElement.RemoveFromClassList("hide");
-            }
-            else
-            {
-                HUDElement.AddToClassList("hide");
-            }
+            base.Show();
+            if (IsActive) return;
+
+            _hudOverlay.RemoveFromClassList("hide");
+            IsActive = true;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            if (!IsActive) return;
+
+            _hudOverlay.AddToClassList("hide");
+            IsActive = false;
         }
 
         public void OnUpdateScore(int score)
         {
-            CurrentScore.text = score.ToString();
+            _currentScoreLabel.text = score.ToString();
             if (score > _highScore)
             {
                 _highScore = score;
-                HighScore.text = score.ToString();
+                _highScoreLabel.text = score.ToString();
             }
         }
 
@@ -98,12 +98,17 @@ namespace UserInterface
             _remainingLives = remainingLives;
         }
 
+        public void OnUpdatePowerMode(bool enabled)
+        {
+
+        }
+
         #region Timer Management
 
         public async Task BeginCountdown(float duration)
         {
-            CountdownValue.style.fontSize = 120;
-            CountdownValue.text = duration.ToString();
+            _countdownValue.style.fontSize = 120;
+            _countdownValue.text = duration.ToString();
             await Task.Delay(250);
             await ShowCountdownPopup();
 
@@ -116,9 +121,9 @@ namespace UserInterface
 
         public async Task ShowCountdownPopup()
         {
-            CountdownPopup.style.display = DisplayStyle.Flex;
+            _countdownPopup.style.display = DisplayStyle.Flex;
             await Task.Yield();
-            CountdownPopup.RemoveFromClassList("hide");
+            _countdownPopup.RemoveFromClassList("hide");
 
             await Task.Delay(200);
         }
@@ -129,23 +134,23 @@ namespace UserInterface
 
             while (secondsRemaining > 0)
             {
-                CountdownValue.text = secondsRemaining.ToString();
+                _countdownValue.text = secondsRemaining.ToString();
 
-                CountdownValue.style.fontSize = 160;
+                _countdownValue.style.fontSize = 160;
 
                 AudioManager.Instance.CreateAudioBuilder()
                     .WithParent(transform)
                     .Play(AudioCollection.Instance.CountdownAudio);
 
                 await Task.Delay(500);
-                CountdownValue.style.fontSize = 120;
+                _countdownValue.style.fontSize = 120;
 
                 await Task.Delay(500);
 
                 secondsRemaining--;
             }
 
-            CountdownValue.text = "GO!";
+            _countdownValue.text = "GO!";
             AudioManager.Instance.CreateAudioBuilder()
                 .WithParent(transform)
                 .Play(AudioCollection.Instance.BeginAudio);
@@ -155,9 +160,9 @@ namespace UserInterface
 
         public async Task HideCountdownPopup()
         {
-            CountdownPopup.AddToClassList("hide");
+            _countdownPopup.AddToClassList("hide");
             await Task.Delay(200);
-            CountdownPopup.style.display = DisplayStyle.None;
+            _countdownPopup.style.display = DisplayStyle.None;
         }
 
         #endregion

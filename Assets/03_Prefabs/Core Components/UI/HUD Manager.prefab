@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2991951019428101338}
   - component: {fileID: 5185715438498022220}
   - component: {fileID: 6643815142584742427}
-  - component: {fileID: 752130462392294858}
   - component: {fileID: 7765020355634482326}
+  - component: {fileID: 752130462392294858}
   - component: {fileID: 7632096239620664621}
+  - component: {fileID: 8917188973422340966}
   m_Layer: 0
   m_Name: HUD Manager
   m_TagString: Untagged
@@ -73,34 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HUDManager
   AutoUnparentOnAwake: 0
   <StartLevel>k__BackingField: {fileID: 11400000, guid: 166b65231cbdf5541af823aa71dc83c9, type: 2}
---- !u!114 &752130462392294858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175078480032358852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3671cfb9f0f9894b82c413a012ad745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.IntEventListener
-  eventChannel: {fileID: 11400000, guid: 5278adf5ea6920444b67965b81eb4063, type: 2}
-  unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6643815142584742427}
-        m_TargetAssemblyTypeName: HUDManager, Assembly-CSharp
-        m_MethodName: OnUpdateScore
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
 --- !u!114 &7765020355634482326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +93,34 @@ MonoBehaviour:
       - m_Target: {fileID: 6643815142584742427}
         m_TargetAssemblyTypeName: HUDManager, Assembly-CSharp
         m_MethodName: OnGameStateUpdated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!114 &752130462392294858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175078480032358852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3671cfb9f0f9894b82c413a012ad745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.IntEventListener
+  eventChannel: {fileID: 11400000, guid: 5278adf5ea6920444b67965b81eb4063, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6643815142584742427}
+        m_TargetAssemblyTypeName: HUDManager, Assembly-CSharp
+        m_MethodName: OnUpdateScore
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -157,3 +158,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+--- !u!114 &8917188973422340966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175078480032358852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270e233912a767e4a823628d24f1ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.BoolEventListener
+  eventChannel: {fileID: 11400000, guid: 37af357021e6d304aa89a0410e2b9025, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6643815142584742427}
+        m_TargetAssemblyTypeName: UserInterface.HUDManager, Assembly-CSharp
+        m_MethodName: OnUpdatePowerMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

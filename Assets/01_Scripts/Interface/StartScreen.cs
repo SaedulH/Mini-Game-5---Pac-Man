@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace UserInterface
 {
     [RequireComponent(typeof(UIDocument))]
-    public class StartScreen : MonoBehaviour
+    public class StartScreen : UIScript
     {
         private VisualElement _startScreen;
 
@@ -14,9 +14,9 @@ namespace UserInterface
         private Button _settings;
         private Button _quit;
 
-        private void Awake()
+        protected override void Awake()
         {
-            VisualElement _root = GetComponent<UIDocument>().rootVisualElement;
+            base.Awake();
             _startScreen = _root.Q<VisualElement>("StartScreen");
 
             _start = _root.Q<Button>("Start");
@@ -39,6 +39,24 @@ namespace UserInterface
             _start.clicked -= OnStartClicked;
             _settings.clicked -= OnSettingsClicked;
             _quit.clicked -= OnQuitClicked;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            if (IsActive) return;
+
+            _startScreen.RemoveFromClassList("hide");
+            IsActive = true;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            if (!IsActive) return;
+
+            _startScreen.AddToClassList("hide");
+            IsActive = false;
         }
 
         private void OnStartClicked()

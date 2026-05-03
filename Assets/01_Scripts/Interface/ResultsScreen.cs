@@ -1,51 +1,91 @@
-using System;
+using AudioSystem;
+using CoreSystem;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UserInterface
 {
     [RequireComponent(typeof(UIDocument))]
-    public class ResultsScreen : MonoBehaviour
+    public class ResultsScreen : UIScript
     {
-        private VisualElement _root;
+        private VisualElement _resultsScreen;
 
-        private Label _currentStage;
+        private Label _currentLevel;
         private Label _currentScore;
         private Label _highScore;
         private Label _newHighScoreText;
 
-        private Button _retryButton;
-        private Button _quitButton;
+        private Button _restart;
+        private Button _settings;
+        private Button _quit;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _root = GetComponent<UIDocument>().rootVisualElement;
+            base.Awake();
 
-            _currentStage = _root.Q<Label>("CurrentStage");
-            _currentScore = _root.Q<Label>("CurrentScore");
-            _highScore = _root.Q<Label>("HighScore");
-            _newHighScoreText = _root.Q<Label>("NewHighScoreText");
+            _resultsScreen = _root.Q<VisualElement>("ResultsScreen");
+            _resultsScreen.AddToClassList("hide");
 
-            _retryButton = _root.Q<Button>("RetryButton");
-            _quitButton = _root.Q<Button>("QuitButton");
+            _currentLevel = _resultsScreen.Q<Label>("CurrentLevel");
+            _currentScore = _resultsScreen.Q<Label>("CurrentScore");
+            _highScore = _resultsScreen.Q<Label>("HighScore");
+            _newHighScoreText = _resultsScreen.Q<Label>("NewHighScoreText");
 
-            _retryButton.clicked += OnRetryClicked;
-            _quitButton.clicked += OnQuitClicked;
+            _restart = _resultsScreen.Q<Button>("Restart");
+            _settings = _resultsScreen.Q<Button>("Settings");
+            _quit = _resultsScreen.Q<Button>("Quit");
+
+            _restart.clicked += OnRestartClicked;
+            _settings.clicked += OnSettingsClicked;
+            _quit.clicked += OnQuitClicked;
         }
 
-        private void OnRetryClicked()
+        public override void Show()
         {
-            throw new NotImplementedException();
+            base.Show();
+            if (IsActive) return;
+
+            _resultsScreen.RemoveFromClassList("hide");
+            IsActive = true;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            if (!IsActive) return;
+
+            _resultsScreen.AddToClassList("hide");
+            IsActive = false;
+        }
+
+        public async Task SetResultsInfo(int currentScore, int highScore, int currentLevel)
+        {
+            _currentLevel.text = currentLevel.ToString();
+            _currentScore.text = currentScore.ToString();
+            _highScore.text = highScore.ToString();
+            _newHighScoreText.text = currentScore > highScore ? "New High Score!" : "";
+
+            await Task.CompletedTask;
+        }
+
+        private void OnRestartClicked()
+        {
+            AudioManager.Instance.CreateAudioBuilder()
+                .WithVolume(0.8f)
+                .Play(AudioCollection.Instance.StartAudio);
+            GameManager.Instance.RestartLevel();
         }
 
         private void OnSettingsClicked()
         {
-            throw new NotImplementedException();
+            Debug.Log("Settings clicked");
+            AudioCollection.Instance.PlaySelectAudio();
         }
 
         private void OnQuitClicked()
         {
-            throw new NotImplementedException();
+            GameManager.Instance.InitialiseMenu();
         }
     }
 }

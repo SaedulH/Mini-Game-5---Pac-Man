@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UserInterface;
@@ -20,7 +21,7 @@ namespace CoreSystem
         public async Task SetupLevel(LevelInfo levelInfo, LevelContext levelContext)
         {
             float completed = 0f;
-            float totalWeight = levelContext.TotalWeight;
+            levelContext.TotalWeight = levelInfo.StepOrder.Sum(s => s.Weight);
 
             Debug.Log($"Setup Level: {levelInfo.LevelName} - Mode:{levelContext.LevelNumber}");
             foreach (LevelSetupStepSO step in levelInfo.StepOrder)
@@ -30,7 +31,7 @@ namespace CoreSystem
                     //Debug.Log($"Starting: {step.name}");
                     await step.Run(levelContext);
                     completed += step.Weight;
-                    LoadingScreen.Instance.UpdateLoadingProgress(completed);
+                    UIManager.Instance.UpdateLoadingProgress(completed);
                     //Debug.Log($"Completed: {step.name} ({completed}/{totalWeight})");
                 }
                 catch (Exception ex)

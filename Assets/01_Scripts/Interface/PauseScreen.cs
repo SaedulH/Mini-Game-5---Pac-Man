@@ -2,30 +2,18 @@ using AudioSystem;
 using CoreSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utilities;
 
 namespace UserInterface
 {
-    public class UIScript : MonoBehaviour
-    {
-
-    }
-
     [RequireComponent(typeof(UIDocument))]
     public class PauseScreen : UIScript
     {
-        private VisualElement _root;
         private VisualElement _pauseScreen;
 
         private Button _resume;
         private Button _restart;
         private Button _settings;
         private Button _quit;
-
-        private void Awake()
-        {
-            _root = GetComponent<UIDocument>().rootVisualElement;
-        }
 
         private void OnEnable()
         {
@@ -51,22 +39,22 @@ namespace UserInterface
             AudioCollection.Instance.SetupHoverAudio(_pauseScreen);
         }
 
-        public void OnGameStateUpdated(GameState gameState)
+        public override void Show()
         {
-            bool enabled = gameState.Equals(GameState.Paused);
-            ShowPauseMenu(enabled);
+            base.Show();
+            if (IsActive) return;
+
+            _pauseScreen.RemoveFromClassList("hide");
+            IsActive = true;
         }
 
-        public void ShowPauseMenu(bool enabled)
+        public override void Hide()
         {
-            if (enabled)
-            {
-                _pauseScreen.RemoveFromClassList("hide");
-            }
-            else
-            {
-                _pauseScreen.AddToClassList("hide");
-            }
+            base.Hide();
+            if (!IsActive) return;
+
+            _pauseScreen.AddToClassList("hide");
+            IsActive = false;
         }
 
         private void OnResumeClicked()
@@ -89,7 +77,6 @@ namespace UserInterface
         {
             Debug.Log("Settings clicked");
             AudioCollection.Instance.PlaySelectAudio();
-
         }
 
         private void OnQuitClicked()

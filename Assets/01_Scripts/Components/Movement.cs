@@ -40,7 +40,7 @@ namespace CoreSystem
 
         public virtual void OnLevelStateUpdated(LevelState levelState)
         {
-            _isPlaying = levelState.Equals(LevelState.Playing);
+            _isPlaying = levelState.Equals(LevelState.Active);
         }
 
         private void ReadInput()
