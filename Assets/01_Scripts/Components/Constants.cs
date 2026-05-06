@@ -155,7 +155,7 @@ namespace Utilities
     public enum UIState
     {
         None,
-        Start,
+        Menu,
         HUD,
         Pause,
         Settings,

@@ -1,4 +1,5 @@
 using EventSystem;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,6 +8,10 @@ using Utilities;
 
 namespace CoreSystem
 {
+    public class LevelManager : NonPersistentSingleton<LevelManager>
+    { 
+    }
+
     public class GameManager : NonPersistentSingleton<GameManager>
     {
 
@@ -217,24 +222,32 @@ namespace CoreSystem
 
         private void OnPausedPerformed(InputAction.CallbackContext context)
         {
-            OnPauseEvent();
+            if (CurrentGameState.Equals(GameState.Playing))
+            {
+                OnPauseEvent();
+            }
+            else if (CurrentGameState.Equals(GameState.Paused))
+            {
+                OnResumeEvent();
+            }
+        }
+
+        public void OnResumeEvent()
+        {
+            Time.timeScale = 1.0f;
+            EnterGameState(GameState.Playing);
         }
 
         public void OnPauseEvent()
         {
-            if (CurrentGameState.Equals(GameState.Playing))
-            {
-                EnterGameState(GameState.Paused);
-            }
-            else if (CurrentGameState.Equals(GameState.Paused))
-            {
-                EnterGameState(GameState.Playing);
-            }
+            Time.timeScale = 0f;
+            EnterGameState(GameState.Paused);
         }
 
         public void OnStartLevel()
         {
             EnterGameState(GameState.Playing);
+            EnterLevelState(LevelState.Active);
         }
 
         public void OnCollectedItem()
@@ -260,7 +273,7 @@ namespace CoreSystem
             else
             {
                 EnterLevelState(LevelState.Respawning);
-                await Task.Delay(3000);
+                await Awaitable.WaitForSecondsAsync(3f);
                 EnterLevelState(LevelState.Active);
             }
         }

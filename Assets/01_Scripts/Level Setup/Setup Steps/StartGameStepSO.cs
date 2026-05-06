@@ -12,6 +12,7 @@ namespace CoreSystem
         {
             if (context.LevelNumber > 0)
             {
+                GameManager.Instance.EnterLevelState(LevelState.Starting);
                 await UIManager.Instance.BeginCountdown(CountdownDuration);
             }
         }

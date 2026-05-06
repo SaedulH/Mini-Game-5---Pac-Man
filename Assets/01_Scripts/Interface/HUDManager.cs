@@ -109,12 +109,12 @@ namespace UserInterface
         {
             _countdownValue.style.fontSize = 120;
             _countdownValue.text = duration.ToString();
-            await Task.Delay(250);
+            await Awaitable.WaitForSecondsAsync(0.25f);
             await ShowCountdownPopup();
 
             await PerformCountdown(duration);
 
-            await Task.Delay(1000);
+            await Awaitable.WaitForSecondsAsync(1f);
 
             await HideCountdownPopup();
         }
@@ -125,7 +125,7 @@ namespace UserInterface
             await Task.Yield();
             _countdownPopup.RemoveFromClassList("hide");
 
-            await Task.Delay(200);
+            await Awaitable.WaitForSecondsAsync(0.2f);
         }
 
         private async Task PerformCountdown(float duration)
@@ -142,10 +142,10 @@ namespace UserInterface
                     .WithParent(transform)
                     .Play(AudioCollection.Instance.CountdownAudio);
 
-                await Task.Delay(500);
+                await Awaitable.WaitForSecondsAsync(0.5f);
                 _countdownValue.style.fontSize = 120;
 
-                await Task.Delay(500);
+                await Awaitable.WaitForSecondsAsync(0.5f);
 
                 secondsRemaining--;
             }
@@ -161,7 +161,7 @@ namespace UserInterface
         public async Task HideCountdownPopup()
         {
             _countdownPopup.AddToClassList("hide");
-            await Task.Delay(200);
+            await Awaitable.WaitForSecondsAsync(0.2f);
             _countdownPopup.style.display = DisplayStyle.None;
         }
 

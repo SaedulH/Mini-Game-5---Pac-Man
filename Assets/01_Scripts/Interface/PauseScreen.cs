@@ -62,7 +62,7 @@ namespace UserInterface
             AudioManager.Instance.CreateAudioBuilder()
                 .WithVolume(0.8f)
                 .Play(AudioCollection.Instance.StartAudio);
-            GameManager.Instance.OnPauseEvent();
+            GameManager.Instance.OnResumeEvent();
         }
 
         private void OnRestartClicked()

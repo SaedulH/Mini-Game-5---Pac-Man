@@ -36,6 +36,10 @@ namespace CoreSystem
 
         public virtual void OnGameStateUpdated(GameState gameState)
         { 
+            if (!gameState.Equals(GameState.Playing))
+            {
+                _isPlaying = false;
+            }
         }
 
         public virtual void OnLevelStateUpdated(LevelState levelState)

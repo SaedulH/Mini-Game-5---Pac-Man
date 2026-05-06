@@ -41,12 +41,6 @@ namespace CoreSystem
             Movement.SetCurrentLevelSpeed(levelNumber);
         }
 
-        public override void OnGameStateUpdated(GameState gameState)
-        {
-            _isActive = gameState.Equals(GameState.Playing);
-            base.OnGameStateUpdated(gameState);
-        }
-
         protected override async Task ResetPosition()
         {
             Anim.Disappear();
@@ -54,6 +48,7 @@ namespace CoreSystem
             Movement.SetStartNode(StartNode);
             Movement.CurrentDirection = ControlInput.Right;
             Anim.Reappear();
+            _isActive = true;
         }
 
         public void SetSpawnpoint(Vector3 position, Quaternion rotation)

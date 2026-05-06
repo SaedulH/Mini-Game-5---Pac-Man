@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Info
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.TrackInfo
   <LevelName>k__BackingField: Main
-  <LevelIndex>k__BackingField: 0
+  <LevelIndex>k__BackingField: 1
   <StepOrder>k__BackingField:
   - {fileID: 11400000, guid: 86493cd2e2691894bb7f928b88ada6c3, type: 2}
   - {fileID: 11400000, guid: 2d41914515b20de4b94b1a9f2816921f, type: 2}
@@ -24,5 +24,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cfe7fb9deb6843f48918970e3d6f9c0d, type: 2}
   - {fileID: 11400000, guid: 2fbeae84b0b680843b21f595989b6e8a, type: 2}
   - {fileID: 11400000, guid: e89022fe134ff484f9cb63cc12f2804e, type: 2}
-  - {fileID: 11400000, guid: 97b7a7666d734d340b0032b3ce88ef56, type: 2}
+  - {fileID: 11400000, guid: 31a99486a676c48449e55a11e7c5af2f, type: 2}
   - {fileID: 11400000, guid: 4550eca2d91d10d4fab5f08bcd52cdb3, type: 2}

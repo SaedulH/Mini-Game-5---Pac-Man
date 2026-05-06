@@ -39,6 +39,10 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         switch (gameState)
         {
+            case GameState.Menu:
+                OnUIStateChanged(UIState.Menu);
+                break;
+
             case GameState.Loading:
                 OnUIStateChanged(UIState.Loading);
                 break;
@@ -79,7 +83,7 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         switch (state)
         {
-            case UIState.Start:
+            case UIState.Menu:
                 StartScreen.Show();
                 break;
 
@@ -109,7 +113,7 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         switch (state)
         {
-            case UIState.Start:
+            case UIState.Menu:
                 StartScreen.Hide();
                 break;
 
@@ -139,7 +143,7 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         return uIState switch
         {
-            UIState.Start => StartScreen.IsOverlay,
+            UIState.Menu => StartScreen.IsOverlay,
             UIState.HUD => HUDManager.IsOverlay,
             UIState.Pause => PauseScreen.IsOverlay,
             UIState.Settings => SettingsManager.IsOverlay,
