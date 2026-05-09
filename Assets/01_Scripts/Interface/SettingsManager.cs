@@ -13,21 +13,21 @@ namespace SettingsSystem
     [RequireComponent(typeof(ControlSettings))]
     public class SettingsManager : UIScript
     {
-        [field: SerializeField] public SettingsTab CurrentSettingsTab { get; private set; }
         [field: SerializeField] public GameSettings GameSettings { get; private set; }
         [field: SerializeField] public AudioSettings AudioSettings { get; private set; }
         [field: SerializeField] public ControlSettings ControlSettings { get; private set; }
 
-        private VisualElement _settingsScreen;
-        private TabView _settingsTabs;
-
-        // Footer
-        private Button _backButton;
-        private Button _resetButton;
+        [field: Space]
+        [field: SerializeField] public SettingsTab CurrentSettingsTab { get; private set; }
         [field: SerializeField] public SettingsType CurrentScreen { get; private set; }
         [field: SerializeField] public SettingsType CachedScreen { get; private set; }
 
         [field: SerializeField] public float ScreenTransitionTime { get; private set; } = 0.1f;
+
+        private VisualElement _settingsScreen;
+        private TabView _settingsTabs;
+        private Button _backButton;
+        private Button _resetButton;
 
         protected override void Awake()
         {
@@ -56,9 +56,21 @@ namespace SettingsSystem
             _settingsScreen.AddToClassList("hide");
         }
 
+        private void SetCurrentScreen(SettingsType currentScreen)
+        {
+            CurrentScreen = currentScreen;
+            CurrentSettingsTab = currentScreen switch
+            {
+                SettingsType.Game => GameSettings,
+                SettingsType.Audio => AudioSettings,
+                SettingsType.Controls => ControlSettings,
+                _ => GameSettings
+            };
+        }
+
         private void OnActiveTabChanged(Tab previousTab, Tab newTab)
         {
-            Debug.Log($"Settings Tab Changed From {previousTab} To {newTab}");
+            Debug.Log($"Settings Tab Changed From {previousTab.name} To {newTab.name}");
             if (Enum.TryParse(newTab.name, out SettingsType settingsType))
             {
                 switch (settingsType)
@@ -91,7 +103,7 @@ namespace SettingsSystem
             base.Show();
             if (IsActive) return;
 
-            _settingsScreen.RemoveFromClassList("hide");
+            ShowSettingsScreen();
             IsActive = true;
         }
 
@@ -100,34 +112,19 @@ namespace SettingsSystem
             base.Hide();
             if (!IsActive) return;
 
-            _settingsScreen.AddToClassList("hide");
+            HideSettingsScreen();
             IsActive = false;
         }
 
         private void InitialiseSettings()
         {
-            CurrentScreen = SettingsType.Game;
+            SetCurrentScreen(SettingsType.Game);
 
             GameSettings.InitialiseSettings(_settingsScreen);
             AudioSettings.InitialiseSettings(_settingsScreen);
             ControlSettings.InitialiseSettings(_settingsScreen);
 
             AudioCollection.Instance.SetupHoverAudio(_settingsScreen);
-        }
-
-        private void HandleBackAction()
-        {
-            switch (CurrentScreen)
-            {
-                case SettingsType.Game:
-                case SettingsType.Audio:
-                case SettingsType.Controls:
-                    OnBackClicked();
-                    break;
-                case SettingsType.InputPopup:
-                    //HideInputPopup();
-                    break;
-            }
         }
 
         #region Screen Transitions
@@ -155,7 +152,7 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             Debug.Log($"Screen: Game");
-            CurrentScreen = SettingsType.Game;
+            SetCurrentScreen(SettingsType.Game);
             StartCoroutine(GameSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 
@@ -163,7 +160,7 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             Debug.Log($"Screen: Audio");
-            CurrentScreen = SettingsType.Audio;
+            SetCurrentScreen(SettingsType.Audio);
             StartCoroutine(AudioSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 
@@ -171,14 +168,18 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             Debug.Log($"Screen: Controls");
-            CurrentScreen = SettingsType.Controls;
+            SetCurrentScreen(SettingsType.Controls);
             StartCoroutine(ControlSettings.ShowSettingsTab(ScreenTransitionTime));
         }
 
-        private void OnBackClicked()
+        public override void OnBackClicked()
         {
-            AudioCollection.Instance.PlayBackAudio();
-            HideSettingsScreen();
+            bool returnFromSettings = CurrentSettingsTab.OnBackClicked(CurrentScreen);
+            if (returnFromSettings)
+            {
+                AudioCollection.Instance.PlayBackAudio();
+                _uiManager.ReturnToPreviousUIState();
+            }
         }
 
         private void OnResetClicked()

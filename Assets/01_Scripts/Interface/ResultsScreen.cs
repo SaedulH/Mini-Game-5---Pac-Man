@@ -3,6 +3,7 @@ using CoreSystem;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utilities;
 
 namespace UserInterface
 {
@@ -81,6 +82,7 @@ namespace UserInterface
         {
             Debug.Log("Settings clicked");
             AudioCollection.Instance.PlaySelectAudio();
+            _uiManager.OnUIStateChanged(UIState.Settings);
         }
 
         private void OnQuitClicked()

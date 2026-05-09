@@ -13,7 +13,7 @@ namespace CoreSystem
 
         protected override void Update()
         {
-            if (!_isPlaying) return;
+            if (!_isActive) return;
 
             Move();
         }

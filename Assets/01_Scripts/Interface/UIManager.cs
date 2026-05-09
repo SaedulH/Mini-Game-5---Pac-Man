@@ -8,6 +8,7 @@ using Utilities;
 public class UIManager : NonPersistentSingleton<UIManager>
 {
     [field: SerializeField] public UIState CurrentUIState { get; private set; }
+    [field: SerializeField] public UIScript CurrentUIScript { get; private set; }
     [field: SerializeField] public UIBackground UIBackground { get; private set; }
 
     [field: Header("Full Screens")]
@@ -21,18 +22,36 @@ public class UIManager : NonPersistentSingleton<UIManager>
     [field: SerializeField] public ResultsScreen ResultsScreen { get; private set; }
 
     private UIState _previousUIState;
+    private UIScript _previousUIScript;
 
     protected override void Awake()
     {
         base.Awake();
+        InitialiseUIScripts();
+    }
 
+    private void InitialiseUIScripts()
+    {
         UIBackground = GetComponentInChildren<UIBackground>();
+        UIBackground.Initialise(this);
+
         HUDManager = GetComponentInChildren<HUDManager>();
+        HUDManager.Initialise(this);
+
         PauseScreen = GetComponentInChildren<PauseScreen>();
+        PauseScreen.Initialise(this);
+
         StartScreen = GetComponentInChildren<StartScreen>();
+        StartScreen.Initialise(this);
+
         SettingsManager = GetComponentInChildren<SettingsManager>();
+        SettingsManager.Initialise(this);
+
         ResultsScreen = GetComponentInChildren<ResultsScreen>();
+        ResultsScreen.Initialise(this);
+
         LoadingScreen = GetComponentInChildren<LoadingScreen>();
+        LoadingScreen.Initialise(this);
     }
 
     public void OnGameStateUpdated(GameState gameState)
@@ -57,100 +76,65 @@ public class UIManager : NonPersistentSingleton<UIManager>
         }
     }
 
+    public void OnLevelStateUpdated(LevelState levelState)
+    {
+        switch (levelState)
+        {
+            case LevelState.GameOver:
+                OnUIStateChanged(UIState.Result);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnBackPerformed()
+    {
+        CurrentUIScript.OnBackClicked();
+    }
+
+    public void ReturnToPreviousUIState()
+    {
+        OnUIStateChanged(_previousUIState);
+    }
+
     public void OnUIStateChanged(UIState newUIState)
     {
         if (CurrentUIState == newUIState)
             return;
 
         _previousUIState = CurrentUIState;
+        _previousUIScript = CurrentUIScript;
 
         Debug.Log($"UI State changed from [{_previousUIState}] to [{newUIState}]");
 
         // 1. Hide previous UI
-        HideUI(_previousUIState);
+        if (_previousUIScript != null)
+        {
+            _previousUIScript.Hide();
+        }
 
         // 2. Update state
         CurrentUIState = newUIState;
+        CurrentUIScript = newUIState switch
+        {
+            UIState.Menu => StartScreen,
+            UIState.HUD => HUDManager,
+            UIState.Pause => PauseScreen,
+            UIState.Settings => SettingsManager,
+            UIState.Result => ResultsScreen,
+            UIState.Loading => LoadingScreen,
+            _ => null,
+        };
 
         // 3. Show new UI
-        ShowUI(newUIState);
+        if (CurrentUIScript != null)
+        {
+            CurrentUIScript.Show();
+        }
 
         // 4. Background handling
-        UIBackground.EnableBackground(newUIState, IsOverlayUI(newUIState));
-    }
-
-    private void ShowUI(UIState state)
-    {
-        switch (state)
-        {
-            case UIState.Menu:
-                StartScreen.Show();
-                break;
-
-            case UIState.HUD:
-                HUDManager.Show();
-                break;
-
-            case UIState.Pause:
-                PauseScreen.Show();
-                break;
-
-            case UIState.Settings:
-                SettingsManager.Show();
-                break;
-
-            case UIState.Result:
-                ResultsScreen.Show();
-                break;
-
-            case UIState.Loading:
-                LoadingScreen.Show();
-                break;
-        }
-    }
-
-    private void HideUI(UIState state)
-    {
-        switch (state)
-        {
-            case UIState.Menu:
-                StartScreen.Hide();
-                break;
-
-            case UIState.HUD:
-                HUDManager.Hide();
-                break;
-
-            case UIState.Pause:
-                PauseScreen.Hide();
-                break;
-
-            case UIState.Settings:
-                SettingsManager.Hide();
-                break;
-
-            case UIState.Result:
-                ResultsScreen.Hide();
-                break;
-
-            case UIState.Loading:
-                LoadingScreen.Hide();
-                break;
-        }
-    }
-
-    private bool IsOverlayUI(UIState uIState)
-    {
-        return uIState switch
-        {
-            UIState.Menu => StartScreen.IsOverlay,
-            UIState.HUD => HUDManager.IsOverlay,
-            UIState.Pause => PauseScreen.IsOverlay,
-            UIState.Settings => SettingsManager.IsOverlay,
-            UIState.Result => ResultsScreen.IsOverlay,
-            UIState.Loading => LoadingScreen.IsOverlay,
-            _ => false,
-        };
+        UIBackground.EnableBackground(newUIState, CurrentUIScript.IsOverlay);
     }
 
     #region HUD Manager
@@ -159,9 +143,9 @@ public class UIManager : NonPersistentSingleton<UIManager>
         await HUDManager.SetupHUD(context);
     }
 
-    public async Task BeginCountdown(float duration)
+    public async Task StartCountdown(float duration)
     {
-        await HUDManager.BeginCountdown(duration);
+        await HUDManager.StartCountdown(duration);
     }
     #endregion
 

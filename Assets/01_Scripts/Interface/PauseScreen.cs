@@ -2,6 +2,7 @@ using AudioSystem;
 using CoreSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utilities;
 
 namespace UserInterface
 {
@@ -44,6 +45,9 @@ namespace UserInterface
             base.Show();
             if (IsActive) return;
 
+            AudioManager.Instance.CreateAudioBuilder()
+                .WithVolume(0.8f)
+                .Play(AudioCollection.Instance.PauseAudio);
             _pauseScreen.RemoveFromClassList("hide");
             IsActive = true;
         }
@@ -77,6 +81,7 @@ namespace UserInterface
         {
             Debug.Log("Settings clicked");
             AudioCollection.Instance.PlaySelectAudio();
+            _uiManager.OnUIStateChanged(UIState.Settings);
         }
 
         private void OnQuitClicked()

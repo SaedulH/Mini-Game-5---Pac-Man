@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8020172620504132794}
   - component: {fileID: 2560529547365173594}
   - component: {fileID: 7311693130118173731}
+  - component: {fileID: 1385240991550601204}
+  - component: {fileID: 5692179479416289979}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -55,10 +57,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   AutoUnparentOnAwake: 0
   <CurrentUIState>k__BackingField: 0
+  <CurrentUIScript>k__BackingField: {fileID: 0}
   <UIBackground>k__BackingField: {fileID: 0}
+  <StartScreen>k__BackingField: {fileID: 0}
   <SettingsManager>k__BackingField: {fileID: 0}
   <LoadingScreen>k__BackingField: {fileID: 0}
-  <StartScreen>k__BackingField: {fileID: 0}
   <HUDManager>k__BackingField: {fileID: 0}
   <PauseScreen>k__BackingField: {fileID: 0}
   <ResultsScreen>k__BackingField: {fileID: 0}
@@ -110,6 +113,62 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OnGameStateUpdated
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1385240991550601204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355874595973992437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8952d0d8a742090479e5f4e974cac98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.LevelStateEventListener
+  eventChannel: {fileID: 11400000, guid: 3f1d735dd998d9344a2b460c71e82391, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8020172620504132794}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnLevelStateUpdated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5692179479416289979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355874595973992437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb3581f594759e47af4ea510d2dc05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.EventListener
+  eventChannel: {fileID: 11400000, guid: 942c7dd95906eb34192fda4b5f2cb95b, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8020172620504132794}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnBackPerformed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

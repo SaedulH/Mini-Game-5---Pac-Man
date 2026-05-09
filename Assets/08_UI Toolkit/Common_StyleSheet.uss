@@ -9,18 +9,21 @@
     -unity-text-align: upper-center;
     font-size: 110px;
     color: rgb(204, 204, 204);
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
 }
 
 .subHeader {
     -unity-text-align: upper-center;
     font-size: 70px;
     color: rgb(212, 212, 212);
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
 }
 
 .button {
     width: 25%;
     margin-bottom: 2.5%;
     transition-duration: 0.15s;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
 }
 
 .button:hover {
@@ -65,7 +68,6 @@
     border-right-width: 5px;
     border-bottom-width: 5px;
     border-left-width: 5px;
-    -unity-font-definition: initial;
     transition-duration: 0.15s;
     transition-timing-function: ease;
     transition-property: all;
@@ -73,6 +75,7 @@
     -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
     -unity-background-scale-mode: scale-and-crop;
     background-color: rgba(0, 163, 255, 0.66);
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
 }
 
 .footerButton:hover {
@@ -95,11 +98,3 @@
     background-color: rgba(0, 112, 176, 0.59);
     transition-duration: 0.05s;
 }
-
-
-
-
-
-
-
-

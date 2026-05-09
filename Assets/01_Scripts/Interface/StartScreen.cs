@@ -2,6 +2,7 @@ using AudioSystem;
 using CoreSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utilities;
 
 namespace UserInterface
 {
@@ -73,6 +74,7 @@ namespace UserInterface
         {
             Debug.Log("Settings clicked");
             AudioCollection.Instance.PlaySelectAudio();
+            _uiManager.OnUIStateChanged(UIState.Settings);
         }
 
         public void OnQuitClicked()

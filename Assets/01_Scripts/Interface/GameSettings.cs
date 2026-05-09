@@ -7,51 +7,35 @@ namespace SettingsSystem
 {
     public class GameSettings : SettingsTab
     {
-        private Toggle _fixedCameraToggle;
-        private Toggle _dynamicCameraToggle;
+        private Button _fixedCameraToggle;
+        private Button _dynamicCameraToggle;
+        private Button _followCameraToggle;
 
-        private Toggle _screenShakeOffToggle;
-        private Toggle _screenShakeLowToggle;
-        private Toggle _screenShakeHighToggle;
+        private Button _screenShakeOffToggle;
+        private Button _screenShakeLowToggle;
+        private Button _screenShakeHighToggle;
 
         public override void InitialiseSettings(VisualElement root)
         {
             TabElement = root.Q<Tab>("Game");
 
-            _fixedCameraToggle = TabElement.Q<Toggle>("Fixed");
-            _fixedCameraToggle.RegisterValueChangedCallback(e =>
-            {
-                if (!e.newValue) return;
-                OnCameraModeChanged(CameraMode.Fixed);
-            });
+            _fixedCameraToggle = TabElement.Q<Button>("Fixed");
+            _fixedCameraToggle.clicked += () => OnCameraModeChanged(CameraMode.Fixed);
 
-            _dynamicCameraToggle = TabElement.Q<Toggle>("Dynamic");
-            _dynamicCameraToggle.RegisterValueChangedCallback(e =>
-            {
-                if (!e.newValue) return;
-                OnCameraModeChanged(CameraMode.Dynamic);
-            });
+            _dynamicCameraToggle = TabElement.Q<Button>("Dynamic");
+            _dynamicCameraToggle.clicked += () => OnCameraModeChanged(CameraMode.Dynamic);
 
-            _screenShakeOffToggle = TabElement.Q<Toggle>("Off");
-            _screenShakeOffToggle.RegisterValueChangedCallback(e =>
-            {
-                if (!e.newValue) return;
-                OnScreenShakeChanged(ScreenShake.Off);
-            });
+            _followCameraToggle = TabElement.Q<Button>("Follow");
+            _followCameraToggle.clicked += () => OnCameraModeChanged(CameraMode.Follow);
 
-            _screenShakeLowToggle = TabElement.Q<Toggle>("Low");
-            _screenShakeLowToggle.RegisterValueChangedCallback(e =>
-            {
-                if (!e.newValue) return;
-                OnScreenShakeChanged(ScreenShake.Low);
-            });
+            _screenShakeOffToggle = TabElement.Q<Button>("Off");
+            _screenShakeOffToggle.clicked += () => OnScreenShakeChanged(ScreenShake.Off);
 
-            _screenShakeHighToggle = TabElement.Q<Toggle>("High");
-            _screenShakeHighToggle.RegisterValueChangedCallback(e =>
-            {
-                if (!e.newValue) return;
-                OnScreenShakeChanged(ScreenShake.High);
-            });
+            _screenShakeLowToggle = TabElement.Q<Button>("Low");
+            _screenShakeLowToggle.clicked += () => OnScreenShakeChanged(ScreenShake.Low);
+
+            _screenShakeHighToggle = TabElement.Q<Button>("High");
+            _screenShakeHighToggle.clicked += () => OnScreenShakeChanged(ScreenShake.High);
 
             TabElement.RemoveFromClassList("hide");
         }
@@ -72,13 +56,16 @@ namespace SettingsSystem
         {
             var camera = GetCameraSetting() switch
             {
+                "Fixed" => CameraMode.Fixed,
                 "Dynamic" => CameraMode.Dynamic,
+                "Follow" => CameraMode.Follow,
                 _ => CameraMode.Fixed
             };
 
             var shake = GetScreenShakeSetting() switch
             {
                 "Off" => ScreenShake.Off,
+                "Low" => ScreenShake.Low,
                 "High" => ScreenShake.High,
                 _ => ScreenShake.Low
             };
@@ -89,14 +76,15 @@ namespace SettingsSystem
 
         private void ApplyCameraUI(CameraMode mode)
         {
-            _fixedCameraToggle.SetValueWithoutNotify(mode == CameraMode.Fixed);
-            _dynamicCameraToggle.SetValueWithoutNotify(mode == CameraMode.Dynamic);
+            _fixedCameraToggle.SetEnabled(mode == CameraMode.Fixed);
+            _dynamicCameraToggle.SetEnabled(mode == CameraMode.Dynamic);
+            _followCameraToggle.SetEnabled(mode == CameraMode.Follow);
         }
         private void ApplyScreenShakeUI(ScreenShake setting)
         {
-            _screenShakeOffToggle.SetValueWithoutNotify(setting == ScreenShake.Off);
-            _screenShakeLowToggle.SetValueWithoutNotify(setting == ScreenShake.Low);
-            _screenShakeHighToggle.SetValueWithoutNotify(setting == ScreenShake.High);
+            _screenShakeOffToggle.SetEnabled(setting == ScreenShake.Off);
+            _screenShakeLowToggle.SetEnabled(setting == ScreenShake.Low);
+            _screenShakeHighToggle.SetEnabled(setting == ScreenShake.High);
         }
 
         private void SetCameraModeSetting(CameraMode cameraMode)

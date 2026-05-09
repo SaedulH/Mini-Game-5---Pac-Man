@@ -36,16 +36,16 @@ namespace SettingsSystem
             TabElement = root.Q<Tab>("Controls");
 
             _upInput = TabElement.Q<Button>("UpInput");
-            _upInput.clicked += () => OnPacmanInputChanged(ControlInput.Up);
+            _upInput.clicked += () => OnPacmanInputClicked(ControlInput.Up);
 
             _downInput = TabElement.Q<Button>("DownInput");
-            _downInput.clicked += () => OnPacmanInputChanged(ControlInput.Down);
+            _downInput.clicked += () => OnPacmanInputClicked(ControlInput.Down);
 
             _leftInput = TabElement.Q<Button>("LeftInput");
-            _leftInput.clicked += () => OnPacmanInputChanged(ControlInput.Left);
+            _leftInput.clicked += () => OnPacmanInputClicked(ControlInput.Left);
 
             _rightInput = TabElement.Q<Button>("RightInput");
-            _rightInput.clicked += () => OnPacmanInputChanged(ControlInput.Right);
+            _rightInput.clicked += () => OnPacmanInputClicked(ControlInput.Right);
 
             _inputPopup = root.Q<VisualElement>("InputPopup");
             _currentInputButton = _inputPopup.Q<Label>("InputButtonLabel");
@@ -64,15 +64,21 @@ namespace SettingsSystem
             SetInputLabel(ControlInput.Right, _playerActions);
         }
 
-        private void OnPacmanInputChanged(ControlInput input, bool playSound = true)
+        public override bool OnBackClicked(SettingsType settingsType)
+        {
+            if (settingsType.Equals(SettingsType.InputPopup))
+            {
+                StartCoroutine(HideInputPopup());
+                return false;
+            }
+
+            return true;
+        }
+
+        private void OnPacmanInputClicked(ControlInput input, bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             StartCoroutine(ShowInputPopup(input, _playerActions));
-        }
-
-        private void OnMenuInputChanged(bool playSound = true)
-        {
-
         }
 
         private IEnumerator ShowInputPopup(ControlInput controlInput, InputActionMap actionMap)
@@ -176,13 +182,13 @@ namespace SettingsSystem
             switch (controlInput)
             {
                 case ControlInput.Up:
-                    return (map.FindAction("Vertical"), "positive");
+                    return (map.FindAction("Up"), "positive");
                 case ControlInput.Down:
-                    return (map.FindAction("Vertical"), "negative");
+                    return (map.FindAction("Down"), "negative");
                 case ControlInput.Left:
-                    return (map.FindAction("Horizontal"), "negative");
+                    return (map.FindAction("Left"), "negative");
                 case ControlInput.Right:
-                    return (map.FindAction("Horizontal"), "positive");
+                    return (map.FindAction("Right"), "positive");
                 default:
                     break;
             }

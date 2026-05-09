@@ -557,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7355874595973992437, guid: 8b9b523066295aa4c8cc526013062b7c, type: 3}
       propertyPath: m_Name
-      value: UIManager
+      value: UI Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

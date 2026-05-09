@@ -1,6 +1,8 @@
 using AudioSystem;
 using CoreSystem;
 using EventSystem;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,6 +25,7 @@ namespace UserInterface
         private int _highScore;
 
         private LevelContext _currentLevelContext;
+        private CancellationTokenSource _countdownToken;
 
         [field: SerializeField] public EventChannel StartLevel { get; private set; }
 
@@ -105,30 +108,49 @@ namespace UserInterface
 
         #region Timer Management
 
-        public async Task BeginCountdown(float duration)
+        public async Task StartCountdown(float duration)
         {
-            _countdownValue.style.fontSize = 120;
-            _countdownValue.text = duration.ToString();
-            await Awaitable.WaitForSecondsAsync(0.25f);
-            await ShowCountdownPopup();
+            // Cancel old countdown
+            _countdownToken?.Cancel();
+            _countdownToken?.Dispose();
 
-            await PerformCountdown(duration);
-
-            await Awaitable.WaitForSecondsAsync(1f);
-
-            await HideCountdownPopup();
+            // Create new token
+            _countdownToken = new CancellationTokenSource();
+            try
+            {
+                await BeginCountdown(duration, _countdownToken.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Countdown cancelled.");
+            }
         }
 
-        public async Task ShowCountdownPopup()
+        private async Task BeginCountdown(float duration, CancellationToken token)
+        {
+            Debug.Log("Beginning Countdown...");
+            _countdownValue.style.fontSize = 120;
+            _countdownValue.text = duration.ToString();
+            await Awaitable.WaitForSecondsAsync(0.25f, token);
+            await ShowCountdownPopup(token);
+
+            await PerformCountdown(duration, token);
+
+            await Awaitable.WaitForSecondsAsync(1f, token);
+
+            await HideCountdownPopup(token);
+        }
+
+        public async Task ShowCountdownPopup(CancellationToken token)
         {
             _countdownPopup.style.display = DisplayStyle.Flex;
             await Task.Yield();
             _countdownPopup.RemoveFromClassList("hide");
 
-            await Awaitable.WaitForSecondsAsync(0.2f);
+            await Awaitable.WaitForSecondsAsync(0.2f, token);
         }
 
-        private async Task PerformCountdown(float duration)
+        private async Task PerformCountdown(float duration, CancellationToken token)
         {
             int secondsRemaining = Mathf.CeilToInt(duration);
 
@@ -142,10 +164,10 @@ namespace UserInterface
                     .WithParent(transform)
                     .Play(AudioCollection.Instance.CountdownAudio);
 
-                await Awaitable.WaitForSecondsAsync(0.5f);
+                await Awaitable.WaitForSecondsAsync(0.5f, token);
                 _countdownValue.style.fontSize = 120;
 
-                await Awaitable.WaitForSecondsAsync(0.5f);
+                await Awaitable.WaitForSecondsAsync(0.5f, token);
 
                 secondsRemaining--;
             }
@@ -158,10 +180,10 @@ namespace UserInterface
             StartLevel.Invoke(new Empty());
         }
 
-        public async Task HideCountdownPopup()
+        public async Task HideCountdownPopup(CancellationToken token)
         {
             _countdownPopup.AddToClassList("hide");
-            await Awaitable.WaitForSecondsAsync(0.2f);
+            await Awaitable.WaitForSecondsAsync(0.2f, token);
             _countdownPopup.style.display = DisplayStyle.None;
         }
 

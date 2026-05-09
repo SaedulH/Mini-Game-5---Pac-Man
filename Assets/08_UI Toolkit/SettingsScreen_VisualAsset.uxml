@@ -1,53 +1,70 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/SettingsScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=818fc9cd3de032446b1a114d7f13e9c1&amp;type=3#SettingsScreen_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
-    <ui:VisualElement name="SettingsScreen" class="hide" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.39);">
+    <ui:VisualElement name="SettingsScreen" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.39);">
         <ui:VisualElement name="Main" style="flex-grow: 0; height: 80%; justify-content: flex-start; align-items: center; align-content: flex-start;">
-            <ui:TabView name="SettingsTabs" style="transition-duration: 0.2s; margin-top: 5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
+            <ui:TabView name="SettingsTabs" class="settingsText" style="transition-duration: 0.2s; margin-top: 2.5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
                 <ui:Tab label="Game" name="Game" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
-                    <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="Difficulty">
-                        <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Easy" class="selectionButton"/>
-                        <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Hard" class="selectionButton"/>
-                    </ui:ToggleButtonGroup>
-                    <ui:ToggleButtonGroup label="Camera" value="10" is-multiple-selection="false" name="Camera">
-                        <ui:Button text="Fixed" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Fixed" class="selectionButton"/>
-                        <ui:Button text="Dynamic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Dynamic" class="selectionButton"/>
-                    </ui:ToggleButtonGroup>
-                    <ui:ToggleButtonGroup label="Screen Shake" value="10" is-multiple-selection="false" name="ScreenShake">
-                        <ui:Button text="Off" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Off" class="selectionButton"/>
-                        <ui:Button text="Low" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Low" class="selectionButton"/>
-                        <ui:Button text="High" parse-escape-sequences="true" display-tooltip-when-elided="true" name="High" class="selectionButton"/>
-                    </ui:ToggleButtonGroup>
+                    <ui:GroupBox name="" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 100%; height: 100%; flex-direction: column; flex-shrink: 1; flex-grow: 1;">
+                        <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="Difficulty">
+                            <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Easy" class="selectionButton"/>
+                            <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Hard" class="selectionButton"/>
+                        </ui:ToggleButtonGroup>
+                        <ui:ToggleButtonGroup label="Camera" value="10" is-multiple-selection="false" name="Camera">
+                            <ui:Button text="Fixed" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Fixed" class="selectionButton"/>
+                            <ui:Button text="Dynamic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Dynamic" class="selectionButton"/>
+                            <ui:Button text="Follow" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Follow" class="selectionButton"/>
+                        </ui:ToggleButtonGroup>
+                        <ui:ToggleButtonGroup label="Screen Shake" value="10" is-multiple-selection="false" name="ScreenShake">
+                            <ui:Button text="Off" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Off" class="selectionButton"/>
+                            <ui:Button text="Low" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Low" class="selectionButton"/>
+                            <ui:Button text="High" parse-escape-sequences="true" display-tooltip-when-elided="true" name="High" class="selectionButton"/>
+                        </ui:ToggleButtonGroup>
+                    </ui:GroupBox>
                 </ui:Tab>
                 <ui:Tab label="Audio" name="Audio" style="width: 100%; height: 100%; align-content: center; align-items: center; justify-content: center; align-self: center; flex-grow: 1;">
-                    <ui:Label tabindex="-1" text="Master" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MasterAudio" enable-rich-text="true" focusable="false" class="subheader" style="font-size: 45px; -unity-text-align: upper-center; margin-top: 30px;"/>
-                    <ui:SliderInt label="" value="54" high-value="100" name="MasterVolume" fill="true" enabled="true" show-input-field="true" class="audioSlider"/>
-                    <ui:Label tabindex="-1" text="Music" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MusicAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center;"/>
-                    <ui:SliderInt label="" value="42" high-value="100" name="MusicVolume" fill="true" show-input-field="true" class="audioSlider"/>
-                    <ui:Label tabindex="-1" text="UI" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UIAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center;"/>
-                    <ui:SliderInt label="" value="42" high-value="100" name="UIVolume" fill="true" show-input-field="true" class="audioSlider"/>
-                    <ui:Label tabindex="-1" text="Vehicle" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EffectsAudio" class="subheader" style="font-size: 45px; -unity-text-align: upper-center; display: flex;"/>
-                    <ui:SliderInt label="" value="42" high-value="100" name="EffectsVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                    <ui:GroupBox name="" style="width: 100%; height: 100%; flex-grow: 1; flex-shrink: 1; justify-content: space-evenly;">
+                        <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; flex-direction: row; justify-content: space-between; align-content: stretch; width: 100%;">
+                            <ui:Label tabindex="-1" text="Master" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MasterAudio" enable-rich-text="true" focusable="false" class="subheader"/>
+                            <ui:SliderInt label="" value="54" high-value="100" name="MasterVolume" fill="true" enabled="true" show-input-field="true" class="audioSlider"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; justify-content: space-between;">
+                            <ui:Label tabindex="-1" text="Music" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MusicAudio" class="subheader"/>
+                            <ui:SliderInt label="" value="42" high-value="100" name="MusicVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; justify-content: space-between;">
+                            <ui:Label tabindex="-1" text="UI" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UIAudio" class="subheader"/>
+                            <ui:SliderInt label="" value="42" high-value="100" name="UIVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; justify-content: space-between;">
+                            <ui:Label tabindex="-1" text="Vehicle" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EffectsAudio" class="subheader"/>
+                            <ui:SliderInt label="" value="42" high-value="100" name="EffectsVolume" fill="true" show-input-field="true" class="audioSlider"/>
+                        </ui:GroupBox>
+                    </ui:GroupBox>
                 </ui:Tab>
-                <ui:Tab label="Control" name="Controls" style="width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; align-self: center; flex-grow: 1;">
-                    <ui:GroupBox name="Up" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
-                        <ui:Label text="Up" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UpText" class="controlText" style="margin-top: 30px;"/>
-                        <ui:Button text="?" name="UpInput" class="controlInput"/>
-                    </ui:GroupBox>
-                    <ui:GroupBox name="Down" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
-                        <ui:Label tabindex="-1" text="Down" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DownText" class="controlText" style="margin-top: 30px;"/>
-                        <ui:Button text="?" name="DownInput" class="controlInput"/>
-                    </ui:GroupBox>
-                    <ui:GroupBox name="Left" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
-                        <ui:Label tabindex="-1" text="Left" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftText" class="controlText" style="margin-top: 30px;"/>
-                        <ui:Button text="?" name="LeftInput" class="controlInput"/>
-                    </ui:GroupBox>
-                    <ui:GroupBox name="Right" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
-                        <ui:Label tabindex="-1" text="Right" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightText" class="controlText" style="margin-top: 30px;"/>
-                        <ui:Button text="?" name="RightInput" class="controlInput"/>
+                <ui:Tab label="Controls" name="Controls" style="width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; align-self: center; flex-grow: 1;">
+                    <ui:GroupBox style="height: 100%; width: 100%;">
+                        <ui:GroupBox name="Up" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                            <ui:Label text="Up" parse-escape-sequences="true" display-tooltip-when-elided="true" name="UpText" class="controlText"/>
+                            <ui:Button text="?" name="UpInput" class="controlInput"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox name="Down" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                            <ui:Label tabindex="-1" text="Down" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DownText" class="controlText"/>
+                            <ui:Button text="?" name="DownInput" class="controlInput"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox name="Left" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                            <ui:Label tabindex="-1" text="Left" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftText" class="controlText"/>
+                            <ui:Button text="?" name="LeftInput" class="controlInput"/>
+                        </ui:GroupBox>
+                        <ui:GroupBox name="Right" class="controlMapping" style="position: relative; flex-grow: 1; flex-shrink: 1; width: 100%; height: 100%; flex-direction: row; padding-left: 0; padding-right: 0;">
+                            <ui:Label tabindex="-1" text="Right" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightText" class="controlText"/>
+                            <ui:Button text="?" name="RightInput" class="controlInput"/>
+                        </ui:GroupBox>
                     </ui:GroupBox>
                     <ui:VisualElement name="InputPopup" style="flex-grow: 1; position: absolute; background-color: rgba(0, 0, 0, 0.59); width: 100%; height: 100%;">
                         <ui:Label text="Input Button" name="InputButtonLabel"/>
+                        <ui:Label text="Press Any Input Button" name=""/>
+                        <ui:Label text="Press `esc` to cancel" name="Label"/>
                     </ui:VisualElement>
                 </ui:Tab>
             </ui:TabView>

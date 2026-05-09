@@ -3,6 +3,7 @@ using CoreSystem;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Utilities;
 
 namespace SettingsSystem
 {
@@ -27,6 +28,11 @@ namespace SettingsSystem
         protected virtual void GetSettings()
         {
 
+        }
+
+        public virtual bool OnBackClicked(SettingsType settingsType)
+        {
+            return true;
         }
 
         public virtual void ResetToDefaults()

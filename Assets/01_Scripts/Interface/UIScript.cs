@@ -1,3 +1,4 @@
+using CoreSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Utilities;
@@ -10,6 +11,7 @@ namespace UserInterface
         [field: SerializeField] public bool IsActive { get; protected set; } = false;
         [field: SerializeField] public bool IsOverlay { get; protected set; } = false;
 
+        protected UIManager _uiManager;
         protected VisualElement _root;
 
         protected virtual void Awake()
@@ -17,11 +19,20 @@ namespace UserInterface
             _root = GetComponent<UIDocument>().rootVisualElement;
         }
 
+        public virtual void Initialise(UIManager uIManager)
+        {
+            _uiManager = uIManager;
+        }
+
         public virtual void Show()
         {
         }
 
         public virtual void Hide()
+        {
+        }
+
+        public virtual void OnBackClicked()
         {
         }
     }

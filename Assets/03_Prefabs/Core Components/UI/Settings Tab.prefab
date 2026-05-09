@@ -71,6 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3015afb22f8c5824eb33dd7b4c9b94a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.SettingsManager
+  <IsActive>k__BackingField: 0
+  <IsOverlay>k__BackingField: 0
   <CurrentSettingsTab>k__BackingField: {fileID: 7892178095478011024}
   <GameSettings>k__BackingField: {fileID: 7892178095478011024}
   <AudioSettings>k__BackingField: {fileID: 8395257785153512920}
@@ -102,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb60c81f967c8f749a8c2824f1ef1271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.AudioSettings
-  <AudioMixer>k__BackingField: {fileID: 0}
+  <AudioMixer>k__BackingField: {fileID: 24100000, guid: 8a1c67131fba5b54b823babedd2ad0f2, type: 2}
   <DefaultVolume>k__BackingField: 50
   <SliderLerpSpeed>k__BackingField: 50
 --- !u!114 &3794661789407816018
@@ -117,6 +119,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9cdb0b563fd7f44a81b404fcc620c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.ControlSettings
-  <PlayerInput>k__BackingField: {fileID: 0}
   <InputMappingIcons>k__BackingField: {fileID: 0}
   <DefaultIcon>k__BackingField: {fileID: 0}

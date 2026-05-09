@@ -166,6 +166,7 @@ MonoBehaviour:
   <TimeSinceLastItemCollected>k__BackingField: 0
   <OnScoreUpdated>k__BackingField: {fileID: 11400000, guid: 5278adf5ea6920444b67965b81eb4063, type: 2}
   <OnCollectItem>k__BackingField: {fileID: 11400000, guid: 37ece27375acb2e4dbc0e11c3269315f, type: 2}
+  <OnBackPerformed>k__BackingField: {fileID: 11400000, guid: 942c7dd95906eb34192fda4b5f2cb95b, type: 2}
   <OnGameStateUpdated>k__BackingField: {fileID: 11400000, guid: 1e7794211ab69744589fb88c6368e6e0, type: 2}
   <OnLevelStateUpdated>k__BackingField: {fileID: 11400000, guid: 3f1d735dd998d9344a2b460c71e82391, type: 2}
 --- !u!114 &3885549812482723482

@@ -4,28 +4,19 @@ using Utilities;
 
 namespace CoreSystem
 {
-
-
     public class PlayerInputHandler : MonoBehaviour, IInputHandler
     {
         [field: SerializeField] public PlayerInputActions PlayerInputActions { get; private set; }
         [field: SerializeField] public PlayerInputActions.PacmanActions PlayerInput { get; private set; }
 
         public ControlInput CurrentInput { get; set; }
+        public bool IsActive { get; set; }
 
         public void SetInputActions(PlayerInputActions inputActions)
         {
             this.PlayerInputActions = inputActions;
             this.PlayerInput = inputActions.Pacman;
             SubscribeInputActions();
-        }
-
-        public void OnGameStateUpdated(GameState gameState)
-        {
-        }
-
-        public void OnLevelStateUpdated(LevelState levelState)
-        {
         }
 
         private void OnEnable()
@@ -87,6 +78,9 @@ namespace CoreSystem
             CurrentInput = ControlInput.Right;
         }
 
-
+        public void SetActiveState(bool isActive)
+        {
+            IsActive = isActive;
+        }
     }
 }

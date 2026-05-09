@@ -27,6 +27,7 @@ namespace UserInterface
                 _uiBackground.RemoveFromClassList("hide");
                 if (isOverlay)
                 {
+                    _full.AddToClassList("hide");
                     _overlay.RemoveFromClassList("hide");
                     IsOverlay = true;
                 }
@@ -34,6 +35,7 @@ namespace UserInterface
                 {
                     IsOverlay = false;
                     _full.RemoveFromClassList("hide");
+                    _overlay.AddToClassList("hide");
                 }
                 IsActive = true;
             }

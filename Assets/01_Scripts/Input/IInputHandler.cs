@@ -5,8 +5,7 @@ namespace CoreSystem
     public interface IInputHandler
     {
         ControlInput CurrentInput { get; set; }
-
-        void OnGameStateUpdated(GameState gameState);
-        void OnLevelStateUpdated(LevelState levelState);
+        bool IsActive { get; set; }
+        void SetActiveState(bool isActive);
     }
 }

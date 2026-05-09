@@ -1,5 +1,11 @@
+.settingsText {
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    font-size: 40px;
+    -unity-text-align: middle-left;
+}
+
 .audioSlider {
-    width: 65%;
+    width: 70%;
     -unity-text-align: middle-left;
     -unity-font-style: normal;
     color: rgb(217, 217, 217);
@@ -9,87 +15,52 @@
     font-size: 22px;
     flex-direction: column;
     -unity-font-definition: initial;
-    letter-spacing: 10px;
-    height: 20%;
+    letter-spacing: 20px;
+    height: 100%;
     align-items: stretch;
     display: flex;
-    flex-grow: 1;
+    flex-grow: 0;
+    margin-left: 5%;
 }
 
-#AudioSettings SliderInt #unity-drag-container {
-    margin-right: 5%;
+#Audio SliderInt #unity-drag-container {
+    align-self: center;
+    justify-content: center;
+    align-items: stretch;
+    align-content: center;
 }
 
-#AudioSettings SliderInt #unity-tracker {
-    display: flex;
-    overflow: hidden;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    height: 50%;
-    width: 100%;
+#Audio SliderInt #unity-tracker {
     opacity: 1;
-    -unity-background-scale-mode: scale-to-fit;
-    background-color: rgba(20, 23, 67, 0.59);
-    border-left-color: rgb(20, 23, 67);
-    border-right-color: rgb(20, 23, 67);
-    border-top-color: rgb(20, 23, 67);
-    border-bottom-color: rgb(20, 23, 67);
-    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
-#AudioSettings SliderInt #unity-dragger {
-    display: flex;
-    background-color: rgb(0, 148, 255);
-    height: 70%;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
+#Audio SliderInt #unity-dragger {
+    opacity: 1;
+}
+
+#Audio SliderInt #unity-fill {
+}
+
+#Audio SliderInt #unity-text-field {
+    border-left-color: rgb(255, 230, 0);
+    border-right-color: rgb(255, 230, 0);
+    border-top-color: rgb(255, 230, 0);
+    border-bottom-color: rgb(255, 230, 0);
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
-    border-left-color: rgba(0, 0, 0, 0);
-    border-right-color: rgba(0, 0, 0, 0);
-    border-top-color: rgba(0, 0, 0, 0);
-    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    width: 8%;
 }
 
-#AudioSettings SliderInt #unity-fill {
-    background-color: rgb(0, 148, 255);
-}
-
-#AudioSettings SliderInt #unity-text-field {
-    width: 10%;
-}
-
-#AudioSettings SliderInt #unity-text-input {
-    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
-    -unity-font-style: bold;
+#Audio SliderInt #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
     -unity-text-align: middle-center;
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-left-color: rgba(0, 148, 255, 0.2);
-    border-right-color: rgba(0, 148, 255, 0.2);
-    border-top-color: rgba(0, 148, 255, 0.2);
-    border-bottom-color: rgba(0, 148, 255, 0.2);
-    background-color: rgba(0, 163, 255, 0.66);
-    background-image: url("project://database/Assets/Sprites/Misc/background-inverted.png?fileID=2800000&guid=31953fe7d7122194fa329c6ae6f95161&type=3#background-inverted");
-    -unity-background-scale-mode: scale-and-crop;
-    -unity-slice-type: sliced;
-    -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
-    font-size: 30px;
-    color: rgb(183, 183, 183);
-    flex-grow: 1;
-    width: 100%;
 }
 
 .controlMapping {
@@ -104,7 +75,7 @@
 .controlText {
     margin-right: 0%;
     margin-left: 5%;
-    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
     color: rgb(183, 183, 183);
     font-size: 35px;
     -unity-text-align: middle-left;
@@ -122,12 +93,12 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
-    border-left-color: rgba(0, 148, 255, 0.2);
-    border-right-color: rgba(0, 148, 255, 0.2);
-    border-top-color: rgba(0, 148, 255, 0.2);
-    border-bottom-color: rgba(0, 148, 255, 0.2);
-    background-color: rgba(0, 163, 255, 0.66);
-    background-image: url("project://database/Assets/Sprites/Misc/background-inverted.png?fileID=2800000&guid=31953fe7d7122194fa329c6ae6f95161&type=3#background-inverted");
+    border-left-color: rgba(255, 242, 0, 0.2);
+    border-right-color: rgba(255, 242, 0, 0.2);
+    border-top-color: rgba(255, 242, 0, 0.2);
+    border-bottom-color: rgba(255, 242, 0, 0.2);
+    background-color: rgba(255, 246, 0, 0.66);
+    background-image: none;
     -unity-background-scale-mode: scale-and-crop;
     -unity-slice-type: sliced;
     -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
@@ -173,33 +144,26 @@
     -unity-font-definition: initial;
 }
 
+TabView RepeatButton {
+    overflow: visible;
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+}
+
 TabView .unity-tab-view__content-viewport {
-    width: 100%;
+    width: auto;
     align-items: center;
     align-content: center;
     align-self: center;
     justify-content: center;
     flex-grow: 0;
-    height: 5%;
+    height: auto;
     opacity: 1;
     visibility: visible;
     display: flex;
     overflow: visible;
-}
-
-TabView RepeatButton {
-    overflow: visible;
-    visibility: hidden;
-    display: none;
-    opacity: 1;
-}
-
-TabView #unity-tab__header {
-    align-items: center;
-    justify-content: center;
-    width: 25%;
-    margin-right: 5%;
-    margin-left: 5%;
+    margin-bottom: 2.5%;
 }
 
 TabView #unity-tab-view__header-container {
@@ -208,34 +172,97 @@ TabView #unity-tab-view__header-container {
     align-self: center;
     justify-content: space-evenly;
     flex-direction: row;
+    height: 100%;
+}
+
+TabView #unity-tab__header {
+    align-items: center;
+    justify-content: center;
+    -unity-font-definition: initial;
+    -unity-font-style: bold;
+    font-size: 50px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.2s;
+    color: rgb(241, 159, 0);
+    margin-right: 10%;
+    margin-left: 10%;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 TabView #unity-tab__header-label {
-    margin-right: 5%;
-    margin-left: 5%;
-    overflow: hidden;
-    visibility: visible;
-    justify-content: flex-start;
-    align-items: center;
-    -unity-text-align: upper-center;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    transition-duration: 0.2s;
+}
+
+TabView #unity-tab__header-label:hover {
+    scale: 1.2 1.2 1.2;
+    transition-duration: 0.2s;
 }
 
 TabView #unity-tab__header-underline {
-    margin-right: 5%;
-    margin-left: 5%;
-    overflow: visible;
-    visibility: hidden;
-    justify-content: flex-start;
+}
+
+TabView #unity-tab-view__content-container {
+    flex-grow: 1;
+    width: 75%;
+    opacity: 1;
     align-items: center;
-    width: 15%;
-    -unity-text-align: upper-center;
-    display: none;
-    opacity: 0;
+    height: 100%;
 }
 
 TabView #unity-tab__content-container {
-    flex-grow: 1;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
     width: 100%;
     height: 100%;
-    opacity: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+TabView .unity-toggle-button-group {
+    justify-content: space-evenly;
+    align-items: center;
+    align-self: stretch;
+    align-content: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+TabView .unity-button-group {
+    justify-content: flex-end;
+    align-self: center;
+    align-items: center;
+}
+
+#SettingsTabs Label {
+    color: rgb(255, 208, 0);
+}
+
+#SettingsTabs Button:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    background-image: url("project://database/Assets/05_Sprites/Button%20Border.png?fileID=21300000&guid=f848c7238929c7b47b0c917462b0c8f6&type=3#Button Border");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+#Game ToggleButtonGroup Button {
+    background-color: rgba(0, 0, 0, 0);
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    padding-right: 2.5%;
+    padding-left: 2.5%;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    transition-duration: 0.2s;
+}
+
+#Game #unity-toggle-button-group__container {
+    justify-content: center;
+    flex-direction: row;
 }

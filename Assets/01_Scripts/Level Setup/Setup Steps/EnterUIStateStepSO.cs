@@ -11,6 +11,8 @@ namespace CoreSystem
 
         public override async Task Run(LevelContext context)
         {
+            if (UIManager.Instance == null) { return; }
+            
             UIManager.Instance.OnUIStateChanged(NewUIState);
 
             await Task.Yield();

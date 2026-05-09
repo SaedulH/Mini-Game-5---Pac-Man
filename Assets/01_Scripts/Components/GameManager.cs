@@ -43,6 +43,7 @@ namespace CoreSystem
         [field: Header("Game Events")]
         [field: SerializeField] public IntEventChannel OnScoreUpdated { get; private set; }
         [field: SerializeField] public EventChannel OnCollectItem { get; private set; }
+        [field: SerializeField] public EventChannel OnBackPerformed { get; private set; }
         [field: SerializeField] public GameStateEventChannel OnGameStateUpdated { get; private set; }
         [field: SerializeField] public LevelStateEventChannel OnLevelStateUpdated { get; private set; }
 
@@ -98,6 +99,7 @@ namespace CoreSystem
             TimeSinceLastItemCollected = 0f;
             CurrentLevel = 1;
             PelletsEaten = 0;
+            Time.timeScale = 1.0f;
         }
 
         public async void InitialiseLevel()
@@ -229,6 +231,9 @@ namespace CoreSystem
             else if (CurrentGameState.Equals(GameState.Paused))
             {
                 OnResumeEvent();
+            } else
+            {
+                OnBackPerformed.Invoke(new Empty());
             }
         }
 
@@ -267,7 +272,7 @@ namespace CoreSystem
             RemainingLives--;
             if (RemainingLives == 0)
             {
-                EnterLevelState(LevelState.Death);
+                EnterLevelState(LevelState.GameOver);
                 Debug.Log("Game Over!!");
             }
             else

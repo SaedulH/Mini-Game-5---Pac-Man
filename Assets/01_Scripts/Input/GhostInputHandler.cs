@@ -7,6 +7,7 @@ namespace CoreSystem
     public class GhostInputHandler : MonoBehaviour, IInputHandler
     {
         public ControlInput CurrentInput { get; set; }
+        public bool IsActive { get; set; }
         [field: SerializeField] public GhostType Type { get; private set; }
         [field: SerializeField] public GhostConfig Config { get; private set; }
         [field: SerializeField] public GhostState CurrentState { get; private set; }
@@ -19,11 +20,10 @@ namespace CoreSystem
         [SerializeField] private int _pelletsToExitPen = 0;
         [SerializeField] private bool _canExitPen = false;
         [SerializeField] private float _timerToExitPen = 0f;
-        [SerializeField] private bool _isActive = false;
 
         private void Update()
         {
-            if (!_isActive) return;
+            if (!IsActive) return;
 
             if (!_canExitPen && CurrentState.Equals(GhostState.Waiting))
             {
@@ -36,6 +36,12 @@ namespace CoreSystem
         }
 
         #region Setters
+
+        public void SetActiveState(bool isActive)
+        {
+            IsActive = isActive;
+        }
+
         public void SetTargets(Transform target, PlayerManager pacMan)
         {
             _targetTransform = target;
@@ -99,15 +105,6 @@ namespace CoreSystem
             }
             Debug.Log($"{gameObject.name}: Changing state from: [{CurrentState}] to: [{newState}]");
             CurrentState = newState;
-        }
-
-        public void OnGameStateUpdated(GameState gameState)
-        {
-            _isActive = gameState.Equals(GameState.Playing);
-        }
-
-        public void OnLevelStateUpdated(LevelState levelState)
-        {
         }
 
         public ControlInput OnReachedCurrentNode(NodeScript currentNode)

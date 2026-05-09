@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utilities;
 
@@ -18,7 +17,7 @@ namespace CoreSystem
 
         [field: SerializeField] public float Speed { get; protected set; }
 
-        protected bool _isPlaying = false;
+        protected bool _isActive = false;
 
         protected virtual void Awake()
         {
@@ -28,23 +27,15 @@ namespace CoreSystem
 
         protected virtual void Update()
         {
-            if (!_isPlaying) return;
+            if (!_isActive) return;
 
             ReadInput();
             Move();
         }
 
-        public virtual void OnGameStateUpdated(GameState gameState)
-        { 
-            if (!gameState.Equals(GameState.Playing))
-            {
-                _isPlaying = false;
-            }
-        }
-
-        public virtual void OnLevelStateUpdated(LevelState levelState)
+        public virtual void SetActiveState(bool isActive)
         {
-            _isPlaying = levelState.Equals(LevelState.Active);
+            _isActive = isActive;
         }
 
         private void ReadInput()

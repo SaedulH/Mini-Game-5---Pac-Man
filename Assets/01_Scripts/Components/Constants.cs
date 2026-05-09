@@ -140,7 +140,7 @@ namespace Utilities
         Menu,
         Loading,
         Playing,
-        Paused
+        Paused,
     }
 
     public enum LevelState
@@ -149,7 +149,8 @@ namespace Utilities
         Starting,
         Active,
         Death,
-        Respawning
+        Respawning,
+        GameOver,
     }
 
     public enum UIState
@@ -176,7 +177,8 @@ namespace Utilities
     public enum CameraMode
     {
         Fixed,
-        Dynamic
+        Dynamic,
+        Follow
     }
 
     public enum ScreenShake
