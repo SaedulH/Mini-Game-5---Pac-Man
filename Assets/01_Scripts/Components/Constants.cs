@@ -49,13 +49,6 @@ namespace Utilities
         public const float MAX_ORTHOGRAPHIC_CAMERA_SIZE = 114f;
         public const float ZOOM_FACTOR_CONSTANT = 0.5f;
 
-        // Audio
-        public const string MASTER_AUDIO_MIXER = "Master";
-        public const string MUSIC_AUDIO_MIXER = "Music";
-        public const string UI_AUDIO_MIXER = "UI";
-        public const string EFFECTS_AUDIO_MIXER = "Effects";
-
-        public const float AUDIO_MUSIC_FADE_IN_TIME = 0.5f;
         public const float AUDIO_EFFECTS_FADE_IN_TIME = 0.25f;
         public const float AUDIO_EFFECTS_FADE_OUT_TIME = 0.5f;
 

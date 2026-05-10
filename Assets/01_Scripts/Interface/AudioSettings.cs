@@ -16,7 +16,7 @@ namespace SettingsSystem
         [field: SerializeField] public int DefaultVolume { get; private set; } = 50;
         [field: SerializeField] public float SliderLerpSpeed { get; private set; } = 50f;
 
-        public override void InitialiseSettings(VisualElement root)
+        public void InitialiseSettings(VisualElement root)
         {
             TabElement = root.Q<Tab>("Audio");
 

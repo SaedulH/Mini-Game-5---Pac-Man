@@ -6,11 +6,13 @@ using Utilities;
 
 public class MusicManager : NonPersistentSingleton<MusicManager>
 {
-    [field: SerializeField] public AudioData DefaultBGM { get; set; }
+    [field: SerializeField] public float MusicFadeInTime { get; private set; } = 0.5f;
+    [field: SerializeField] public AudioData DefaultBGM { get; private set; }
 
     private AudioEmitter _currentEmitter;
     private AudioEmitter _nextEmitter;
-    private void Start()
+
+    public void Initialise()
     {
         PlayMusic(DefaultBGM);
     }
@@ -31,8 +33,8 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
         {
             Debug.Log($"Stopping current music");
 
-            _currentEmitter.FadeToStop(Constants.AUDIO_MUSIC_FADE_IN_TIME);
-            yield return new WaitForSeconds(Constants.AUDIO_MUSIC_FADE_IN_TIME);
+            _currentEmitter.FadeToStop(MusicFadeInTime);
+            yield return new WaitForSeconds(MusicFadeInTime);
             Debug.Log($"current music Stopped");
         }
         Debug.Log($"Playing music: {audioData.name}");

@@ -8,8 +8,12 @@ using Utilities;
 namespace AudioSystem
 {
     [RequireComponent(typeof(AudioCollection))]
+    [RequireComponent(typeof(MusicManager))]
     public class AudioManager : NonPersistentSingleton<AudioManager>
     {
+        [field: SerializeField] public MusicManager MusicManager { get; private set; }
+        [field: SerializeField] public AudioCollection AudioCollection { get; private set; }
+
         IObjectPool<AudioEmitter> AudioEmitterPool;
         readonly List<AudioEmitter> activeAudioEmitters = new();
         public readonly LinkedList<AudioEmitter> FrequentAudioEmitters = new();
@@ -20,10 +24,14 @@ namespace AudioSystem
         [SerializeField] int maxPoolSize = 100;
         [SerializeField] int maxSoundInstances = 30;
 
-        protected override void Awake()
+        public void Initialise()
         {
-            base.Awake();
             InitializePool();
+            MusicManager = GetComponent<MusicManager>();
+            AudioCollection = GetComponent<AudioCollection>();
+
+            MusicManager.Initialise();
+            AudioCollection.Initialise();
         }
 
         public AudioBuilder CreateAudioBuilder() => new(this);

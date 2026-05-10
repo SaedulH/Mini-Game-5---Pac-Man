@@ -21,10 +21,10 @@ namespace UserInterface
         private Button _settings;
         private Button _quit;
 
-        protected override void Awake()
-        {
-            base.Awake();
 
+        public override void Initialise(UIManager uIManager)
+        {
+            base.Initialise(uIManager);
             _resultsScreen = _root.Q<VisualElement>("ResultsScreen");
             _resultsScreen.AddToClassList("hide");
 

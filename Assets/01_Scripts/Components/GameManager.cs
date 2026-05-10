@@ -1,5 +1,4 @@
 using EventSystem;
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,7 +8,7 @@ using Utilities;
 namespace CoreSystem
 {
     public class LevelManager : NonPersistentSingleton<LevelManager>
-    { 
+    {
     }
 
     public class GameManager : NonPersistentSingleton<GameManager>
@@ -20,9 +19,13 @@ namespace CoreSystem
         [field: SerializeField] public EntitySpawner EntitySpawner { get; private set; }
         [field: SerializeField] public LevelSetupHandler LevelSetupHandler { get; private set; }
         [field: SerializeField] public GameState CurrentGameState { get; set; }
-        [field: SerializeField] public LevelInfo MainMenuInfo { get; set; }
-        [field: SerializeField] public LevelInfo GameLevelInfo { get; set; }
         [field: SerializeField] public int MaxLives { get; private set; } = 4;
+
+        [field: Header("Level Info")]
+        [field: SerializeField] public LevelInfo MainMenuInfo { get; set; }
+        [field: SerializeField] public LevelInfo PacmanMap { get; set; }
+        [field: SerializeField] public LevelInfo MsPacmanMap { get; set; }
+        [field: SerializeField] public LevelInfo RandomGenMap { get; set; }
 
         [field: Header("Current Level Info")]
         [field: SerializeField] public int CurrentLevel { get; private set; } = 1;
@@ -47,28 +50,17 @@ namespace CoreSystem
         [field: SerializeField] public GameStateEventChannel OnGameStateUpdated { get; private set; }
         [field: SerializeField] public LevelStateEventChannel OnLevelStateUpdated { get; private set; }
 
-        protected override void Awake()
+        public void Initialise(PlayerInputActions inputActions)
         {
-            base.Awake();
-            InputActions = new PlayerInputActions();
+            InputActions = inputActions;
+            InputActions.Pacman.Pause.performed += OnPausedPerformed;
+
             EntitySpawner = GetComponentInChildren<EntitySpawner>();
             LevelSetupHandler = GetComponentInChildren<LevelSetupHandler>();
         }
 
-        void Start()
-        {
-            InitialiseMenu();
-        }
-
-        private void OnEnable()
-        {
-            InputActions.Enable();
-            InputActions.Pacman.Pause.performed += OnPausedPerformed;
-        }
-
         private void OnDisable()
         {
-            InputActions.Disable();
             InputActions.Pacman.Pause.performed -= OnPausedPerformed;
         }
 
@@ -77,17 +69,6 @@ namespace CoreSystem
             if (!CurrentGameState.Equals(GameState.Playing)) return;
 
             GetNextGhostForEarlyExit();
-        }
-
-        public async void InitialiseMenu()
-        {
-            CurrentLevelContext = new LevelContext
-            {
-                MapName = MapName.Menu,
-                RemainingLives = 0,
-                LevelNumber = 0,
-            };
-            await SetupScene(MainMenuInfo, CurrentLevelContext);
         }
 
         private void ResetVariables()
@@ -100,6 +81,17 @@ namespace CoreSystem
             CurrentLevel = 1;
             PelletsEaten = 0;
             Time.timeScale = 1.0f;
+        } 
+
+        public async void InitialiseMenu()
+        {
+            CurrentLevelContext = new LevelContext
+            {
+                MapName = MapName.Menu,
+                RemainingLives = 0,
+                LevelNumber = 0,
+            };
+            await SetupScene(MainMenuInfo, CurrentLevelContext);
         }
 
         public async void InitialiseLevel()
@@ -114,7 +106,7 @@ namespace CoreSystem
                 LevelNumber = CurrentLevel,
             };
 
-            await SetupScene(GameLevelInfo, CurrentLevelContext);
+            await SetupScene(PacmanMap, CurrentLevelContext);
         }
 
         public async void RestartLevel()
@@ -122,7 +114,7 @@ namespace CoreSystem
             ResetVariables();
             await Task.Delay(100);
 
-            await SetupScene(GameLevelInfo, CurrentLevelContext);
+            await SetupScene(PacmanMap, CurrentLevelContext);
         }
 
         private async Task GetNextLevel()
@@ -140,7 +132,7 @@ namespace CoreSystem
                 LevelNumber = CurrentLevel,
             };
 
-            await SetupScene(GameLevelInfo, CurrentLevelContext);
+            await SetupScene(PacmanMap, CurrentLevelContext);
         }
 
         public async Task SetupScene(LevelInfo levelInfo, LevelContext levelContext)
@@ -231,7 +223,8 @@ namespace CoreSystem
             else if (CurrentGameState.Equals(GameState.Paused))
             {
                 OnResumeEvent();
-            } else
+            }
+            else
             {
                 OnBackPerformed.Invoke(new Empty());
             }

@@ -11,11 +11,6 @@ namespace SettingsSystem
     {
         [field: SerializeField] public Tab TabElement { get; set; }
 
-        public virtual void InitialiseSettings(VisualElement root)
-        {
-
-        }
-
         public virtual IEnumerator ShowSettingsTab(float transitionTime)
         {
             GetSettings();

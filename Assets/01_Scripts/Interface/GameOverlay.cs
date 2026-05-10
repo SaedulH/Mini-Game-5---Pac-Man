@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace UserInterface
 {
-    public class HUDManager : UIScript
+    public class GameOverlay : UIScript
     {
         private VisualElement _hudOverlay;
 
@@ -29,9 +29,9 @@ namespace UserInterface
 
         [field: SerializeField] public EventChannel StartLevel { get; private set; }
 
-        protected override void Awake()
+        public override void Initialise(UIManager uIManager)
         {
-            base.Awake();
+            base.Initialise(uIManager);
 
             _hudOverlay = _root.Q<VisualElement>("HUD");
             _hudOverlay.AddToClassList("hide");

@@ -29,31 +29,32 @@ namespace SettingsSystem
         private Button _backButton;
         private Button _resetButton;
 
-        protected override void Awake()
+        public override void Initialise(UIManager uIManager, PlayerInputActions inputActions = null)
         {
-            base.Awake();
-
-            GameSettings = GetComponent<GameSettings>();
-            AudioSettings = GetComponent<AudioSettings>();
-            ControlSettings = GetComponent<ControlSettings>();
-            CurrentSettingsTab = GameSettings;
-        }
-
-        private void OnEnable()
-        {
+            base.Initialise(uIManager, inputActions);
             _settingsScreen = _root.Q<VisualElement>("SettingsScreen");
+            _settingsScreen.AddToClassList("hide");
 
             _settingsTabs = _settingsScreen.Q<TabView>("SettingsTabs");
             _settingsTabs.activeTabChanged += OnActiveTabChanged;
 
-            // Footer
             _backButton = _settingsScreen.Q<Button>("Back");
             _backButton.clicked += OnBackClicked;
 
             _resetButton = _settingsScreen.Q<Button>("Reset");
             _resetButton.clicked += OnResetClicked;
 
-            _settingsScreen.AddToClassList("hide");
+            GameSettings = GetComponent<GameSettings>();
+            AudioSettings = GetComponent<AudioSettings>();
+            ControlSettings = GetComponent<ControlSettings>();
+
+            GameSettings.InitialiseSettings(_settingsScreen);
+            AudioSettings.InitialiseSettings(_settingsScreen);
+            ControlSettings.InitialiseSettings(_settingsScreen, inputActions);
+
+            SetCurrentScreen(SettingsType.Game);
+
+            AudioCollection.Instance.SetupHoverAudio(_settingsScreen);
         }
 
         private void SetCurrentScreen(SettingsType currentScreen)
@@ -93,11 +94,6 @@ namespace SettingsSystem
             }
         }
 
-        private void Start()
-        {
-            InitialiseSettings();
-        }
-
         public override void Show()
         {
             base.Show();
@@ -114,17 +110,6 @@ namespace SettingsSystem
 
             HideSettingsScreen();
             IsActive = false;
-        }
-
-        private void InitialiseSettings()
-        {
-            SetCurrentScreen(SettingsType.Game);
-
-            GameSettings.InitialiseSettings(_settingsScreen);
-            AudioSettings.InitialiseSettings(_settingsScreen);
-            ControlSettings.InitialiseSettings(_settingsScreen);
-
-            AudioCollection.Instance.SetupHoverAudio(_settingsScreen);
         }
 
         #region Screen Transitions

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8725efbd06eabfc4dbbe5abf44a2e87b, type: 3}
-  m_Name: Game Loading Screen Step
+  m_Name: MsPacman Loading Screen Step
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.InitLoadingScreenStepSO
   <Description>k__BackingField: Loading
   <Weight>k__BackingField: 1

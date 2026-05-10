@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b762c14a9e7df434b828f6a137895da4, type: 3}
-  m_Name: Game Spawnpoint Step
+  m_Name: RandomGen Spawnpoint Step
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.InitCheckpointStepSO
   <Description>k__BackingField: 
   <Weight>k__BackingField: 1

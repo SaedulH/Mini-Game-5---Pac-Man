@@ -15,9 +15,9 @@ namespace UserInterface
         private Button _settings;
         private Button _quit;
 
-        protected override void Awake()
+        public override void Initialise(UIManager uIManager)
         {
-            base.Awake();
+            base.Initialise(uIManager);
             _startScreen = _root.Q<VisualElement>("StartScreen");
 
             _start = _root.Q<Button>("Start");
@@ -28,18 +28,7 @@ namespace UserInterface
 
             _quit = _root.Q<Button>("Quit");
             _quit.clicked += OnQuitClicked;
-        }
-
-        private void Start()
-        {
             AudioCollection.Instance.SetupHoverAudio(_startScreen);
-        }
-
-        private void OnDisable()
-        {
-            _start.clicked -= OnStartClicked;
-            _settings.clicked -= OnSettingsClicked;
-            _quit.clicked -= OnQuitClicked;
         }
 
         public override void Show()

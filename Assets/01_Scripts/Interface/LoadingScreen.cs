@@ -2,7 +2,6 @@ using CoreSystem;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utilities;
 
 namespace UserInterface
 {
@@ -17,10 +16,9 @@ namespace UserInterface
         [field: SerializeField] public float SliderLerpSpeed { get; private set; } = 50f;
         private float _targetProgress;
 
-        protected override void Awake()
+        public override void Initialise(UIManager uIManager)
         {
-            base.Awake();
-
+            base.Initialise(uIManager);
             _loadingScreen = _root.Q<VisualElement>("LoadingScreen");
             _levelNumber = _loadingScreen.Q<Label>("LevelNumber");
             _loadingBar = _loadingScreen.Q<Slider>("LoadingBar");
@@ -44,7 +42,7 @@ namespace UserInterface
         public override void Show()
         {
             base.Show();
-            if (IsActive) return; 
+            if (IsActive) return;
             _ = ShowLoadingScreen();
         }
 

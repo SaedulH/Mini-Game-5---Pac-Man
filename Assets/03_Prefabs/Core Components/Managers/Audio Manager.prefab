@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2163836743546979606}
   - component: {fileID: 3195378300753482257}
   - component: {fileID: 676753908695330240}
+  - component: {fileID: 1983389995157548331}
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Untagged
@@ -82,3 +83,17 @@ MonoBehaviour:
   <TeleportAudio>k__BackingField: {fileID: 11400000, guid: dc3a7aae3cb2863459de7f34a799ecde, type: 2}
   <KillGhostAudio>k__BackingField: {fileID: 11400000, guid: 820d4c47189b90042aefc2d3b71acfdf, type: 2}
   <KillPlayerAudio>k__BackingField: {fileID: 11400000, guid: 635c7d04609ebad48a42bf2d6eebebf9, type: 2}
+--- !u!114 &1983389995157548331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523103363382119572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b039b2ba9f2f2d840a43a561f290db92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicManager
+  AutoUnparentOnAwake: 0
+  <DefaultBGM>k__BackingField: {fileID: 11400000, guid: e75387b1bb9cc3a458fbc0853249a161, type: 2}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1385240991550601204}
   - component: {fileID: 5692179479416289979}
   m_Layer: 0
-  m_Name: UIManager
+  m_Name: UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1175078480032358852, guid: a9ee8b0fc5b3cb74987053ca3c6b45ab, type: 3}
       propertyPath: m_Name
-      value: HUD Manager
+      value: Game Overlay
       objectReference: {fileID: 0}
     - target: {fileID: 2991951019428101338, guid: a9ee8b0fc5b3cb74987053ca3c6b45ab, type: 3}
       propertyPath: m_LocalPosition.x

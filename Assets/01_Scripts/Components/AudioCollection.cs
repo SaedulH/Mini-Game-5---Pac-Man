@@ -29,6 +29,11 @@ namespace CoreSystem
         [field: SerializeField] public AudioData KillGhostAudio { get; set; }
         [field: SerializeField] public AudioData KillPlayerAudio { get; set; }
 
+        public void Initialise()
+        {
+
+        }
+
         public void SetupHoverAudio(VisualElement root)
         {
             root.Query<Button>().ForEach(button =>

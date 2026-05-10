@@ -17,26 +17,20 @@ public class UIManager : NonPersistentSingleton<UIManager>
     [field: SerializeField] public LoadingScreen LoadingScreen { get; private set; }
 
     [field: Header("Overlay Screens")]
-    [field: SerializeField] public HUDManager HUDManager { get; private set; }
+    [field: SerializeField] public GameOverlay GameOverlay { get; private set; }
     [field: SerializeField] public PauseScreen PauseScreen { get; private set; }
     [field: SerializeField] public ResultsScreen ResultsScreen { get; private set; }
 
     private UIState _previousUIState;
     private UIScript _previousUIScript;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        InitialiseUIScripts();
-    }
-
-    private void InitialiseUIScripts()
+    public void Initialise(PlayerInputActions inputActions)
     {
         UIBackground = GetComponentInChildren<UIBackground>();
         UIBackground.Initialise(this);
 
-        HUDManager = GetComponentInChildren<HUDManager>();
-        HUDManager.Initialise(this);
+        GameOverlay = GetComponentInChildren<GameOverlay>();
+        GameOverlay.Initialise(this);
 
         PauseScreen = GetComponentInChildren<PauseScreen>();
         PauseScreen.Initialise(this);
@@ -45,7 +39,7 @@ public class UIManager : NonPersistentSingleton<UIManager>
         StartScreen.Initialise(this);
 
         SettingsManager = GetComponentInChildren<SettingsManager>();
-        SettingsManager.Initialise(this);
+        SettingsManager.Initialise(this, inputActions);
 
         ResultsScreen = GetComponentInChildren<ResultsScreen>();
         ResultsScreen.Initialise(this);
@@ -119,7 +113,7 @@ public class UIManager : NonPersistentSingleton<UIManager>
         CurrentUIScript = newUIState switch
         {
             UIState.Menu => StartScreen,
-            UIState.HUD => HUDManager,
+            UIState.HUD => GameOverlay,
             UIState.Pause => PauseScreen,
             UIState.Settings => SettingsManager,
             UIState.Result => ResultsScreen,
@@ -137,15 +131,15 @@ public class UIManager : NonPersistentSingleton<UIManager>
         UIBackground.EnableBackground(newUIState, CurrentUIScript.IsOverlay);
     }
 
-    #region HUD Manager
+    #region Game Overlay
     public async Task SetupHUD(LevelContext context)
     {
-        await HUDManager.SetupHUD(context);
+        await GameOverlay.SetupHUD(context);
     }
 
     public async Task StartCountdown(float duration)
     {
-        await HUDManager.StartCountdown(duration);
+        await GameOverlay.StartCountdown(duration);
     }
     #endregion
 

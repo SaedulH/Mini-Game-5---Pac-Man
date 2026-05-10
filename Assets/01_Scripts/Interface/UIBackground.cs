@@ -9,10 +9,9 @@ namespace UserInterface
         private VisualElement _full;
         private VisualElement _overlay;
 
-        protected override void Awake()
+        public override void Initialise(UIManager uIManager)
         {
-            base.Awake();
-
+            base.Initialise(uIManager);
             _uiBackground = _root.Q<VisualElement>("UIBackground");
 
             _full = _uiBackground.Q<VisualElement>("Full");

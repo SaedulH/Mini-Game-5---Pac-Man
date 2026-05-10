@@ -24,6 +24,11 @@ namespace UserInterface
             _uiManager = uIManager;
         }
 
+        public virtual void Initialise(UIManager uIManager, PlayerInputActions inputActions = null)
+        {
+            _uiManager = uIManager;
+        }
+
         public virtual void Show()
         {
         }

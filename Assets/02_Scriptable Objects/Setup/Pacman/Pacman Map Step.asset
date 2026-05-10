@@ -9,10 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02de1bfa0e50b6b4f9e18ff801c7eaa8, type: 3}
-  m_Name: Game Music Step
-  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.InitMusicStepSO
+  m_Script: {fileID: 11500000, guid: 05621b7b0c53ad945a2373f0eb03481e, type: 3}
+  m_Name: Pacman Map Step
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.InitMapStepSO
   <Description>k__BackingField: 
   <Weight>k__BackingField: 1
   <StepPriority>k__BackingField: 0
-  TrackBGM: {fileID: 11400000, guid: 124ef8c929a96d0418c5689f2b1c049c, type: 2}
+  sceneReference:
+    m_AssetGUID: 99c9720ab356a0642a771bea13969a05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

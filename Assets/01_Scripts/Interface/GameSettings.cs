@@ -15,7 +15,7 @@ namespace SettingsSystem
         private Button _screenShakeLowToggle;
         private Button _screenShakeHighToggle;
 
-        public override void InitialiseSettings(VisualElement root)
+        public void InitialiseSettings(VisualElement root)
         {
             TabElement = root.Q<Tab>("Game");
 

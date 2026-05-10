@@ -24,12 +24,9 @@ namespace SettingsSystem
         private Button _leftInput;
         private Button _rightInput;
 
-        public override void InitialiseSettings(VisualElement root)
+        public void InitialiseSettings(VisualElement root, PlayerInputActions inputActions = null)
         {
-            if (PlayerInput == null)
-            {
-                PlayerInput = GameManager.Instance.InputActions;
-            }
+            PlayerInput ??= inputActions;
             _playerActions = PlayerInput.asset.FindActionMap(Constants.PACMAN_ACTION_MAP);
             _menuActions = PlayerInput.asset.FindActionMap(Constants.MENU_ACTION_MAP);
 

@@ -16,8 +16,9 @@ namespace UserInterface
         private Button _settings;
         private Button _quit;
 
-        private void OnEnable()
+        public override void Initialise(UIManager uIManager)
         {
+            base.Initialise(uIManager);
             _pauseScreen = _root.Q<VisualElement>("PauseScreen");
 
             _resume = _pauseScreen.Q<Button>("Resume");
@@ -33,10 +34,7 @@ namespace UserInterface
             _quit.clicked += OnQuitClicked;
 
             _pauseScreen.AddToClassList("hide");
-        }
 
-        private void Start()
-        {
             AudioCollection.Instance.SetupHoverAudio(_pauseScreen);
         }
 
