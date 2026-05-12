@@ -30,16 +30,16 @@ namespace CoreSystem
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.green;
+            Gizmos.color = NodeUp != null ? Color.green : Color.red;
             Gizmos.DrawRay(transform.position, Vector3.forward);
 
-            Gizmos.color = Color.blue;
+            Gizmos.color = NodeDown != null ? Color.green : Color.red;
             Gizmos.DrawRay(transform.position, Vector3.back);
 
-            Gizmos.color = Color.yellow;
+            Gizmos.color = NodeRight != null ? Color.green : Color.red;
             Gizmos.DrawRay(transform.position, Vector3.right);
 
-            Gizmos.color = Color.red;
+            Gizmos.color = NodeLeft != null ? Color.green : Color.red;
             Gizmos.DrawRay(transform.position, Vector3.left);
         }
 

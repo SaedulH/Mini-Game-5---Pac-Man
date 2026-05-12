@@ -44,7 +44,7 @@ namespace CoreSystem
 
         protected virtual async Task ResetPosition()
         {
-
+            await Task.CompletedTask;
         }
 
         public virtual void OnHitEvent()

@@ -4,8 +4,8 @@ using UnityEngine.AddressableAssets;
 
 namespace CoreSystem
 {
-    [CreateAssetMenu(fileName = "Setup Map Step", menuName = "Levels/SetupSteps/SetupMapStep")]
-    public class SetupMapStepSO : LevelSetupStepSO
+    [CreateAssetMenu(fileName = "Setup Maze Layout Step", menuName = "Levels/SetupSteps/SetupMazeLayoutStep")]
+    public class SetupMazeLayoutStepSO : LevelSetupStepSO
     {
         [SerializeField] private AssetReference sceneReference;
 

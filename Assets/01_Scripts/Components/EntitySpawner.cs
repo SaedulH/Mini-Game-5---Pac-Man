@@ -40,6 +40,8 @@ namespace CoreSystem
                 }
             }
             ghosts[0].InputHandler.RespawnNode = ghosts[2].StartNode;
+
+            await Task.CompletedTask;
         }
 
         public PlayerManager SetupPlayer(PlayerInputActions inputActions, int levelNumber)

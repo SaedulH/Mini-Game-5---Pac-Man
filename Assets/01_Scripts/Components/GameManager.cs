@@ -7,17 +7,12 @@ using Utilities;
 
 namespace CoreSystem
 {
-    public class LevelManager : NonPersistentSingleton<LevelManager>
-    {
-    }
-
     public class GameManager : NonPersistentSingleton<GameManager>
     {
-
         [field: Header("Game Info")]
         [field: SerializeField] public PlayerInputActions InputActions { get; private set; }
         [field: SerializeField] public EntitySpawner EntitySpawner { get; private set; }
-        [field: SerializeField] public LevelSetupHandler LevelSetupHandler { get; private set; }
+        [field: SerializeField] public GameSceneLoader GameSceneLoader { get; private set; }
         [field: SerializeField] public GameState CurrentGameState { get; set; }
         [field: SerializeField] public int MaxLives { get; private set; } = 4;
 
@@ -56,7 +51,7 @@ namespace CoreSystem
             InputActions.Pacman.Pause.performed += OnPausedPerformed;
 
             EntitySpawner = GetComponentInChildren<EntitySpawner>();
-            LevelSetupHandler = GetComponentInChildren<LevelSetupHandler>();
+            GameSceneLoader = GetComponentInChildren<GameSceneLoader>();
         }
 
         private void OnDisable()
@@ -138,7 +133,7 @@ namespace CoreSystem
         public async Task SetupScene(LevelInfo levelInfo, LevelContext levelContext)
         {
             CurrentLevelContext = levelContext;
-            await LevelSetupHandler.SetupLevel(levelInfo, levelContext);
+            await GameSceneLoader.SetupLevel(levelInfo, levelContext);
         }
 
         public async Task SetupEntities(int levelNumber)

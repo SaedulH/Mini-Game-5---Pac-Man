@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AutoUnparentOnAwake: 0
   <EntitySpawner>k__BackingField: {fileID: 3430695047363071689}
-  <LevelSetupHandler>k__BackingField: {fileID: 8682648024544739975}
+  <GameSceneLoader>k__BackingField: {fileID: 0}
   <CurrentGameState>k__BackingField: 0
   <MaxLives>k__BackingField: 3
   <MainMenuInfo>k__BackingField: {fileID: 11400000, guid: d433dc9013bc82541825973d6714c21a, type: 2}
@@ -297,7 +297,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1457996153670307073, guid: d6296a341a968d443b5928b33e74a2b5, type: 3}
       propertyPath: m_Name
-      value: EntitySpawner
+      value: Entity Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 8145982898000318279, guid: d6296a341a968d443b5928b33e74a2b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -410,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3294732697095126588, guid: e21ce97425ab110428420337a92d9da2, type: 3}
       propertyPath: m_Name
-      value: Level Setup Handler
+      value: Game Scene Loader
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -422,14 +422,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2607983936138301520, guid: e21ce97425ab110428420337a92d9da2, type: 3}
   m_PrefabInstance: {fileID: 7007093309897986576}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8682648024544739975 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1819670154523496599, guid: e21ce97425ab110428420337a92d9da2, type: 3}
-  m_PrefabInstance: {fileID: 7007093309897986576}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 432822a8b19fdb5428fa0000da954c3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

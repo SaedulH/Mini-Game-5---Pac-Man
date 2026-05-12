@@ -15,6 +15,8 @@ namespace CoreSystem
 
             //string screenShakeSetting = PlayerPrefs.GetString("ScreenShake");
             //await CameraShake.Instance.SetupScreenShake(screenShakeSetting);
+
+            await Task.CompletedTask;
         }
     }
 }

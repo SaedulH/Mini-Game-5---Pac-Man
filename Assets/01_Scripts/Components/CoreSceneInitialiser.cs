@@ -1,5 +1,4 @@
 using AudioSystem;
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -52,11 +51,15 @@ namespace CoreSystem
             GameManager.Initialise(InputActions);
             AudioManager.Initialise();
             UIManager.Initialise(InputActions);
+
+            await Task.CompletedTask;
         }
 
         private async Task CreateObjects()
         {
             GameManager.InitialiseMenu();
+
+            await Task.CompletedTask;
         }
 
         private void OnEnable()
