@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47722ac41c8f0b4788b20d29ce14d8d, type: 3}
+  m_Name: TopRight_Inner_2
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallType
+  <Description>k__BackingField: Top Right
+  <Mesh>k__BackingField: {fileID: 0}
+  <FlipX>k__BackingField: 0
+  <FlipY>k__BackingField: 0
+  <IsBoundary>k__BackingField: 0
+  <HasWallTop>k__BackingField: 1
+  <HasWallTopLeft>k__BackingField: 0
+  <HasWallTopRight>k__BackingField: 1
+  <HasWallBottom>k__BackingField: 1
+  <HasWallBottomLeft>k__BackingField: 0
+  <HasWallBottomRight>k__BackingField: 0
+  <HasWallLeft>k__BackingField: 1
+  <HasWallRight>k__BackingField: 1

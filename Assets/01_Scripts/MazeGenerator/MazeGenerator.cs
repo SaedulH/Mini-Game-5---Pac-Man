@@ -18,6 +18,9 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     public float nodeDistance = 1f;
     public Vector3 startPosition = new(-13.5f, 2.5f, -14.5f);
 
+    [field: Header("Wall Meshes")]
+    [field: SerializeField] public WallType[] WallTypes { get; private set; }
+
     [field: Header("Prefabs")]
     public NodeScript nodePrefab;
     public WallScript wallPrefab;
@@ -116,6 +119,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
         await Task.CompletedTask;
     }
 
+    [ContextMenu("Validate Walls")]
     public async Task ValidateWallNodes()
     {
         IterateWalls(wall =>
@@ -136,7 +140,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     [ContextMenu("Assign Wall Type")]
     public void AssignWallType()
     {
-        IterateWalls(wall => wall.SetWallType());
+        IterateWalls(wall => wall.SetWallType(WallTypes));
     }
 
     [ContextMenu("Clear Walls")]
