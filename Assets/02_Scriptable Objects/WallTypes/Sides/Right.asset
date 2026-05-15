@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47722ac41c8f0b4788b20d29ce14d8d, type: 3}
+  m_Name: Right
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallType
+  <Description>k__BackingField: 5
+  <Mesh>k__BackingField: {fileID: -462981019419857548, guid: 5bcfd02ca53e5564e844447d1bbaa1fd, type: 3}
+  <YRotation>k__BackingField: 270
+  <WallRules>k__BackingField:
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 0
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 0
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 1
+    HasWallLeft: 0
+    HasWallRight: 1
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 1
+    HasWallBottomRight: 1
+    HasWallLeft: 0
+    HasWallRight: 1
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 1
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 1
+    HasWallLeft: 0
+    HasWallRight: 1
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 1
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 1
+    HasWallBottomRight: 1
+    HasWallLeft: 0
+    HasWallRight: 1

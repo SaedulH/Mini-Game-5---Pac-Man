@@ -229,6 +229,24 @@ namespace Utilities
         GhostStart
     }
 
+    public enum WallNodeType
+    {
+        None,
+        Top, 
+        Middle,
+        Bottom, 
+        Left, 
+        Right, 
+        TopLeftInner, 
+        TopLeftOuter, 
+        TopRightInner, 
+        TopRightOuter, 
+        BottomLeftInner, 
+        BottomLeftOuter, 
+        BottomRightInner,
+        BottomRightOuter
+    }
+
     public enum FruitType
     {
         Apple,

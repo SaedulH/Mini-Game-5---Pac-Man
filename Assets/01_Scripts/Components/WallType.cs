@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
@@ -21,22 +22,10 @@ namespace CoreSystem
     public class WallType : ScriptableObject
     {
         [field: Header("Wall Data")]
-        [field: SerializeField] public string Description { get; private set; }
+        [field: SerializeField] public WallNodeType Description { get; private set; }
         [field: SerializeField] public Mesh Mesh { get; private set; }
-        [field: SerializeField] public bool FlipX { get; private set; }
-        [field: SerializeField] public bool FlipY { get; private set; }
+        [field: SerializeField, Range(0, 360)] public float YRotation { get; private set; }
         [field: SerializeField] public WallRules[] WallRules { get; private set; }
-
-        [field: Header("Wall Rules")]
-        [field: SerializeField] public bool IsBoundary { get; private set; }
-        [field: SerializeField] public bool HasWallTop { get; private set; }
-        [field: SerializeField] public bool HasWallTopLeft { get; private set; }
-        [field: SerializeField] public bool HasWallTopRight { get; private set; }
-        [field: SerializeField] public bool HasWallBottom { get; private set; }
-        [field: SerializeField] public bool HasWallBottomLeft { get; private set; }
-        [field: SerializeField] public bool HasWallBottomRight { get; private set; }
-        [field: SerializeField] public bool HasWallLeft { get; private set; }
-        [field: SerializeField] public bool HasWallRight { get; private set; }
 
         public bool Matches(bool isBoundary, bool hasTop, bool hasTopLeft, bool hasTopRight, bool hasBottom, bool hasBottomLeft, bool hasBottomRight, bool hasLeft, bool hasRight)
         {

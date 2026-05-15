@@ -49,7 +49,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
         if (Walls == null || Walls.Length == 0)
         {
             Debug.LogWarning("[IterateWalls] Walls array is not initialized.");
-            WallScript[] walls = WallParent.GetComponentsInChildren<WallScript>();
+            WallScript[] walls = WallParent.GetComponentsInChildren<WallScript>(true);
 
             foreach (WallScript wall in walls)
             {

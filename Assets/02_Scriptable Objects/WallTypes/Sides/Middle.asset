@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47722ac41c8f0b4788b20d29ce14d8d, type: 3}
   m_Name: Middle
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallType
-  <Description>k__BackingField: Middle
-  <Mesh>k__BackingField: {fileID: 0}
-  <FlipX>k__BackingField: 0
-  <FlipY>k__BackingField: 0
-  <HasWallTop>k__BackingField: 1
-  <HasWallTopLeft>k__BackingField: 1
-  <HasWallTopRight>k__BackingField: 1
-  <HasWallBottom>k__BackingField: 1
-  <HasWallBottomLeft>k__BackingField: 1
-  <HasWallBottomRight>k__BackingField: 1
-  <HasWallLeft>k__BackingField: 1
-  <HasWallRight>k__BackingField: 1
+  <Description>k__BackingField: 2
+  <Mesh>k__BackingField: {fileID: 1385279003812690709, guid: 8faa78347108ac7458e4edeb43d1f773, type: 3}
+  <YRotation>k__BackingField: 0
+  <WallRules>k__BackingField:
+  - IsBoundary: 0
+    HasWallTop: 1
+    HasWallTopLeft: 1
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 1
+    HasWallBottomRight: 1
+    HasWallLeft: 1
+    HasWallRight: 1

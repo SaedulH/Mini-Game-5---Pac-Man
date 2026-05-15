@@ -1,10 +1,12 @@
-using NUnit.Framework.Internal;
 using UnityEngine;
+using Utilities;
 
 namespace CoreSystem
 {
     public class WallScript : MonoBehaviour
     {
+        [field: SerializeField] public WallNodeType WallNodeType { get; private set; }
+
         [field: Header("Connected Wall Nodes")]
         [field: SerializeField] public WallScript WallTop { get; private set; }
         [field: SerializeField] public WallScript WallTopLeft { get; private set; }
@@ -104,6 +106,11 @@ namespace CoreSystem
         }
 
         [ContextMenu("SetWallType")]
+        public void SetWallType()
+        {
+            SetWallType(MazeGenerator.Instance.WallTypes);
+        }
+            
         public void SetWallType(WallType[] wallTypes, bool isBoundary = false)
         {
             bool hasTop = WallTop != null;
@@ -120,13 +127,13 @@ namespace CoreSystem
             {
                 if (type.Matches(
                     isBoundary,
-                    hasTop, 
-                    hasTopLeft, 
-                    hasTopRight, 
-                    hasBottom, 
-                    hasBottomLeft, 
-                    hasBottomRight, 
-                    hasLeft, 
+                    hasTop,
+                    hasTopLeft,
+                    hasTopRight,
+                    hasBottom,
+                    hasBottomLeft,
+                    hasBottomRight,
+                    hasLeft,
                     hasRight))
                 {
                     result = type;
@@ -137,6 +144,7 @@ namespace CoreSystem
             MeshFilter meshFilter = GetComponent<MeshFilter>();
             if (result == null)
             {
+                WallNodeType = WallNodeType.None;
                 Debug.LogError($"No matching wall type found for wall '{gameObject.name}' with surrounding configuration: " +
                     $"Top: {hasTop}, TopLeft: {hasTopLeft}, TopRight: {hasTopRight}, " +
                     $"Bottom: {hasBottom}, BottomLeft: {hasBottomLeft}, BottomRight: {hasBottomRight}, " +
@@ -149,13 +157,11 @@ namespace CoreSystem
             }
             else
             {
+                WallNodeType = result.Description;
                 if (meshFilter != null)
                 {
                     meshFilter.sharedMesh = result.Mesh;
-                    transform.localScale = new Vector3(
-                        result.FlipX ? -1 : 1,
-                        transform.localScale.y,
-                        result.FlipY ? -1 : 1);
+                    transform.rotation = result.YRotation != 0 ? Quaternion.Euler(0, result.YRotation, 0) : Quaternion.identity;
                 }
             }
         }
