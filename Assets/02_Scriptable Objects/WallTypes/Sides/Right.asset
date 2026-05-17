@@ -16,7 +16,7 @@ MonoBehaviour:
   <Mesh>k__BackingField: {fileID: -462981019419857548, guid: 5bcfd02ca53e5564e844447d1bbaa1fd, type: 3}
   <YRotation>k__BackingField: 270
   <WallRules>k__BackingField:
-  - IsBoundary: 0
+  - boundaryType: 8
     HasWallTop: 1
     HasWallTopLeft: 0
     HasWallTopRight: 0
@@ -25,7 +25,25 @@ MonoBehaviour:
     HasWallBottomRight: 0
     HasWallLeft: 0
     HasWallRight: 0
-  - IsBoundary: 0
+  - boundaryType: 8
+    HasWallTop: 1
+    HasWallTopLeft: 1
+    HasWallTopRight: 0
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 0
+  - boundaryType: 8
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 0
+    HasWallBottom: 1
+    HasWallBottomLeft: 1
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 0
     HasWallTopRight: 1
@@ -34,7 +52,7 @@ MonoBehaviour:
     HasWallBottomRight: 1
     HasWallLeft: 0
     HasWallRight: 1
-  - IsBoundary: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 0
     HasWallTopRight: 1
@@ -43,7 +61,7 @@ MonoBehaviour:
     HasWallBottomRight: 1
     HasWallLeft: 0
     HasWallRight: 1
-  - IsBoundary: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 1
     HasWallTopRight: 1
@@ -52,7 +70,7 @@ MonoBehaviour:
     HasWallBottomRight: 1
     HasWallLeft: 0
     HasWallRight: 1
-  - IsBoundary: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 1
     HasWallTopRight: 1
@@ -61,3 +79,30 @@ MonoBehaviour:
     HasWallBottomRight: 1
     HasWallLeft: 0
     HasWallRight: 1
+  - boundaryType: 15
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 0
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 0
+  - boundaryType: 15
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 1
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 0
+  - boundaryType: 15
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 0
+    HasWallBottom: 1
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 1
+    HasWallLeft: 0
+    HasWallRight: 0

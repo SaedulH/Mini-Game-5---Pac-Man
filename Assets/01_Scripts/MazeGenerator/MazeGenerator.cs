@@ -5,6 +5,22 @@ using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class BoundaryRules
+{
+    [field: Header("Maze Boundaries")]
+    public float TopBoundary;
+    public float LeftBoundary;
+    public float BottomBoundary;
+    public float RightBoundary;
+
+    [field: Header("Pen Boundaries")]
+    public float TopPenBoundary;
+    public float LeftPenBoundary;
+    public float BottomPenBoundary;
+    public float RightPenBoundary;
+}
+
 public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
 {
     [field: Header("Parents")]
@@ -13,10 +29,11 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     [field: SerializeField] public GameObject WallProtoParent { get; private set; }
 
     [field: Header("Dimensions")]
-    public int width = 26;
-    public int height = 29;
-    public float nodeDistance = 1f;
-    public Vector3 startPosition = new(-13.5f, 2.5f, -14.5f);
+    [field: SerializeField] public BoundaryRules Boundaries { get; private set; }
+    [field: SerializeField] public int Width { get; private set; } = 26;
+    [field: SerializeField] public int Height { get; private set; } = 29;
+    [field: SerializeField] public float NodeDistance { get; private set; } = 1f;
+    [field: SerializeField] public Vector3 StartPosition { get; private set; } = new(-12.5f, 1f, -14.5f);
 
     [field: Header("Wall Meshes")]
     [field: SerializeField] public WallType[] WallTypes { get; private set; }
@@ -26,6 +43,24 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     public WallScript wallPrefab;
     [field: SerializeField] public NodeScript[,] Nodes { get; private set; }
     [field: SerializeField] public WallScript[,] Walls { get; private set; }
+
+    private void OnValidate()
+    {
+        Boundaries.TopBoundary = StartPosition.z + (Height * NodeDistance);
+        Boundaries.BottomBoundary = StartPosition.z - NodeDistance;
+        Boundaries.RightBoundary = StartPosition.x + (Width * NodeDistance);
+        Boundaries.LeftBoundary = StartPosition.x - NodeDistance;
+
+        Vector3 midpoint = new(
+            StartPosition.x - 0.5f + (Width * NodeDistance) / 2f,
+            StartPosition.y,
+            StartPosition.z + 0.5f + (Height * NodeDistance) / 2f
+        );
+        Boundaries.TopPenBoundary = midpoint.z + (2f * NodeDistance);
+        Boundaries.BottomPenBoundary = midpoint.z - (2f * NodeDistance);
+        Boundaries.RightPenBoundary = midpoint.x + (3.5f * NodeDistance);
+        Boundaries.LeftPenBoundary = midpoint.x - (3.5f * NodeDistance);
+    }
 
     public void Initialise(LevelContext context)
     {
@@ -61,9 +96,9 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
         }
         else
         {
-            for (int i = 0; i < width + 2; i++)
+            for (int i = 0; i < Width + (int)(2 * NodeDistance); i++)
             {
-                for (int j = 0; j < height + 2; j++)
+                for (int j = 0; j < Height + (int)(2 * NodeDistance); j++)
                 {
                     WallScript wall = Walls[i, j];
                     if (wall != null)
@@ -83,7 +118,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
             Debug.LogError("Wall prefab is not assigned.");
             return;
         }
-        Walls = new WallScript[width + 2, height + 2];
+        Walls = new WallScript[Width + (int)(2 * NodeDistance), Height + (int)(2 * NodeDistance)];
 
         await GenerateWallNodes();
 
@@ -92,18 +127,18 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
 
     public async Task GenerateWallNodes()
     {
-        int wallWidth = width + 2;  
-        int wallHeight = height + 2;  
-        Vector3 wallStartPosition = startPosition + new Vector3(-1f, 0, -1f);
+        int wallWidth = Width + (int)(2 * NodeDistance);  
+        int wallHeight = Height + (int)(2 * NodeDistance);  
+        Vector3 wallStartPosition = StartPosition + new Vector3(-1f, 0, -1f);
 
         for (int i = 0; i < wallWidth; i++)
         {
             for (int j = 0; j < wallHeight; j++)
             {
                 Vector3 position = new(
-                    wallStartPosition.x + i * nodeDistance,
+                    wallStartPosition.x + i * NodeDistance,
                     wallStartPosition.y,
-                    wallStartPosition.z + j * nodeDistance
+                    wallStartPosition.z + j * NodeDistance
                 );
                 Collider[] results = new Collider[10];
                 int wallCount = Physics.OverlapSphereNonAlloc(position, 0.25f, results, LayerMask.GetMask("Walls"));
@@ -131,7 +166,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
                 return;
             }
 
-            wall.CheckSurroundingWalls(nodeDistance);
+            wall.CheckSurroundingWalls(NodeDistance);
         });
 
         await Task.CompletedTask;
@@ -140,7 +175,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     [ContextMenu("Assign Wall Type")]
     public void AssignWallType()
     {
-        IterateWalls(wall => wall.SetWallType(WallTypes));
+        IterateWalls(wall => wall.SetWallType(WallTypes, Boundaries));
     }
 
     [ContextMenu("Clear Walls")]
@@ -222,9 +257,9 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
         }
         else
         {
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < Height; j++)
                 {
                     NodeScript node = Nodes[i, j];
                     if (node != null)
@@ -244,7 +279,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
             Debug.LogError("Node prefab is not assigned.");
             return;
         }
-        Nodes = new NodeScript[width, height];
+        Nodes = new NodeScript[Width, Height];
 
         await GeneratePathNodes();
 
@@ -253,14 +288,14 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
 
     public async Task GeneratePathNodes()
     {
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < Width; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (int j = 0; j < Height; j++)
             {
                 Vector3 position = new(
-                    startPosition.x + i * nodeDistance,
-                    startPosition.y,
-                    startPosition.z + j * nodeDistance
+                    StartPosition.x + i * NodeDistance,
+                    StartPosition.y,
+                    StartPosition.z + j * NodeDistance
                 );
                 Collider[] results = new Collider[10];
                 int wallCount = Physics.OverlapSphereNonAlloc(position, 0.25f, results, LayerMask.GetMask("Walls"));
@@ -287,7 +322,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
                 return;
             }
 
-            node.CheckAvailableMoves(nodeDistance);
+            node.CheckAvailableMoves(NodeDistance);
         });
 
         await Task.CompletedTask;

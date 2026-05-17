@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utilities;
 
@@ -108,11 +109,16 @@ namespace CoreSystem
         [ContextMenu("SetWallType")]
         public void SetWallType()
         {
-            SetWallType(MazeGenerator.Instance.WallTypes);
+            SetWallType(MazeGenerator.Instance.WallTypes, MazeGenerator.Instance.Boundaries);
         }
             
-        public void SetWallType(WallType[] wallTypes, bool isBoundary = false)
+        public void SetWallType(WallType[] wallTypes, BoundaryRules boundaries)
         {
+            Vector3 position = transform.position;
+            Debug.Log($"Checking wall '{gameObject.name}' at position {position} for surrounding walls and boundaries.");
+
+            BoundaryType boundaryType = GetBoundaryType(boundaries, position);
+
             bool hasTop = WallTop != null;
             bool hasTopLeft = WallTopLeft != null;
             bool hasTopRight = WallTopRight != null;
@@ -126,7 +132,7 @@ namespace CoreSystem
             foreach (WallType type in wallTypes)
             {
                 if (type.Matches(
-                    isBoundary,
+                    boundaryType,
                     hasTop,
                     hasTopLeft,
                     hasTopRight,
@@ -164,6 +170,116 @@ namespace CoreSystem
                     transform.rotation = result.YRotation != 0 ? Quaternion.Euler(0, result.YRotation, 0) : Quaternion.identity;
                 }
             }
+        }
+
+        private static BoundaryType GetBoundaryType(BoundaryRules boundaries, Vector3 position)
+        {
+            BoundaryType boundaryType = BoundaryType.None;
+            if (IsWithinPenBoundaries(boundaries, position))
+            {
+                boundaryType = GetPenBoundaryType(boundaries, position, boundaryType);
+            } else
+            {
+                boundaryType = GetMazeBoundaryType(boundaries, position, boundaryType);
+            }
+
+            return boundaryType;
+        }
+
+        private static bool IsWithinPenBoundaries(BoundaryRules boundaries, Vector3 position)
+        {
+            return position.x >= boundaries.LeftPenBoundary && position.x <= boundaries.RightPenBoundary &&
+                   position.z >= boundaries.BottomPenBoundary && position.z <= boundaries.TopPenBoundary;
+        }
+
+        private static BoundaryType GetPenBoundaryType(BoundaryRules boundaries, Vector3 position, BoundaryType boundaryType)
+        {
+            if (position.x == boundaries.LeftPenBoundary)
+            {
+                boundaryType = BoundaryType.LeftPen;
+            }
+            else if (position.x == boundaries.RightPenBoundary)
+            {
+                boundaryType = BoundaryType.RightPen;
+            }
+
+            if (position.z == boundaries.TopPenBoundary)
+            {
+                if (boundaryType == BoundaryType.LeftPen)
+                {
+                    boundaryType = BoundaryType.TopLeftPen;
+                }
+                else if (boundaryType == BoundaryType.RightPen)
+                {
+                    boundaryType = BoundaryType.TopRightPen;
+                }
+                else
+                {
+                    boundaryType = BoundaryType.TopPen;
+                }
+            }
+            else if (position.z == boundaries.BottomPenBoundary)
+            {
+                if (boundaryType == BoundaryType.LeftPen)
+                {
+                    boundaryType = BoundaryType.BottomLeftPen;
+                }
+                else if (boundaryType == BoundaryType.RightPen)
+                {
+                    boundaryType = BoundaryType.BottomRightPen;
+                }
+                else
+                {
+                    boundaryType = BoundaryType.BottomPen;
+                }
+            }
+
+            return boundaryType;
+        }
+
+        private static BoundaryType GetMazeBoundaryType(BoundaryRules boundaries, Vector3 position, BoundaryType boundaryType)
+        {
+            if (position.x == boundaries.LeftBoundary)
+            {
+                boundaryType = BoundaryType.Left;
+            }
+            else if (position.x == boundaries.RightBoundary)
+            {
+                boundaryType = BoundaryType.Right;
+            }
+
+            if (position.z == boundaries.TopBoundary)
+            {
+                if (boundaryType == BoundaryType.Left)
+                {
+                    boundaryType = BoundaryType.TopLeft;
+                }
+                else if (boundaryType == BoundaryType.Right)
+                {
+                    boundaryType = BoundaryType.TopRight;
+                }
+                else
+                {
+                    boundaryType = BoundaryType.Top;
+                }
+            }
+            else if (position.z == boundaries.BottomBoundary)
+            {
+                if (boundaryType == BoundaryType.Left)
+                {
+                    boundaryType = BoundaryType.BottomLeft;
+                }
+                else if (boundaryType == BoundaryType.Right)
+                {
+                    boundaryType = BoundaryType.BottomRight;
+                }
+                else
+                {
+                    boundaryType = BoundaryType.Bottom;
+                }
+            }
+
+            return boundaryType;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CoreSystem
     [Serializable]
     public class WallRules
     {
-        public bool IsBoundary;
+        public BoundaryType boundaryType;
         public bool HasWallTop;
         public bool HasWallTopLeft;
         public bool HasWallTopRight;
@@ -27,12 +27,11 @@ namespace CoreSystem
         [field: SerializeField, Range(0, 360)] public float YRotation { get; private set; }
         [field: SerializeField] public WallRules[] WallRules { get; private set; }
 
-        public bool Matches(bool isBoundary, bool hasTop, bool hasTopLeft, bool hasTopRight, bool hasBottom, bool hasBottomLeft, bool hasBottomRight, bool hasLeft, bool hasRight)
+        public bool Matches(BoundaryType boundaryType, bool hasTop, bool hasTopLeft, bool hasTopRight, bool hasBottom, bool hasBottomLeft, bool hasBottomRight, bool hasLeft, bool hasRight)
         {
             foreach (var rule in WallRules)
             {
                 bool matches = true;
-                matches &= rule.IsBoundary == isBoundary;
                 matches &= rule.HasWallTop == hasTop;
                 matches &= rule.HasWallTopLeft == hasTopLeft;
                 matches &= rule.HasWallTopRight == hasTopRight;
@@ -41,6 +40,8 @@ namespace CoreSystem
                 matches &= rule.HasWallBottomRight == hasBottomRight;
                 matches &= rule.HasWallLeft == hasLeft;
                 matches &= rule.HasWallRight == hasRight;
+                matches &= rule.boundaryType == boundaryType;
+
                 if (matches)
                 {
                     return true;

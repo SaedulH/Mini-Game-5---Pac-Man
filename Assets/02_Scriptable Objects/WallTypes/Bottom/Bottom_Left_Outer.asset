@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Bottom_Left_Outer
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallType
   <Description>k__BackingField: 11
-  <Mesh>k__BackingField: {fileID: 0}
-  <YRotation>k__BackingField: 0
+  <Mesh>k__BackingField: {fileID: -3877259629445673879, guid: 72ec796db21a80249ab34b0ec655d56e, type: 3}
+  <YRotation>k__BackingField: 270
   <WallRules>k__BackingField:
-  - IsBoundary: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 0
     HasWallTopRight: 0
@@ -25,10 +25,19 @@ MonoBehaviour:
     HasWallBottomRight: 0
     HasWallLeft: 0
     HasWallRight: 1
-  - IsBoundary: 0
+  - boundaryType: 0
     HasWallTop: 1
     HasWallTopLeft: 0
     HasWallTopRight: 1
+    HasWallBottom: 0
+    HasWallBottomLeft: 0
+    HasWallBottomRight: 0
+    HasWallLeft: 0
+    HasWallRight: 1
+  - boundaryType: 13
+    HasWallTop: 1
+    HasWallTopLeft: 0
+    HasWallTopRight: 0
     HasWallBottom: 0
     HasWallBottomLeft: 0
     HasWallBottomRight: 0

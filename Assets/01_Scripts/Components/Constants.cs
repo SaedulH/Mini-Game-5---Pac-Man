@@ -247,6 +247,27 @@ namespace Utilities
         BottomRightOuter
     }
 
+    public enum BoundaryType
+    {
+        None,
+        Top,
+        TopLeft,
+        TopRight,
+        Bottom,
+        BottomLeft,
+        BottomRight,
+        Left,
+        Right,
+        TopPen,
+        TopLeftPen,
+        TopRightPen,
+        BottomPen,
+        BottomLeftPen,
+        BottomRightPen,
+        LeftPen,
+        RightPen,
+    }
+
     public enum FruitType
     {
         Apple,
