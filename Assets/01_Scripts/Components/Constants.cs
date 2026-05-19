@@ -167,6 +167,14 @@ namespace Utilities
         InputPopup
     }
 
+    public enum MapName
+    {
+        Menu,
+        Pacman,
+        MsPacman,
+        Random
+    }
+
     public enum CameraMode
     {
         Fixed,
@@ -189,8 +197,6 @@ namespace Utilities
         Effects
     }
 
-    #endregion
-
     public enum ControlInput
     {
         None,
@@ -200,22 +206,13 @@ namespace Utilities
         Right,
     }
 
+    #endregion
+
     public enum AIState
     {
         Idle,
         Driving,
         Reversing
-    }
-
-    public enum MapName
-    {
-        Menu,
-        Pacman,
-        MsPacman1,
-        MsPacman2,
-        MsPacman3,
-        MsPacman4,
-        Random
     }
 
     public enum NodeType

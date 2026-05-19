@@ -6,9 +6,10 @@
             <ui:TabView name="SettingsTabs" class="settingsText" style="transition-duration: 0.2s; margin-top: 2.5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
                 <ui:Tab label="Game" name="Game" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
                     <ui:GroupBox name="" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 100%; height: 100%; flex-direction: column; flex-shrink: 1; flex-grow: 1;">
-                        <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="Difficulty">
-                            <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Easy" class="selectionButton"/>
-                            <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Hard" class="selectionButton"/>
+                        <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="MapName">
+                            <ui:Button text="Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Pacman" class="selectionButton"/>
+                            <ui:Button text="Ms.Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MsPacman" class="selectionButton"/>
+                            <ui:Button text="Random" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Random" class="selectionButton"/>
                         </ui:ToggleButtonGroup>
                         <ui:ToggleButtonGroup label="Camera" value="10" is-multiple-selection="false" name="Camera">
                             <ui:Button text="Fixed" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Fixed" class="selectionButton"/>
