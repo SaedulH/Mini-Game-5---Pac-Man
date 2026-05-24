@@ -6,20 +6,30 @@ namespace CoreSystem
 {
     public class EntityAnimator : MonoBehaviour
     {
+        private static readonly int SpeedHash = Animator.StringToHash("Speed");
+        private static readonly int DeathHash = Animator.StringToHash("Death");
+        private static readonly int ReappearHash = Animator.StringToHash("Reappear");
+        private static readonly int DisappearHash = Animator.StringToHash("Disappear");
+
         [field: SerializeField] public Animator Anim { get; protected set; }
         [field: SerializeField] public Movement Movement { get; protected set; }
-        [field: SerializeField] public GameObject Body { get; protected set; }
+        [field: SerializeField] public GameObject Rotator { get; protected set; }
         [field: SerializeField] public ControlInput CurrentDirection { get; protected set; }
 
         private float _moveSpeed = 1f;
-        private float _topSpeed = 1f;
+        private float _currentSpeed = 1f;
+        private float _targetSpeed = 1f;
 
         protected virtual void Awake()
         {
             Anim = GetComponent<Animator>();
             Movement = GetComponent<Movement>();
-            Body = GetComponentInChildren<MeshRenderer>().gameObject;
+            if (Rotator == null)
+            {
+                Rotator = GetComponentInChildren<MeshRenderer>().gameObject;
+            }
         }
+
         protected virtual void Start()
         {
             CurrentDirection = Movement.CachedDirection;
@@ -31,7 +41,7 @@ namespace CoreSystem
 
         protected virtual void Update()
         {
-            if (Movement == null || Movement.RB == null) return;
+            if (Movement == null) return;
 
             SetMoveAnim();
             GetDirection();
@@ -50,43 +60,41 @@ namespace CoreSystem
         {
             float yRotation = CurrentDirection switch
             {
-                ControlInput.Right => 0f,
-                ControlInput.Down => 90f,
-                ControlInput.Left => 180f,
-                ControlInput.Up => 270f,
+                ControlInput.Up => 180f,
+                ControlInput.Right => 270f,
+                ControlInput.Down => 0f,
+                ControlInput.Left => 90f,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            Body.transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+            Rotator.transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
         }
 
-        private void SetMoveAnim()
+        protected virtual void SetMoveAnim()
         {
-            float currentVelocity = Movement.RB.linearVelocity.magnitude;
+            _targetSpeed = Movement.IsMoving ? _moveSpeed : 0f;
 
-            float targetSpeed = currentVelocity > 0.1f ? _topSpeed : 0f;
-
-            _moveSpeed = Mathf.MoveTowards(_moveSpeed, targetSpeed, 10f * Time.deltaTime);
-            Anim.SetFloat("Speed", _moveSpeed);
+            _moveSpeed = Mathf.MoveTowards(_moveSpeed, _targetSpeed, 10f * Time.deltaTime);
+            Anim.SetFloat(SpeedHash, _moveSpeed);
         }
 
         public virtual void SetPowerMode(bool enabled)
         {
-            _topSpeed = enabled ? 2f : 1f;
+            _moveSpeed = enabled ? 2f : 1f;
         }
 
         public virtual void SetDeath(bool value)
         {
-            Anim.SetBool("Death", value);
+            Anim.SetBool(DeathHash, value);
         }
 
         public virtual void Disappear()
         {
-            Anim.SetTrigger("Disappear");
+            Anim.SetTrigger(DisappearHash);
         }
 
         public virtual void Reappear()
         {
-            Anim.SetTrigger("Reappear");
+            Anim.SetTrigger(ReappearHash);
             SetDeath(false);
         }
     }

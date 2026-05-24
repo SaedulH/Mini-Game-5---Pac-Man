@@ -7,8 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 9e67c24ced95bd9479c555c7cfeb4383, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Black.005
     second: {fileID: 2100000, guid: 9e67c24ced95bd9479c555c7cfeb4383, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Yellow
+    second: {fileID: 2100000, guid: 69120afe94657fe459fc580432607b60, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

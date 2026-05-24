@@ -16,6 +16,7 @@ namespace CoreSystem
         [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
 
         [field: SerializeField] public float Speed { get; protected set; }
+        [field: SerializeField] public bool IsMoving { get; protected set; }
 
         protected bool _isActive = false;
 
@@ -23,6 +24,7 @@ namespace CoreSystem
         {
             InputHandler = GetComponent<IInputHandler>();
             RB = GetComponent<Rigidbody>();
+            IsMoving = true;
         }
 
         protected virtual void Update()
@@ -61,6 +63,14 @@ namespace CoreSystem
 
         protected virtual void Move()
         {
+            if (IsMoving && transform.position == CurrentNode.transform.position)
+            {
+                IsMoving = false;
+            } else if (!IsMoving && transform.position != CurrentNode.transform.position)
+            {
+                IsMoving = true;
+            }
+
             transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
             if (transform.position == CurrentNode.transform.position)
             {

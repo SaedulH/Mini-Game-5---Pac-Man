@@ -14013,6 +14013,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 8811845946248626251, guid: ca1272ff7a84e944b863e26528cc3ba9, type: 3}
+    - target: {fileID: 7186384388617785747, guid: 487ebac81a4dc004e999255774b1ec8f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7186384388617785747, guid: 487ebac81a4dc004e999255774b1ec8f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7186919948350176072, guid: 487ebac81a4dc004e999255774b1ec8f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
