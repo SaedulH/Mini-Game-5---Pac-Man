@@ -24,10 +24,6 @@ namespace CoreSystem
         {
             Anim = GetComponent<Animator>();
             Movement = GetComponent<Movement>();
-            if (Rotator == null)
-            {
-                Rotator = GetComponentInChildren<MeshRenderer>().gameObject;
-            }
         }
 
         protected virtual void Start()
@@ -56,7 +52,7 @@ namespace CoreSystem
             }
         }
 
-        private void RotateToDirection()
+        protected virtual void RotateToDirection()
         {
             float yRotation = CurrentDirection switch
             {

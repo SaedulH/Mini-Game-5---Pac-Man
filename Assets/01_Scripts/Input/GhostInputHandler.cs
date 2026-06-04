@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
+using Random = UnityEngine.Random;
 
 namespace CoreSystem
 {
@@ -20,6 +22,8 @@ namespace CoreSystem
         [SerializeField] private int _pelletsToExitPen = 0;
         [SerializeField] private bool _canExitPen = false;
         [SerializeField] private float _timerToExitPen = 0f;
+
+        public Action<bool> SetReturningState;
 
         private void Update()
         {
@@ -100,7 +104,11 @@ namespace CoreSystem
                     _hasChangedDirection = false;
                     break;
                 case GhostState.Waiting:
+                    SetReturningState.Invoke(false);
                     _canExitPen = false;
+                    break;
+                case GhostState.Returning:
+                    SetReturningState.Invoke(true);
                     break;
             }
             Debug.Log($"{gameObject.name}: Changing state from: [{CurrentState}] to: [{newState}]");
@@ -409,5 +417,5 @@ namespace CoreSystem
         }
     }
 
-        #endregion
+    #endregion
 }

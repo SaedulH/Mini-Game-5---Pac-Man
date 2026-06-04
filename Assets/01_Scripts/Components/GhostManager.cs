@@ -11,6 +11,7 @@ namespace CoreSystem
     public class GhostManager : EntityManager
     {
         public new GhostInputHandler InputHandler { get => (GhostInputHandler)base.InputHandler; protected set => base.InputHandler = value; }
+        public new GhostAnimator Anim { get => (GhostAnimator)base.Anim; protected set => base.Anim = value; }
 
         [SerializeField] private int _currentWave = 1;
         [SerializeField] private int _collectedPellets = 0;
@@ -60,6 +61,7 @@ namespace CoreSystem
         private void SetGhostType(GhostType ghostType, GhostConfig ghostConfig)
         {
             InputHandler.SetGhostType(ghostType, ghostConfig);
+            Anim.SetBaseMaterial(ghostConfig.Material);
             if (ghostType == GhostType.Blinky)
             {
                 SetNewGhostState(GhostState.Chasing);
@@ -165,6 +167,7 @@ namespace CoreSystem
             _isTimerPaused = enabled;
             if (enabled)
             {
+                Anim.SetPowerMode(true);
                 if (CanEnterFrightenedState(InputHandler.CurrentState))
                 {
                     SetNewGhostState(GhostState.Frightened);
@@ -172,6 +175,7 @@ namespace CoreSystem
             }
             else
             {
+                Anim.SetPowerMode(false);
                 if (InputHandler.CurrentState.Equals(GhostState.Frightened))
                 {
                     SetNewGhostState(GhostState.Chasing);

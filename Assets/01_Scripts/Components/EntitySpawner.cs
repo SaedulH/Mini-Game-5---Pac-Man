@@ -61,12 +61,6 @@ namespace CoreSystem
             int index = GetGhostIndex(ghostType);
             ghosts[index] = ghost;
             GhostConfig config = GhostConfigs[index];
-
-            var renderer = ghost.GetComponentInChildren<MeshRenderer>();
-            if (renderer != null)
-            {
-                renderer.material = config.Material;
-            }
             ghost.InitialiseGhost(ghostType, config, levelNumber);
 
             return ghost;
