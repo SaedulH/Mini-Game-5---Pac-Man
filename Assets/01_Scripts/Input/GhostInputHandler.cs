@@ -19,6 +19,7 @@ namespace CoreSystem
         [SerializeField] private Transform _targetTransform;
         [SerializeField] private Vector3 _corner = new();
         [SerializeField] private bool _hasChangedDirection = false;
+        [SerializeField] private bool _pacmanPowerMode = false;
         [SerializeField] private int _pelletsToExitPen = 0;
         [SerializeField] private bool _canExitPen = false;
         [SerializeField] private float _timerToExitPen = 0f;
@@ -78,9 +79,14 @@ namespace CoreSystem
             SetNewInput(Config.InitialInput);
         }
 
+        public void SetPacmanPowerMode(bool isPowerMode)
+        {
+            _pacmanPowerMode = isPowerMode;
+        }
+
         public bool AllowExitPenEarly()
         {
-            if (CurrentState.Equals(GhostState.Waiting))
+            if (!_pacmanPowerMode && CurrentState.Equals(GhostState.Waiting))
             {
                 _canExitPen = true;
                 return true;
@@ -141,7 +147,7 @@ namespace CoreSystem
 
         public bool IsEnoughPelletsToExit(int collectedPellets)
         {
-            if (collectedPellets >= _pelletsToExitPen)
+            if (!_pacmanPowerMode && collectedPellets >= _pelletsToExitPen)
             {
                 _canExitPen = true;
                 return true;
@@ -293,11 +299,11 @@ namespace CoreSystem
                 {
                     chosenNode = canMove[Random.Range(0, canMove.Count)];
                     currentNode = chosenNode.GetComponent<NodeScript>();
-                } 
+                }
                 else
                 {
                     return currentNode.transform.position;
-                } 
+                }
             }
             return chosenNode.transform.position;
         }

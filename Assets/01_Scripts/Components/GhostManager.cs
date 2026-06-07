@@ -168,6 +168,7 @@ namespace CoreSystem
             if (enabled)
             {
                 Anim.SetPowerMode(true);
+                InputHandler.SetPacmanPowerMode(true);
                 if (CanEnterFrightenedState(InputHandler.CurrentState))
                 {
                     SetNewGhostState(GhostState.Frightened);
@@ -176,6 +177,7 @@ namespace CoreSystem
             else
             {
                 Anim.SetPowerMode(false);
+                InputHandler.SetPacmanPowerMode(false);
                 if (InputHandler.CurrentState.Equals(GhostState.Frightened))
                 {
                     SetNewGhostState(GhostState.Chasing);
