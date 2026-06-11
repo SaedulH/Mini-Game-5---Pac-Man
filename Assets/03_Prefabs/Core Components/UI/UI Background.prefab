@@ -48,7 +48,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 57d6cfc1e4398164d99e3e220e1f7369, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
@@ -68,5 +68,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d75c1b65242928438dc70a9eab393a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  <IsActive>k__BackingField: 0
+  <IsActive>k__BackingField: 1
   <IsOverlay>k__BackingField: 0

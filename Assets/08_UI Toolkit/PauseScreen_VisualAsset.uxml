@@ -1,15 +1,17 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/PauseScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=da9fafe0915335a4cbf4941412a2730d&amp;type=3#PauseScreen_StyleSheet"/>
-    <ui:VisualElement name="PauseScreen" class="hide" style="flex-grow: 1;">
-        <ui:VisualElement style="flex-grow: 0; height: 50%; justify-content: center;">
-            <ui:Label text="PAUSED" name="PauseTitle" class="header"/>
-        </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1; align-items: center;">
-            <ui:Button text="Resume" name="Resume" class="button"/>
-            <ui:Button text="Restart" name="Restart" class="button"/>
-            <ui:Button text="Settings" name="Settings" class="button"/>
-            <ui:Button text="Quit" name="Quit" class="button"/>
+    <ui:VisualElement name="PauseScreen" style="flex-grow: 1; transition-duration: 0.2s;">
+        <ui:GroupBox name="Title" style="justify-content: flex-end; margin-top: 0; margin-bottom: 0; height: 30%; margin-right: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:Label tabindex="-1" text="PAUSED" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PauseTitle" class="header"/>
+        </ui:GroupBox>
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 100%; height: 65%; justify-content: center; margin-bottom: 5%;">
+            <ui:GroupBox name="Menu" style="height: 65%; width: 25%; align-content: auto; align-self: center; justify-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-items: stretch;">
+                <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Resume" class="button"/>
+                <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Restart" class="button"/>
+                <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Settings" class="button"/>
+                <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="button"/>
+            </ui:GroupBox>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -1,27 +1,31 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/ResultsScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=c9dd8ab261182aa479c27e95735b415a&amp;type=3#ResultsScreen_StyleSheet"/>
-    <ui:VisualElement name="ResultsScreen" class="hide" style="flex-grow: 1;">
-        <ui:VisualElement style="flex-grow: 0; height: 25%; justify-content: center;">
-            <ui:Label text="GAME OVER" name="ResultsTitle" class="header"/>
-        </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1; align-items: center; height: 75%;">
-            <ui:GroupBox name="LevelGroup" style="flex-direction: row;">
-                <ui:Label text="Level: " class="subHeader"/>
-                <ui:Label text="" name="CurrentLevel" class="subHeader"/>
+    <ui:VisualElement name="ResultsScreen" style="flex-grow: 1; align-self: auto; align-items: center; width: 100%; height: 100%; transition-duration: 0.2s;">
+        <ui:GroupBox name="Title" style="justify-content: flex-end; margin-top: 0; margin-bottom: 0; height: 35%; margin-right: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:Label text="GAME OVER" name="ResultsTitle" class="header" style="margin-top: 10%; margin-bottom: 2.5%;"/>
+            <ui:VisualElement style="flex-grow: 1; align-items: center; height: 75%;">
+                <ui:GroupBox name="LevelGroup" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <ui:Label text="Level: " class="resultText"/>
+                    <ui:Label text="1" name="CurrentLevel" class="resultText"/>
+                </ui:GroupBox>
+                <ui:GroupBox name="ScoreGroup" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <ui:Label text="Score: " class="resultText"/>
+                    <ui:Label text="20000" name="CurrentScore" class="resultText"/>
+                </ui:GroupBox>
+                <ui:GroupBox name="HighScoreGroup" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <ui:Label text="High Score: " class="resultText"/>
+                    <ui:Label text="40000" name="HighScore" class="resultText"/>
+                </ui:GroupBox>
+                <ui:Label text="" name="NewHighScoreText" class="subHeader"/>
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:VisualElement style="flex-grow: 1; width: 100%; height: 65%; justify-content: center;">
+            <ui:GroupBox name="Menu" style="height: 65%; width: 25%; align-content: auto; align-self: center; justify-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-items: stretch;">
+                <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Restart" class="button"/>
+                <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Settings" class="button"/>
+                <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Quit" class="button"/>
             </ui:GroupBox>
-            <ui:GroupBox name="ScoreGroup" style="flex-direction: row;">
-                <ui:Label text="Score: " class="subHeader"/>
-                <ui:Label text="" name="CurrentScore" class="subHeader"/>
-            </ui:GroupBox>
-            <ui:GroupBox name="HighScoreGroup" style="flex-direction: row;">
-                <ui:Label text="High Score: " class="subHeader"/>
-                <ui:Label text="" name="HighScore" class="subHeader"/>
-            </ui:GroupBox>
-            <ui:Label text="" name="NewHighScoreText" class="subHeader"/>
-            <ui:Button text="Restart" name="Restart" class="button"/>
-            <ui:Button text="Settings" name="Settings" class="button"/>
-            <ui:Button text="Quit" name="Quit" class="button"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

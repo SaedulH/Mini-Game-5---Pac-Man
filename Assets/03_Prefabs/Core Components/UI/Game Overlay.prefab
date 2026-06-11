@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2991951019428101338}
   - component: {fileID: 5185715438498022220}
   - component: {fileID: 1564171248039317277}
-  - component: {fileID: 7765020355634482326}
   - component: {fileID: 752130462392294858}
   - component: {fileID: 7632096239620664621}
   - component: {fileID: 8917188973422340966}
@@ -75,34 +74,6 @@ MonoBehaviour:
   <IsActive>k__BackingField: 0
   <IsOverlay>k__BackingField: 1
   <StartLevel>k__BackingField: {fileID: 11400000, guid: 166b65231cbdf5541af823aa71dc83c9, type: 2}
---- !u!114 &7765020355634482326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175078480032358852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dd023a78a0fc7f4894f013a6bbd1b5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EventSystem.GameStateEventListener
-  eventChannel: {fileID: 11400000, guid: 1e7794211ab69744589fb88c6368e6e0, type: 2}
-  unityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HUDManager, Assembly-CSharp
-        m_MethodName: OnGameStateUpdated
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
 --- !u!114 &752130462392294858
 MonoBehaviour:
   m_ObjectHideFlags: 0

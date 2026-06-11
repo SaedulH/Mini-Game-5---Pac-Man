@@ -8,34 +8,54 @@
     -unity-font-style: bold;
     -unity-text-align: upper-center;
     font-size: 110px;
-    color: rgb(204, 204, 204);
+    color: rgb(255, 208, 0);
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    text-shadow: 10px 10px 0 rgb(113, 84, 0);
+    -unity-text-outline-width: 10px;
+    -unity-text-outline-color: rgba(20, 23, 67, 0.78);
+    letter-spacing: 5px;
 }
 
 .subHeader {
     -unity-text-align: upper-center;
-    font-size: 70px;
-    color: rgb(212, 212, 212);
+    font-size: 60px;
+    color: rgb(255, 208, 0);
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    -unity-font-style: normal;
+    -unity-text-outline-width: 3px;
+    text-shadow: 3px 3px 0 rgb(114, 85, 0);
+    -unity-text-outline-color: rgba(20, 23, 67, 0.78);
 }
 
 .button {
-    width: 25%;
-    margin-bottom: 2.5%;
+    margin-bottom: 5%;
     transition-duration: 0.15s;
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    color: rgb(63, 63, 63);
+    -unity-font-style: bold;
+    font-size: 30px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    margin-top: 5%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 20%;
+    text-shadow: 0 -5px 0 rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.78);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
 }
 
 .button:hover {
-    width: 25%;
-    margin-bottom: 2.5%;
-    scale: 1.2 1.2;
-    transition-duration: 0.15s;
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
 .button:active {
-    width: 25%;
-    margin-bottom: 2.5%;
     transition-duration: 0.1s;
     scale: 0.95 0.95;
 }
@@ -97,4 +117,5 @@
     -unity-background-image-tint-color: rgba(20, 23, 67, 0.78);
     background-color: rgba(0, 112, 176, 0.59);
     transition-duration: 0.05s;
+    rotate: 5deg;
 }

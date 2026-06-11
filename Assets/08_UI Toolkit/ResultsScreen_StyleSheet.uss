@@ -1,1 +1,10 @@
-
+.resultText {
+    -unity-text-align: upper-center;
+    font-size: 40px;
+    color: rgb(255, 208, 0);
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    -unity-font-style: normal;
+    -unity-text-outline-width: 2px;
+    text-shadow: 3px 3px 0 rgb(38, 29, 0);
+    -unity-text-outline-color: rgba(20, 23, 67, 0.78);
+}

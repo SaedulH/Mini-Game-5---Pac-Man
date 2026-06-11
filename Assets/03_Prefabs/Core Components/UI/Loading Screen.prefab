@@ -47,8 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: 8eedf38e5e8c5484e9a7c20f187ab94e, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 35ade5565e00cb54a8264528be44f71b, type: 3}
-  m_SortingOrder: 100
+  sourceAsset: {fileID: 9197481963319205126, guid: f18165553945e2c46ae3ae0751f592b7, type: 3}
+  m_SortingOrder: 4
   m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
@@ -68,6 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f10b6dd579dcf4d96d7f0625b938a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreen
-  AutoUnparentOnAwake: 0
+  <IsActive>k__BackingField: 1
+  <IsOverlay>k__BackingField: 0
   <CurrentProgress>k__BackingField: 0
   <MaxProgress>k__BackingField: 0
+  <SliderLerpSpeed>k__BackingField: 50

@@ -62,7 +62,7 @@ MonoBehaviour:
   <StartScreen>k__BackingField: {fileID: 0}
   <SettingsManager>k__BackingField: {fileID: 0}
   <LoadingScreen>k__BackingField: {fileID: 0}
-  <HUDManager>k__BackingField: {fileID: 0}
+  <GameOverlay>k__BackingField: {fileID: 0}
   <PauseScreen>k__BackingField: {fileID: 0}
   <ResultsScreen>k__BackingField: {fileID: 0}
 --- !u!114 &2560529547365173594
@@ -229,10 +229,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3320842552084911773, guid: e953014328e219d44ad2210fe9f3e53f, type: 3}
-      propertyPath: <IsActive>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -291,21 +287,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4862691921335983387, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862691921335983387, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: <IsOverlay>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4873678628943586558, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
       propertyPath: m_Name
       value: Results Screen
-      objectReference: {fileID: 0}
-    - target: {fileID: 4873678628943586558, guid: e19ef238be2f3574c95481519e08d09e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -431,12 +415,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2265752373315068057, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
-      propertyPath: <IsOverlay>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1016891963638151850, guid: e51ff18b560304944aab67ebc82d80f1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -494,17 +473,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6654516523791996861, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
-      propertyPath: <IsActive>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6678937582759020720, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
       propertyPath: m_Name
       value: Start Screen
-      objectReference: {fileID: 0}
-    - target: {fileID: 6678937582759020720, guid: ca74fd0eebb88d74bbfcefbb81ec579b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -563,10 +534,6 @@ PrefabInstance:
     - target: {fileID: 3178726645450228991, guid: f0cabc7e7bbeb8d43929acad45c390dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3668978447023085669, guid: f0cabc7e7bbeb8d43929acad45c390dc, type: 3}
-      propertyPath: <IsActive>k__BackingField
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4166174725713305688, guid: f0cabc7e7bbeb8d43929acad45c390dc, type: 3}
       propertyPath: m_Name
@@ -634,16 +601,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6643815142584742427, guid: a9ee8b0fc5b3cb74987053ca3c6b45ab, type: 3}
-      propertyPath: <IsOverlay>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7765020355634482326, guid: a9ee8b0fc5b3cb74987053ca3c6b45ab, type: 3}
-      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UserInterface.HUDManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7765020355634482326, guid: a9ee8b0fc5b3cb74987053ca3c6b45ab, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

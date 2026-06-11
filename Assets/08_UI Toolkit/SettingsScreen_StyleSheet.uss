@@ -228,9 +228,11 @@ TabView .unity-toggle-button-group {
 }
 
 TabView .unity-button-group {
-    justify-content: flex-end;
-    align-self: center;
+    justify-content: center;
+    align-self: stretch;
     align-items: center;
+    flex-direction: row;
+    align-content: auto;
 }
 
 #SettingsTabs Label {
@@ -238,15 +240,20 @@ TabView .unity-button-group {
 }
 
 #SettingsTabs Button:hover {
-    background-color: rgba(0, 0, 0, 0);
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
     transition-duration: 0.2s;
     scale: 1.2 1.2 1.2;
-    background-image: url("project://database/Assets/05_Sprites/Button%20Border.png?fileID=21300000&guid=f848c7238929c7b47b0c917462b0c8f6&type=3#Button Border");
-    -unity-background-scale-mode: stretch-to-fill;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 #Game ToggleButtonGroup Button {
@@ -265,4 +272,8 @@ TabView .unity-button-group {
 #Game #unity-toggle-button-group__container {
     justify-content: center;
     flex-direction: row;
+}
+
+.selectionButton {
+    font-size: 30px;
 }

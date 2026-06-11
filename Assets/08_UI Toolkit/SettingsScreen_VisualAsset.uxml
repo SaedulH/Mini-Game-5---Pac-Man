@@ -6,7 +6,7 @@
             <ui:TabView name="SettingsTabs" class="settingsText" style="transition-duration: 0.2s; margin-top: 2.5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
                 <ui:Tab label="Game" name="Game" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
                     <ui:GroupBox name="" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 100%; height: 100%; flex-direction: column; flex-shrink: 1; flex-grow: 1;">
-                        <ui:ToggleButtonGroup label="Difficulty" value="10" is-multiple-selection="false" name="MapName">
+                        <ui:ToggleButtonGroup label="Map" value="10" is-multiple-selection="false" name="MapName">
                             <ui:Button text="Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Pacman" class="selectionButton"/>
                             <ui:Button text="Ms.Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MsPacman" class="selectionButton"/>
                             <ui:Button text="Random" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Random" class="selectionButton"/>
@@ -21,6 +21,7 @@
                             <ui:Button text="Low" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Low" class="selectionButton"/>
                             <ui:Button text="High" parse-escape-sequences="true" display-tooltip-when-elided="true" name="High" class="selectionButton"/>
                         </ui:ToggleButtonGroup>
+                        <ui:Label text="&lt;Game Setting Description&gt;" name="GameSettingDescription" style="-unity-text-align: middle-center; font-size: 30px;"/>
                     </ui:GroupBox>
                 </ui:Tab>
                 <ui:Tab label="Audio" name="Audio" style="width: 100%; height: 100%; align-content: center; align-items: center; justify-content: center; align-self: center; flex-grow: 1;">
@@ -38,10 +39,11 @@
                             <ui:SliderInt label="" value="42" high-value="100" name="UIVolume" fill="true" show-input-field="true" class="audioSlider"/>
                         </ui:GroupBox>
                         <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; justify-content: space-between;">
-                            <ui:Label tabindex="-1" text="Vehicle" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EffectsAudio" class="subheader"/>
+                            <ui:Label tabindex="-1" text="Effects" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EffectsAudio" class="subheader"/>
                             <ui:SliderInt label="" value="42" high-value="100" name="EffectsVolume" fill="true" show-input-field="true" class="audioSlider"/>
                         </ui:GroupBox>
                     </ui:GroupBox>
+                    <ui:Label text="&lt;Audio Setting Description&gt;" name="AudioSettingDescription" style="font-size: 30px; -unity-text-align: middle-center;"/>
                 </ui:Tab>
                 <ui:Tab label="Controls" name="Controls" style="width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; align-self: center; flex-grow: 1;">
                     <ui:GroupBox style="height: 100%; width: 100%;">
