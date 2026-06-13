@@ -1,27 +1,26 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/SettingsScreen_StyleSheet.uss?fileID=7433441132597879392&amp;guid=818fc9cd3de032446b1a114d7f13e9c1&amp;type=3#SettingsScreen_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
-    <ui:VisualElement name="SettingsScreen" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.39);">
+    <ui:VisualElement name="SettingsScreen" style="flex-grow: 1; background-color: rgba(0, 2, 29, 0.39); transition-duration: 0.2s;">
         <ui:VisualElement name="Main" style="flex-grow: 0; height: 80%; justify-content: flex-start; align-items: center; align-content: flex-start;">
-            <ui:TabView name="SettingsTabs" class="settingsText" style="transition-duration: 0.2s; margin-top: 2.5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
-                <ui:Tab label="Game" name="Game" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
+            <ui:TabView name="SettingsTabs" style="transition-duration: 0.2s; margin-top: 2.5%; flex-grow: 1; height: 100%; width: 100%; align-items: center; justify-content: flex-start;">
+                <ui:Tab label="Game" name="Game" closeable="false" style="flex-grow: 1; width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; transition-duration: 0.2s;">
                     <ui:GroupBox name="" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; width: 100%; height: 100%; flex-direction: column; flex-shrink: 1; flex-grow: 1;">
-                        <ui:ToggleButtonGroup label="Map" value="10" is-multiple-selection="false" name="MapName">
+                        <ui:ToggleButtonGroup label="Map:" value="001" is-multiple-selection="false" name="MapName">
                             <ui:Button text="Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Pacman" class="selectionButton"/>
                             <ui:Button text="Ms.Pacman" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MsPacman" class="selectionButton"/>
                             <ui:Button text="Random" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Random" class="selectionButton"/>
                         </ui:ToggleButtonGroup>
-                        <ui:ToggleButtonGroup label="Camera" value="10" is-multiple-selection="false" name="Camera">
+                        <ui:ToggleButtonGroup label="Camera:" value="10" is-multiple-selection="false" name="Camera">
                             <ui:Button text="Fixed" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Fixed" class="selectionButton"/>
                             <ui:Button text="Dynamic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Dynamic" class="selectionButton"/>
                             <ui:Button text="Follow" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Follow" class="selectionButton"/>
                         </ui:ToggleButtonGroup>
-                        <ui:ToggleButtonGroup label="Screen Shake" value="10" is-multiple-selection="false" name="ScreenShake">
+                        <ui:ToggleButtonGroup label="Screen Shake:" value="10" is-multiple-selection="false" name="ScreenShake">
                             <ui:Button text="Off" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Off" class="selectionButton"/>
                             <ui:Button text="Low" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Low" class="selectionButton"/>
                             <ui:Button text="High" parse-escape-sequences="true" display-tooltip-when-elided="true" name="High" class="selectionButton"/>
                         </ui:ToggleButtonGroup>
-                        <ui:Label text="&lt;Game Setting Description&gt;" name="GameSettingDescription" style="-unity-text-align: middle-center; font-size: 30px;"/>
                     </ui:GroupBox>
                 </ui:Tab>
                 <ui:Tab label="Audio" name="Audio" style="width: 100%; height: 100%; align-content: center; align-items: center; justify-content: center; align-self: center; flex-grow: 1;">
@@ -43,7 +42,6 @@
                             <ui:SliderInt label="" value="42" high-value="100" name="EffectsVolume" fill="true" show-input-field="true" class="audioSlider"/>
                         </ui:GroupBox>
                     </ui:GroupBox>
-                    <ui:Label text="&lt;Audio Setting Description&gt;" name="AudioSettingDescription" style="font-size: 30px; -unity-text-align: middle-center;"/>
                 </ui:Tab>
                 <ui:Tab label="Controls" name="Controls" style="width: 100%; height: 100%; align-content: center; justify-content: center; align-items: center; align-self: center; flex-grow: 1;">
                     <ui:GroupBox style="height: 100%; width: 100%;">
@@ -72,9 +70,9 @@
                 </ui:Tab>
             </ui:TabView>
         </ui:VisualElement>
-        <ui:VisualElement name="Footer" style="flex-grow: 1; flex-direction: row; justify-content: center; align-items: center;">
-            <ui:Button text="Back" name="Back" class="button"/>
-            <ui:Button text="Reset" name="Reset" class="button"/>
+        <ui:VisualElement name="Footer" style="flex-grow: 1; flex-direction: row; justify-content: center; align-items: center; height: 20%; align-content: center; align-self: center; width: 100%;">
+            <ui:Button text="Back" name="Back" class="footerButton"/>
+            <ui:Button text="Reset" name="Reset" class="footerButton"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

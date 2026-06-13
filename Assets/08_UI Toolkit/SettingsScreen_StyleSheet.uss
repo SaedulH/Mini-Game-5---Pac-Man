@@ -1,7 +1,36 @@
-.settingsText {
-    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
-    font-size: 40px;
-    -unity-text-align: middle-left;
+#SettingsTabs Label {
+    color: rgb(215, 184, 24);
+    font-size: 30px;
+}
+
+#SettingsTabs Button:hover {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+#SettingsTabs Button:active {
+    transition-duration: 0.1s;
+    scale: 0.95 0.95;
+}
+
+#SettingsTabs Button:disabled {
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
 .audioSlider {
@@ -144,67 +173,9 @@
     -unity-font-definition: initial;
 }
 
-TabView RepeatButton {
-    overflow: visible;
-    visibility: hidden;
-    display: none;
-    opacity: 0;
-}
-
-TabView .unity-tab-view__content-viewport {
-    width: auto;
-    align-items: center;
-    align-content: center;
-    align-self: center;
-    justify-content: center;
-    flex-grow: 0;
-    height: auto;
-    opacity: 1;
-    visibility: visible;
-    display: flex;
-    overflow: visible;
-    margin-bottom: 2.5%;
-}
-
-TabView #unity-tab-view__header-container {
-    width: 50%;
-    align-items: center;
-    align-self: center;
-    justify-content: space-evenly;
-    flex-direction: row;
-    height: 100%;
-}
-
-TabView #unity-tab__header {
-    align-items: center;
-    justify-content: center;
-    -unity-font-definition: initial;
-    -unity-font-style: bold;
-    font-size: 50px;
-    -unity-text-align: middle-center;
-    transition-duration: 0.2s;
-    color: rgb(241, 159, 0);
-    margin-right: 10%;
-    margin-left: 10%;
-    background-color: rgba(0, 0, 0, 0);
-}
-
-TabView #unity-tab__header-label {
-    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
-    transition-duration: 0.2s;
-}
-
-TabView #unity-tab__header-label:hover {
-    scale: 1.2 1.2 1.2;
-    transition-duration: 0.2s;
-}
-
-TabView #unity-tab__header-underline {
-}
-
 TabView #unity-tab-view__content-container {
     flex-grow: 1;
-    width: 75%;
+    width: 100%;
     opacity: 1;
     align-items: center;
     height: 100%;
@@ -212,7 +183,7 @@ TabView #unity-tab-view__content-container {
 
 TabView #unity-tab__content-container {
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
-    width: 100%;
+    width: 80%;
     height: 100%;
     align-items: center;
     justify-content: center;
@@ -225,35 +196,33 @@ TabView .unity-toggle-button-group {
     align-content: center;
     flex-grow: 1;
     width: 100%;
+    overflow: visible;
 }
 
-TabView .unity-button-group {
+TabView .unity-toggle-button-group Label {
+    width: 30%;
+    font-size: 35px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    white-space: normal;
+    -unity-text-align: middle-left;
+    text-overflow: clip;
+}
+
+TabView .unity-toggle-button-group .unity-button-group {
     justify-content: center;
     align-self: stretch;
     align-items: center;
     flex-direction: row;
     align-content: auto;
-}
-
-#SettingsTabs Label {
-    color: rgb(255, 208, 0);
-}
-
-#SettingsTabs Button:hover {
-    border-left-color: rgba(0, 0, 0, 0);
-    border-right-color: rgba(0, 0, 0, 0);
-    border-top-color: rgba(0, 0, 0, 0);
-    border-bottom-color: rgba(0, 0, 0, 0);
-    transition-duration: 0.2s;
-    scale: 1.2 1.2 1.2;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
+    width: 70%;
+    overflow: visible;
 }
 
 #Game ToggleButtonGroup Button {
@@ -267,6 +236,8 @@ TabView .unity-button-group {
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
     transition-duration: 0.2s;
+    width: 30%;
+    height: 45%;
 }
 
 #Game #unity-toggle-button-group__container {
@@ -274,6 +245,182 @@ TabView .unity-button-group {
     flex-direction: row;
 }
 
-.selectionButton {
+TabView #unity-tab__header-label {
+    margin-bottom: 0%;
+    transition-duration: 0.15s;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    color: rgb(63, 63, 63);
+    -unity-font-style: bold;
     font-size: 30px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    margin-top: 0%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 100%;
+    text-shadow: 0 -5px 0 rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.78);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 100%;
+}
+
+TabView #unity-tab__header-label:hover {
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+TabView RepeatButton {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+TabView .unity-tab-view__content-viewport {
+    width: 75%;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    justify-content: center;
+    flex-grow: 0;
+    height: 15%;
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    overflow: visible;
+    margin-bottom: 2.5%;
+}
+
+TabView #unity-tab-view__header-container {
+    width: 100%;
+    align-items: center;
+    align-self: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    height: 80%;
+}
+
+TabView #unity-tab__header {
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.2s;
+    margin-right: 10%;
+    margin-left: 10%;
+    background-color: rgba(0, 0, 0, 0);
+    height: 100%;
+    width: 30%;
+}
+
+TabView #unity-tab__header:checked Label {
+    transition-duration: 0.2s;
+    scale: 1.1 1.1 1.1;
+    -unity-background-image-tint-color: rgb(255, 200, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+TabView #unity-tab__header-underline {
+    opacity: 0;
+}
+
+.selectionButton {
+    margin-bottom: 2.5%;
+    transition-duration: 0.15s;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    color: rgb(63, 63, 63);
+    -unity-font-style: bold;
+    font-size: 25px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    margin-top: 2.5%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 50%;
+    text-shadow: 0 -5px 0 rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.78);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    width: 25%;
+    scale: 0.95 0.95 0.95;
+}
+
+.selectedButton {
+    transition-duration: 0.15s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 200, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    width: 25%;
+    height: 50%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    font-size: 25px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.selectionButton:hover {
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.selectionButton:active {
+    transition-duration: 0.1s;
+    scale: 0.95 0.95;
+    -unity-background-image-tint-color: rgb(255, 200, 0);
+}
+
+.footerButton {
+    margin-bottom: 0%;
+    transition-duration: 0.15s;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    color: rgb(63, 63, 63);
+    -unity-font-style: bold;
+    font-size: 30px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    margin-top: 0%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 40%;
+    text-shadow: 0 -5px 0 rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.78);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 20%;
+}
+
+.footerButton:hover {
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.footerButton:active {
+    transition-duration: 0.1s;
+    scale: 0.95 0.95;
 }

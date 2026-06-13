@@ -50,6 +50,7 @@ namespace SettingsSystem
             _screenShakeHighToggle = TabElement.Q<Button>("High");
             _screenShakeHighToggle.clicked += () => OnScreenShakeChanged(ScreenShake.High);
 
+            GetSettings();
             TabElement.RemoveFromClassList("hide");
         }
 
@@ -57,18 +58,24 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             SetMapNameSetting(setting);
+
+            ApplyMapNameUI(setting);
         }
 
         private void OnScreenShakeChanged(ScreenShake setting, bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             SetScreenShakeSetting(setting);
+
+            ApplyScreenShakeUI(setting);
         }
 
         private void OnCameraModeChanged(CameraMode setting, bool playSound = true)
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             SetCameraModeSetting(setting);
+
+            ApplyCameraUI(setting);
         }
 
         protected override void GetSettings()
@@ -102,25 +109,39 @@ namespace SettingsSystem
             ApplyScreenShakeUI(shake);
         }
 
+        private static void UpdateSelected(Button button, bool selected)
+        {
+            if (selected)
+            {
+                button.AddToClassList("selectedButton");
+                button.RemoveFromClassList("selectionButton");
+            }
+            else
+            {
+                button.AddToClassList("selectionButton");
+                button.RemoveFromClassList("selectedButton");
+            }
+        }
+
         private void ApplyMapNameUI(MapName name)
         {
-            _pacmanMapToggle.SetEnabled(name == MapName.Pacman);
-            _msPacmanMapToggle.SetEnabled(name == MapName.MsPacman);
-            _randomGenMapToggle.SetEnabled(name == MapName.Random);
+            UpdateSelected(_pacmanMapToggle, name == MapName.Pacman);
+            UpdateSelected(_msPacmanMapToggle, name == MapName.MsPacman);
+            UpdateSelected(_randomGenMapToggle, name == MapName.Random);
         }
 
         private void ApplyCameraUI(CameraMode mode)
         {
-            _fixedCameraToggle.SetEnabled(mode == CameraMode.Fixed);
-            _dynamicCameraToggle.SetEnabled(mode == CameraMode.Dynamic);
-            _followCameraToggle.SetEnabled(mode == CameraMode.Follow);
+            UpdateSelected(_fixedCameraToggle, mode == CameraMode.Fixed);
+            UpdateSelected(_dynamicCameraToggle, mode == CameraMode.Dynamic);
+            UpdateSelected(_followCameraToggle, mode == CameraMode.Follow);
         }
 
         private void ApplyScreenShakeUI(ScreenShake setting)
         {
-            _screenShakeOffToggle.SetEnabled(setting == ScreenShake.Off);
-            _screenShakeLowToggle.SetEnabled(setting == ScreenShake.Low);
-            _screenShakeHighToggle.SetEnabled(setting == ScreenShake.High);
+            UpdateSelected(_screenShakeOffToggle, setting == ScreenShake.Off);
+            UpdateSelected(_screenShakeLowToggle, setting == ScreenShake.Low);
+            UpdateSelected(_screenShakeHighToggle, setting == ScreenShake.High);
         }
 
         private void SetMapNameSetting(MapName mapName)
