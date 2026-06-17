@@ -24,6 +24,8 @@ namespace SettingsSystem
         private Button _leftInput;
         private Button _rightInput;
 
+        private bool _inputPopupActive = false;
+
         public void InitialiseSettings(VisualElement root, PlayerInputActions inputActions = null)
         {
             PlayerInput ??= inputActions;
@@ -61,9 +63,9 @@ namespace SettingsSystem
             SetInputLabel(ControlInput.Right, _playerActions);
         }
 
-        public override bool OnBackClicked(SettingsType settingsType)
+        public override bool OnBackClicked()
         {
-            if (settingsType.Equals(SettingsType.InputPopup))
+            if (_inputPopupActive)
             {
                 StartCoroutine(HideInputPopup());
                 return false;
@@ -88,6 +90,7 @@ namespace SettingsSystem
             yield return new WaitForSeconds(0.1f);
 
             BeginListeningForInput(controlInput, actionMap);
+            _inputPopupActive = true;
         }
 
         private IEnumerator HideInputPopup()
@@ -98,6 +101,7 @@ namespace SettingsSystem
             yield return new WaitForSeconds(0.2f);
 
             _inputPopup.style.display = DisplayStyle.None;
+            _inputPopupActive = false;
         }
 
         private void BeginListeningForInput(ControlInput controlInput, InputActionMap actionMap)
@@ -243,7 +247,7 @@ namespace SettingsSystem
                 path,
                 InputControlPath.HumanReadableStringOptions.OmitDevice
             );
-            //Debug.Log($"Setting input label for player {playerIndex} control {controlInput} with path: {path}, readable: {readable}");
+            Debug.Log($"Setting input label for player control {controlInput} with path: {path}, readable: {readable}");
             InputKeyIconMap inputMap = InputMappingIcons.GetInputMapForInputKey(readable);
             Sprite displayIcon = inputMap != null && inputMap.InputIcon != null ? inputMap.InputIcon : null;
             string displayText = inputMap != null && inputMap.InputString.Length > 0 ? inputMap.InputString : readable;
@@ -253,6 +257,7 @@ namespace SettingsSystem
 
         private void SetInputKeyDisplayValue(Button inputButton, Sprite icon, string value)
         {
+            Debug.Log($"Setting input key display value for {inputButton.name}: {value}");
             //string addToClass = icon != null ? "controlInputIcon" : "controlInput";
             //string removeFromClass = icon != null ? "controlInput" : "controlInputIcon";
             inputButton.text = icon != null ? "" : value;

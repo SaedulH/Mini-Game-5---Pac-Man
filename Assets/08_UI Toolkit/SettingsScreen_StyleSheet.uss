@@ -35,130 +35,88 @@
 
 .audioSlider {
     width: 70%;
-    -unity-text-align: middle-left;
-    -unity-font-style: normal;
-    color: rgb(217, 217, 217);
     -unity-font: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
-    text-overflow: clip;
-    white-space: nowrap;
-    font-size: 22px;
     flex-direction: column;
-    -unity-font-definition: initial;
-    letter-spacing: 20px;
     height: 100%;
     align-items: stretch;
     display: flex;
     flex-grow: 0;
     margin-left: 5%;
-}
-
-#Audio SliderInt #unity-drag-container {
-    align-self: center;
-    justify-content: center;
-    align-items: stretch;
-    align-content: center;
-}
-
-#Audio SliderInt #unity-tracker {
-    opacity: 1;
-}
-
-#Audio SliderInt #unity-dragger {
-    opacity: 1;
-}
-
-#Audio SliderInt #unity-fill {
+    margin-right: 5%;
 }
 
 #Audio SliderInt #unity-text-field {
-    border-left-color: rgb(255, 230, 0);
-    border-right-color: rgb(255, 230, 0);
-    border-top-color: rgb(255, 230, 0);
-    border-bottom-color: rgb(255, 230, 0);
-    border-top-width: 2px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
-    width: 8%;
+    width: 10%;
+    margin-left: 5%;
+    height: 100%;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD_Small.asset?fileID=21300000&guid=f9d96006161767348b95432eef0bdd88&type=2#RetroButtonHD_Small");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-slice-scale: 0.5px;
 }
 
 #Audio SliderInt #unity-text-input {
     background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
-    -unity-text-align: middle-center;
+    -unity-text-align: upper-center;
+    font-size: 22px;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    padding-right: 0%;
+    padding-left: 0%;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
-.controlMapping {
-    align-items: stretch;
-    align-content: center;
-    align-self: stretch;
-    justify-content: space-between;
+#Audio SliderInt #unity-drag-container {
     width: 100%;
     height: 100%;
+    flex-grow: 1;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
-.controlText {
-    margin-right: 0%;
-    margin-left: 5%;
-    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
-    color: rgb(183, 183, 183);
-    font-size: 35px;
-    -unity-text-align: middle-left;
+#Audio SliderInt #unity-tracker {
+    background-color: rgb(0, 2, 29);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    height: 100%;
+    align-self: center;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
-.controlInput {
-    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Fonts/Nulshock%20Bd.otf?fileID=12800000&guid=12768c2c754fbf248846c9b6df869991&type=3#Nulshock Bd");
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-left-color: rgba(255, 242, 0, 0.2);
-    border-right-color: rgba(255, 242, 0, 0.2);
-    border-top-color: rgba(255, 242, 0, 0.2);
-    border-bottom-color: rgba(255, 242, 0, 0.2);
-    background-color: rgba(255, 246, 0, 0.66);
-    background-image: none;
-    -unity-background-scale-mode: scale-and-crop;
-    -unity-slice-type: sliced;
-    -unity-background-image-tint-color: rgba(20, 23, 67, 0.39);
-    font-size: 45px;
-    color: rgb(183, 183, 183);
-    width: 40%;
-    margin-right: 10%;
+#Audio SliderInt #unity-fill {
+    background-color: rgb(255, 221, 0);
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
-.controlInput:hover {
-    scale: 1.15 1.15;
-    color: rgb(0, 148, 255);
-    transition-duration: 0.15s;
-    border-left-color: rgb(0, 148, 255);
-    border-right-color: rgb(0, 148, 255);
-    border-top-color: rgb(0, 148, 255);
-    border-bottom-color: rgb(0, 148, 255);
-    background-color: rgba(0, 112, 176, 0.59);
-    -unity-background-image-tint-color: rgba(20, 23, 67, 0.59);
-    -unity-slice-type: sliced;
-    -unity-slice-left: 0;
-    -unity-slice-top: 20;
-    -unity-slice-right: 0;
-    -unity-slice-bottom: 20;
-}
-
-.controlInput:active {
-    scale: 0.9 0.9;
-    -unity-background-image-tint-color: rgba(20, 23, 67, 0.78);
-    background-color: rgba(0, 112, 176, 0.59);
-    transition-duration: 0.05s;
+#Audio SliderInt #unity-dragger {
+    display: none;
 }
 
 .inputPopupText {
@@ -172,6 +130,68 @@
     margin-bottom: 10px;
     -unity-font-definition: initial;
 }
+
+.inputText {
+    -unity-text-align: middle-left;
+    width: 25%;
+    flex-grow: 0;
+}
+
+.inputGroup {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    align-self: auto;
+    align-items: center;
+}
+
+.inputButton {
+    margin-bottom: 2.5%;
+    transition-duration: 0.15s;
+    -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
+    color: rgb(63, 63, 63);
+    -unity-font-style: bold;
+    font-size: 25px;
+    background-image: url("project://database/Assets/05_Sprites/RetroButtonHD.png?fileID=21300000&guid=16badd43ec4118046b2926eb6fa5e092&type=3#RetroButtonHD");
+    margin-top: 2.5%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0);
+    height: 75%;
+    text-shadow: 0 -5px 0 rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.78);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    width: 30%;
+    scale: 0.95 0.95 0.95;
+    margin-right: 0%;
+}
+
+.inputButton:hover {
+    transition-duration: 0.2s;
+    scale: 1.2 1.2 1.2;
+    -unity-background-image-tint-color: rgb(255, 228, 0);
+    text-shadow: 5px 0 0 rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.inputButton:active {
+    transition-duration: 0.1s;
+    scale: 0.95 0.95;
+    -unity-background-image-tint-color: rgb(255, 200, 0);
+}
+
+
 
 TabView #unity-tab-view__content-container {
     flex-grow: 1;

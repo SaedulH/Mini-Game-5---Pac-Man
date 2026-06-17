@@ -163,8 +163,7 @@ namespace Utilities
     {
         Game,
         Audio,
-        Controls,
-        InputPopup
+        Controls
     }
 
     public enum MapName

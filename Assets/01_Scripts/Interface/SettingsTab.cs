@@ -25,7 +25,7 @@ namespace SettingsSystem
 
         }
 
-        public virtual bool OnBackClicked(SettingsType settingsType)
+        public virtual bool OnBackClicked()
         {
             return true;
         }

@@ -159,7 +159,7 @@ namespace SettingsSystem
 
         public override void OnBackClicked()
         {
-            bool returnFromSettings = CurrentSettingsTab.OnBackClicked(CurrentScreen);
+            bool returnFromSettings = CurrentSettingsTab.OnBackClicked();
             if (returnFromSettings)
             {
                 AudioCollection.Instance.PlayBackAudio();

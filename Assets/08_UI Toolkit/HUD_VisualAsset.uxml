@@ -1,9 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/08_UI%20Toolkit/Common_StyleSheet.uss?fileID=7433441132597879392&amp;guid=0a300e270a3adf84e9ec54025e2a36ed&amp;type=3#Common_StyleSheet"/>
     <Style src="project://database/Assets/08_UI%20Toolkit/HUD_StyleSheet.uss?fileID=7433441132597879392&amp;guid=cd94fb98a67573f408bf8711a9f15f42&amp;type=3#HUD_StyleSheet"/>
-    <ui:VisualElement name="HUD" style="flex-grow: 1; align-self: auto; align-items: center; width: 100%; height: 100%; justify-content: space-between; background-image: url(&quot;project://database/Assets/05_Sprites/Screenshot%202026-06-11%20213109.png?fileID=21300000&amp;guid=49c3cfda8eb642947a7202751b951fbd&amp;type=3#Screenshot 2026-06-11 213109&quot;); flex-direction: row;">
-        <ui:VisualElement name="Left" class="sidePanel" style="align-items: flex-end;">
-            <ui:VisualElement name="Level" style="flex-grow: 0; align-items: center; flex-direction: row;">
+    <ui:VisualElement name="HUD" style="flex-grow: 1; align-self: auto; align-items: center; width: 100%; height: 100%; justify-content: space-between; flex-direction: row;">
+        <ui:VisualElement name="Left" class="sidePanel">
+            <ui:VisualElement name="Level" style="flex-direction: row; justify-content: center;">
                 <ui:Label text="Level" name="" class="hudLabel"/>
                 <ui:Label text="0" name="LevelValue" class="hudLabel"/>
             </ui:VisualElement>
@@ -11,12 +11,8 @@
                 <ui:Label text="Lives" name="" class="hudLabel"/>
                 <ui:VisualElement name="LivesValue" style="flex-grow: 1;"/>
             </ui:VisualElement>
-            <ui:VisualElement name="Fruits">
-                <ui:Label text="Fruits" name="" class="hudLabel"/>
-                <ui:VisualElement name="FruitsValue" class="hudLabel" style="flex-grow: 1;"/>
-            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="Right" class="sidePanel" style="justify-content: space-evenly;">
+        <ui:VisualElement name="Right" class="sidePanel">
             <ui:VisualElement name="HighScore">
                 <ui:Label text="HighScore" name="" class="hudLabel"/>
                 <ui:Label text="0" name="HighScoreValue" class="hudLabel"/>

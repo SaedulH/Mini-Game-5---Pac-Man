@@ -4,22 +4,23 @@
     height: 100%;
     flex-shrink: 0;
     width: 25%;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-content: center;
     align-self: center;
-    padding-top: 10%;
+    padding-top: 5%;
     padding-bottom: 10%;
+    align-items: stretch;
 }
-
-
 
 .hudLabel {
     -unity-text-align: upper-center;
-    font-size: 50px;
+    font-size: 35px;
     color: rgb(255, 208, 0);
     -unity-font-definition: url("project://database/Assets/08_UI%20Toolkit/Font/Emulogic-zrEw.ttf?fileID=12800000&guid=3e5d93a06c3e9bd4db5025f0b5391d22&type=3#Emulogic-zrEw");
     -unity-font-style: normal;
-    -unity-text-outline-width: 3px;
+    -unity-text-outline-width: 1px;
     text-shadow: 3px 3px 0 rgb(114, 85, 0);
     -unity-text-outline-color: rgba(20, 23, 67, 0.78);
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
 }
