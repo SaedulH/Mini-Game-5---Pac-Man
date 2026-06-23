@@ -119,5 +119,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9cdb0b563fd7f44a81b404fcc620c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsSystem.ControlSettings
-  <InputMappingIcons>k__BackingField: {fileID: 0}
+  <InputMappingIcons>k__BackingField: {fileID: 11400000, guid: 84f392856aa37414ca43815dac1b6abc, type: 2}
   <DefaultIcon>k__BackingField: {fileID: 0}

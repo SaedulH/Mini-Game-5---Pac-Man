@@ -93,23 +93,25 @@ namespace CoreSystem
         {
             ResetVariables();
             await Task.Delay(100);
+            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
             CurrentLevelContext = new LevelContext
             {
-                MapName = MapName.Pacman,
+                MapName = System.Enum.Parse<MapName>(mapName),
                 RemainingLives = RemainingLives,
                 LevelNumber = CurrentLevel,
             };
 
-            await SetupScene(PacmanMap, CurrentLevelContext);
+            await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
         }
 
         public async void RestartLevel()
         {
             ResetVariables();
             await Task.Delay(100);
+            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
-            await SetupScene(PacmanMap, CurrentLevelContext);
+            await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
         }
 
         private async Task GetNextLevel()
@@ -119,15 +121,27 @@ namespace CoreSystem
             PelletsEaten = 0;
             CurrentLevel++;
             await Task.Delay(100);
+            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
             CurrentLevelContext = new LevelContext
             {
-                MapName = MapName.Pacman,
+                MapName = System.Enum.Parse<MapName>(mapName),
                 RemainingLives = RemainingLives,
                 LevelNumber = CurrentLevel,
             };
 
-            await SetupScene(PacmanMap, CurrentLevelContext);
+            await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
+        }
+
+        public LevelInfo GetLevelInfo(string mapName)
+        {
+            return mapName switch
+            {
+                "Pacman" => PacmanMap,
+                "MsPacman" => MsPacmanMap,
+                "Random" => RandomGenMap,
+                _ => null,
+            };
         }
 
         public async Task SetupScene(LevelInfo levelInfo, LevelContext levelContext)

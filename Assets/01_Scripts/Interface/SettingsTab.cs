@@ -3,7 +3,6 @@ using CoreSystem;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Utilities;
 
 namespace SettingsSystem
 {
@@ -15,7 +14,7 @@ namespace SettingsSystem
         {
             GetSettings();
 
-            yield return new WaitForSeconds(transitionTime);
+            yield return new WaitForSecondsRealtime(transitionTime);
             TabElement.SetEnabled(true);
             TabElement.RemoveFromClassList("hide");
         }

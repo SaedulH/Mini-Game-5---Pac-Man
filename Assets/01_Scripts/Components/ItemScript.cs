@@ -8,6 +8,8 @@ namespace CoreSystem
     [RequireComponent(typeof(Animator))]
     public class ItemScript : MonoBehaviour
     {
+        private static readonly int StateHash = Animator.StringToHash("State");
+
         [field: SerializeField] public int Score { get; protected set; }
         [field: SerializeField] public NodeType ItemType { get; private set; }
         [field: SerializeField] public bool IsActive { get; protected set; } = true;
@@ -24,7 +26,7 @@ namespace CoreSystem
         private void Start()
         {
             SetItemScore();
-            Anim.SetInteger("State", 0);
+            Anim.SetInteger(StateHash, 0);
             IsActive = true;
         }
 
@@ -46,12 +48,15 @@ namespace CoreSystem
             if (IsActive)
             {
                 IsActive = false;
-                Anim.SetInteger("State", 1);
+                Anim.SetInteger(StateHash, 1);
                 AudioCollection.Instance.PlayCollectAudio(ItemType);
                 bool isPellet = ItemType == NodeType.Pellet || ItemType == NodeType.PowerPellet;
                 _ = GameManager.Instance.AddScore(Score, isPellet);
                 if (ItemType == NodeType.PowerPellet)
                 {
+                    CameraShake.Instance.ShakeCamera(
+                        Constants.CAMERA_SHAKE_INTENSITY_MEDIUM, 
+                        Constants.CAMERA_SHAKE_DURATION_MEDIUM);
                     if (other.TryGetComponent(out PlayerManager playerManager))
                     {
                         playerManager.ActivatePowerMode();
@@ -64,14 +69,14 @@ namespace CoreSystem
         {
             Collider.enabled = false;
             Body.SetActive(false);
-            Anim.SetInteger("State", 2);
+            Anim.SetInteger(StateHash, 2);
         }
 
         public void OnResetEvent()
         {
             Collider.enabled = true;
             Body.SetActive(true);
-            Anim.SetInteger("State", 0);
+            Anim.SetInteger(StateHash, 0);
             IsActive = true;
         }
     }

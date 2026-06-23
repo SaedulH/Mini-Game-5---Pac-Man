@@ -183,13 +183,13 @@ namespace SettingsSystem
             switch (controlInput)
             {
                 case ControlInput.Up:
-                    return (map.FindAction("Up"), "positive");
+                    return (map.FindAction("Up"), "Up");
                 case ControlInput.Down:
-                    return (map.FindAction("Down"), "negative");
+                    return (map.FindAction("Down"), "Down");
                 case ControlInput.Left:
-                    return (map.FindAction("Left"), "negative");
+                    return (map.FindAction("Left"), "Left");
                 case ControlInput.Right:
-                    return (map.FindAction("Right"), "positive");
+                    return (map.FindAction("Right"), "Right");
                 default:
                     break;
             }
@@ -216,7 +216,8 @@ namespace SettingsSystem
         {
             for (int i = 0; i < action.bindings.Count; i++)
             {
-                if (action.bindings[i].name == part ||
+                if (action.bindings[i].action == part || 
+                    action.bindings[i].name == part ||
                     (part == null &&
                      !action.bindings[i].isComposite &&
                      !action.bindings[i].isPartOfComposite))
@@ -230,6 +231,7 @@ namespace SettingsSystem
 
         private void SetInputLabel(ControlInput controlInput, InputActionMap actionMap)
         {
+            Debug.Log($"Setting input label for player control {controlInput} in action map {actionMap.name}");
             if (actionMap == null) return;
 
             Button inputButton = GetControlInputButton(controlInput);
@@ -261,7 +263,7 @@ namespace SettingsSystem
             //string addToClass = icon != null ? "controlInputIcon" : "controlInput";
             //string removeFromClass = icon != null ? "controlInput" : "controlInputIcon";
             inputButton.text = icon != null ? "" : value;
-            inputButton.style.backgroundImage = new StyleBackground(icon != null ? icon : DefaultIcon);
+            //inputButton.style.backgroundImage = new StyleBackground(icon != null ? icon : DefaultIcon);
             //inputButton.AddToClassList(addToClass);
             //inputButton.RemoveFromClassList(removeFromClass);
         }

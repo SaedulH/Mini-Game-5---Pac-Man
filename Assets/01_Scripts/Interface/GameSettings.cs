@@ -66,6 +66,7 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             SetScreenShakeSetting(setting);
+            CameraShake.Instance.UpdateScreenShakeIntensityModifier(GetScreenShakeSetting());
 
             ApplyScreenShakeUI(setting);
         }
@@ -74,6 +75,7 @@ namespace SettingsSystem
         {
             AudioCollection.Instance.PlaySelectAudio(playSound);
             SetCameraModeSetting(setting);
+            CameraZoom.Instance.UpdateCameraMode(GetCameraSetting());
 
             ApplyCameraUI(setting);
         }
@@ -107,6 +109,11 @@ namespace SettingsSystem
             ApplyMapNameUI(mapName);
             ApplyCameraUI(camera);
             ApplyScreenShakeUI(shake);
+        }
+
+        public override bool OnBackClicked()
+        {
+            return true;
         }
 
         private static void UpdateSelected(Button button, bool selected)

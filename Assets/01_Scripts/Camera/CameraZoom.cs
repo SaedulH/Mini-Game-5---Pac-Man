@@ -104,11 +104,18 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         }
     }
 
-    public async Task SetupCameraMode(LevelContext context, string cameraMode)
+    public async Task SetupCameraMode(string cameraMode)
     {
         mainCamera = Camera.main;
         if (cinemachineCamera == null) return;
 
+        UpdateCameraMode(cameraMode);
+        Debug.Log($"Camera Mode set to: {cameraMode}");
+        await Task.CompletedTask;
+    }
+
+    public async void UpdateCameraMode(string cameraMode)
+    {
         if (Enum.TryParse(cameraMode, out CameraMode parsedCameraMode))
         {
             switch (parsedCameraMode)
@@ -120,12 +127,15 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
                 case CameraMode.Dynamic:
                     await SetupDynamicCameraMode();
                     break;
+                case CameraMode.Follow:
+                    await SetupFollowCameraMode();
+                    break;
             }
-        } else
+        }
+        else
         {
             await SetupFixedCameraMode();
         }
-        Debug.Log($"Camera Mode set to: {cameraMode}");
     }
 
     private async Task SetupFixedCameraMode()
@@ -154,6 +164,27 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             TrackingTarget = PlayerOne.transform;
         }
         
+        TrackingTarget.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        cinemachineCamera.Target.TrackingTarget = TrackingTarget;
+        cinemachineCamera.Target.LookAtTarget = TrackingTarget;
+        await Task.CompletedTask;
+    }
+
+    private async Task SetupFollowCameraMode()
+    {
+        if (positionComposer != null)
+        {
+            positionComposer.enabled = true;
+            positionComposer.Lookahead.Enabled = true;
+            positionComposer.Lookahead.Time = Constants.DYNAMIC_CAMERA_LOOK_AHEAD_TIME;
+            positionComposer.Lookahead.Smoothing = Constants.DYNAMIC_CAMERA_LOOK_AHEAD_SMOOTHING;
+        }
+
+        if (PlayerOne != null)
+        {
+            TrackingTarget = PlayerOne.transform;
+        }
+
         TrackingTarget.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         cinemachineCamera.Target.TrackingTarget = TrackingTarget;
         cinemachineCamera.Target.LookAtTarget = TrackingTarget;

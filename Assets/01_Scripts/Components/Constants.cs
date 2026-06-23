@@ -33,22 +33,20 @@ namespace Utilities
         public const float RESPAWN_DELAY_DURATION = 10f;
         public const float FORCE_GHOST_EXIT_PEN_TIME = 5f;
 
-        // UI Text
-        public const string SOLO_RACE_WIN = "YOU WIN!";
-        public const string SOLO_RACE_LOSE = "YOU LOSE!";
-        public const string SOLO_TIMED_WIN = "AWARD: ";
-        public const string SOLO_TIMED_LOSE = "FAILED!";
-        public const string VERSUS_WINNER_TEXT = "WINNER: ";
-        public const string BEST_LAP_TEXT = "BEST LAP TIME: ";
-        public const string RACE_FINISHED = "FINISHED";
-
         // Camera
         public const float DYNAMIC_CAMERA_LOOK_AHEAD_TIME = 0.5f;
         public const float DYNAMIC_CAMERA_LOOK_AHEAD_SMOOTHING = 5f;
         public const float MIN_ORTHOGRAPHIC_CAMERA_SIZE = 70f;
         public const float MAX_ORTHOGRAPHIC_CAMERA_SIZE = 114f;
         public const float ZOOM_FACTOR_CONSTANT = 0.5f;
+        public const float CAMERA_SHAKE_INTENSITY_LOW = 0.1f;
+        public const float CAMERA_SHAKE_INTENSITY_MEDIUM = 0.2f;
+        public const float CAMERA_SHAKE_INTENSITY_HIGH = 0.4f;
+        public const float CAMERA_SHAKE_DURATION_LOW = 0.05f;
+        public const float CAMERA_SHAKE_DURATION_MEDIUM = 0.1f;
+        public const float CAMERA_SHAKE_DURATION_HIGH = 0.2f;
 
+        // Audio
         public const float AUDIO_EFFECTS_FADE_IN_TIME = 0.25f;
         public const float AUDIO_EFFECTS_FADE_OUT_TIME = 0.5f;
 

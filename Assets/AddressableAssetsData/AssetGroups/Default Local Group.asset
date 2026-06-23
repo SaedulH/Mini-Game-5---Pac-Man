@@ -16,7 +16,12 @@ MonoBehaviour:
   m_GUID: d4db77d84e1adec4195d15084be08e74
   m_SerializeEntries:
   - m_GUID: 03cf48eac8a590f4d9306bee7e4b8dab
-    m_Address: Assets/04_Scenes/RandomGenScene.unity
+    m_Address: RandomGenScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bb887c96f61d0f4387dc8a4dff41d9c
+    m_Address: MsPacmanScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -26,12 +31,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99c9720ab356a0642a771bea13969a05
-    m_Address: GameScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a20f2b9bcfbbc7742aafbf7cc5ea7614
-    m_Address: Assets/04_Scenes/MsPacmanScene.unity
+    m_Address: PacmanScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

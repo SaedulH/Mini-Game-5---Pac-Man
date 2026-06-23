@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70cf18490d7a1f249afba76c812d7c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallScript
+  <WallNodeType>k__BackingField: 0
   <WallTop>k__BackingField: {fileID: 0}
   <WallTopLeft>k__BackingField: {fileID: 0}
   <WallTopRight>k__BackingField: {fileID: 0}
@@ -109,8 +110,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 76b76cb1bcf7f7c4ea26e1cb2cc7175a, type: 2}
-  - {fileID: 2100000, guid: 0212d5f369512094ab837258c144e981, type: 2}
+  - {fileID: 2100000, guid: ea7d211c043e4624aa02acc5c57ff45f, type: 2}
+  - {fileID: 2100000, guid: 484cf8c985d10474d83b336802e4a0d6, type: 2}
   - {fileID: 2100000, guid: 855acdac2475b49458e2fe8afaf93885, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

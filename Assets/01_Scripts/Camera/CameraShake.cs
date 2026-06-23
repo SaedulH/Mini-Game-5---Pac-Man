@@ -11,6 +11,7 @@ public class CameraShake : NonPersistentSingleton<CameraShake>
     private CinemachineCamera cinemachineCamera;
     private Coroutine _shakeCoroutine = null;
     private float intensityModifier = 0f;
+    private Vector3 initialPosition = Vector3.zero;
 
     protected override void Awake()
     {
@@ -19,6 +20,14 @@ public class CameraShake : NonPersistentSingleton<CameraShake>
     }
 
     public async Task SetupScreenShake(string screenShakeSetting)
+    {
+        UpdateScreenShakeIntensityModifier(screenShakeSetting);
+        Debug.Log($"Screen Shake Intensity Modifier set to: {intensityModifier}");
+        initialPosition = cinemachineCamera.transform.localPosition;
+        await Task.CompletedTask;
+    }
+
+    public void UpdateScreenShakeIntensityModifier(string screenShakeSetting)
     {
         if (Enum.TryParse(screenShakeSetting, out ScreenShake parsedScreenShakeSetting))
         {
@@ -34,8 +43,6 @@ public class CameraShake : NonPersistentSingleton<CameraShake>
         {
             intensityModifier = 1f;
         }
-        Debug.Log($"Screen Shake Intensity Modifier set to: {intensityModifier}");
-        await Task.CompletedTask;
     }
 
     public void ShakeCamera(float intensity, float duration)
@@ -47,25 +54,24 @@ public class CameraShake : NonPersistentSingleton<CameraShake>
         if (_shakeCoroutine != null)
         {
             StopCoroutine(_shakeCoroutine);
-            cinemachineCamera.transform.localPosition = new Vector3(0f, 0f, -5f);
+            cinemachineCamera.transform.localPosition = initialPosition;
         }
         StartCoroutine(ShakeCameraCoroutine((intensity * intensityModifier), duration));
     }
 
     private IEnumerator ShakeCameraCoroutine(float intensity, float duration)
     {
-        Vector3 originalPosition = new Vector3(0f, 0f, -5f);
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            float xOffset = Random.Range(-0.5f, 0.5f) * intensity;
-            float yOffset = Random.Range(-0.5f, 0.5f) * intensity;
-            cinemachineCamera.transform.localPosition = originalPosition + new Vector3(xOffset, yOffset, 0f);
+            float xOffset = Random.Range(-0.25f, 0.25f) * intensity;
+            float yOffset = Random.Range(-0.25f, 0.25f) * intensity;
+            cinemachineCamera.transform.localPosition = initialPosition + new Vector3(xOffset, yOffset, 0f);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        cinemachineCamera.transform.localPosition = originalPosition;
+        cinemachineCamera.transform.localPosition = initialPosition;
     }
 }

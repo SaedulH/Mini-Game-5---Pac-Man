@@ -203,6 +203,9 @@ namespace CoreSystem
 
         public override void OnHitEvent()
         {
+            CameraShake.Instance.ShakeCamera(
+                Constants.CAMERA_SHAKE_INTENSITY_HIGH,
+                Constants.CAMERA_SHAKE_DURATION_LOW);
             Anim.SetDeath(true);
             OnHit.Invoke(new Empty());
             SetNewGhostState(GhostState.Returning);

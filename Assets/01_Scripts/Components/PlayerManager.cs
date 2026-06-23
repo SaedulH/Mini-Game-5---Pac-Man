@@ -105,6 +105,9 @@ namespace CoreSystem
         {
             if (!_isActive) return;
 
+            CameraShake.Instance.ShakeCamera(
+                Constants.CAMERA_SHAKE_INTENSITY_HIGH,
+                Constants.CAMERA_SHAKE_DURATION_HIGH);
             _isActive = false;
             Anim.SetDeath(true);
             OnHit.Invoke(new Empty());
