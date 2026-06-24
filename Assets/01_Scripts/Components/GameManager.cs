@@ -154,7 +154,12 @@ namespace CoreSystem
         {
             var (pacman, ghosts) = EntitySpawner.SetupEntities(InputActions, levelNumber);
             Pacman = pacman;
-            Ghosts = ghosts;
+            CameraZoom.Instance.AddPacmanToCameraTarget(Pacman.gameObject);
+            for (int i = 0; i < ghosts.Length; i++)
+            {
+                CameraZoom.Instance.AddGhostToCameraTarget(i, ghosts[i].gameObject);
+                Ghosts[i] = ghosts[i];
+            }
 
             await Task.CompletedTask;
         }

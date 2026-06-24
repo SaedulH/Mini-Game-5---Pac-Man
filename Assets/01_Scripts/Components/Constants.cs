@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Utilities
 {
@@ -34,17 +35,23 @@ namespace Utilities
         public const float FORCE_GHOST_EXIT_PEN_TIME = 5f;
 
         // Camera
-        public const float DYNAMIC_CAMERA_LOOK_AHEAD_TIME = 0.5f;
-        public const float DYNAMIC_CAMERA_LOOK_AHEAD_SMOOTHING = 5f;
-        public const float MIN_ORTHOGRAPHIC_CAMERA_SIZE = 70f;
-        public const float MAX_ORTHOGRAPHIC_CAMERA_SIZE = 114f;
+        public const float FOLLOW_CAMERA_LOOK_AHEAD_TIME = 0.5f;
+        public const float FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING = 5f;
+        public const float MIN_CAMERA_SIZE = 70f;
+        public const float MAX_CAMERA_SIZE = 114f;
         public const float ZOOM_FACTOR_CONSTANT = 0.5f;
+
         public const float CAMERA_SHAKE_INTENSITY_LOW = 0.1f;
         public const float CAMERA_SHAKE_INTENSITY_MEDIUM = 0.2f;
         public const float CAMERA_SHAKE_INTENSITY_HIGH = 0.4f;
         public const float CAMERA_SHAKE_DURATION_LOW = 0.05f;
         public const float CAMERA_SHAKE_DURATION_MEDIUM = 0.1f;
         public const float CAMERA_SHAKE_DURATION_HIGH = 0.2f;
+
+        public const float FIXED_CAMERA_FOV = 60f;
+        public const float FIXED_CAMERA_DISTANCE = 12.5f;
+        public static Vector3 FIXED_CAMERA_POSITION = new(0f, 28f, -10f);
+        public static Vector3 FIXED_CAMERA_ROTATION = new(75f, 0f, 0f);
 
         // Audio
         public const float AUDIO_EFFECTS_FADE_IN_TIME = 0.25f;
