@@ -164,7 +164,13 @@ namespace CoreSystem
             {
                 if (existingItem.ItemType == item.ItemType)
                 {
-                    DestroyImmediate(existingItem.gameObject);
+#if UNITY_EDITOR    
+                    if(Application.isPlaying)
+                    {
+                        DestroyImmediate(existingItem.gameObject);
+                    }
+#endif
+                    Destroy(existingItem.gameObject);
                 }
                 else
                 {

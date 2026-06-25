@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
 using Utilities;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 public class CameraZoom : NonPersistentSingleton<CameraZoom>
 {
@@ -62,67 +61,22 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
             bounds.Encapsulate(ghost.transform.position);
         }
+        Debug.DrawLine(bounds.min, bounds.max, Color.green);
 
         UpdateZoom(bounds);
     }
 
     private void UpdateZoom(Bounds bounds)
     {
-        float width = bounds.size.x;
-        float height = bounds.size.z;
+        float boundsSize = Vector2.Distance(bounds.min, bounds.max);
+        Debug.Log("boundsSize: " + boundsSize);
+        float t = Mathf.InverseLerp(10f, 20f, boundsSize);
 
-        float widthFactor =
-            Constants.ZOOM_FACTOR_CONSTANT +
-            Mathf.InverseLerp(0f, maxWidth, width);
-
-        float heightFactor =
-            Constants.ZOOM_FACTOR_CONSTANT +
-            Mathf.InverseLerp(0f, maxHeight, height);
-
-        float zoomFactor = Mathf.Max(
-            widthFactor,
-            heightFactor);
-
-        float targetFOV = Mathf.Clamp(
-            zoomFactor * Constants.MAX_CAMERA_SIZE,
-            Constants.MIN_CAMERA_SIZE,
-            Constants.MAX_CAMERA_SIZE);
-
-        _cinemachineCamera.Lens.FieldOfView =
-            Mathf.Lerp(
-                _cinemachineCamera.Lens.FieldOfView,
-                targetFOV,
-                Time.deltaTime * 5f);
-    }
-
-    private void TrackTargetGroup1()
-    {
-        if (TrackingTargets == null || TrackingTargets.Count == 0)
-        {
-            return;
-        }
-
-        Vector3 centre = Vector3.zero;
-        Bounds bounds = new Bounds(TrackingTargets[0].position, Vector3.zero);
-
-        foreach (GameObject target in Ghosts)
-        {
-            centre += target.transform.position;
-            bounds.Encapsulate(target.transform.position);
-        }
-
-        centre /= TrackingTargets.Count;
-
-        GroupCentre.transform.position = centre;
-
-        float spread = Mathf.Max(
-            bounds.size.x,
-            bounds.size.z);
 
         float targetFOV = Mathf.Lerp(
-            Constants.MIN_CAMERA_SIZE,
-            Constants.MAX_CAMERA_SIZE,
-            Mathf.InverseLerp(Constants.MIN_CAMERA_SIZE, Constants.MAX_CAMERA_SIZE, spread));
+            Constants.DYNAMIC_MIN_CAMERA_FOV,
+            Constants.DYNAMIC_MAX_CAMERA_FOV,
+            t);
 
         _cinemachineCamera.Lens.FieldOfView =
             Mathf.Lerp(
@@ -207,8 +161,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         _cinemachineCamera.Lens.FieldOfView = Constants.FIXED_CAMERA_FOV;
 
         transform.SetPositionAndRotation(
-            Constants.FIXED_CAMERA_POSITION,
-            Quaternion.Euler(Constants.FIXED_CAMERA_ROTATION));
+            Constants.CAMERA_POSITION,
+            Quaternion.Euler(Constants.CAMERA_ROTATION));
 
         if (_positionComposer != null)
         {
@@ -240,8 +194,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         }
 
         transform.SetPositionAndRotation(
-            Constants.FIXED_CAMERA_POSITION,
-            Quaternion.Euler(Constants.FIXED_CAMERA_ROTATION));
+            Constants.CAMERA_POSITION,
+            Quaternion.Euler(Constants.CAMERA_ROTATION));
 
         if (Pacman != null)
         {
@@ -251,7 +205,7 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         if (_positionComposer != null)
         {
             _positionComposer.enabled = true;
-            _positionComposer.CameraDistance = Constants.FIXED_CAMERA_DISTANCE;
+            _positionComposer.CameraDistance = Constants.DYNAMIC_CAMERA_DISTANCE;
             _positionComposer.Lookahead.Enabled = true;
             _positionComposer.Lookahead.Time = Constants.FOLLOW_CAMERA_LOOK_AHEAD_TIME;
             _positionComposer.Lookahead.Smoothing = Constants.FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING;
@@ -276,16 +230,16 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             _cinemachineCamera.Target.TrackingTarget = Pacman.transform;
             _cinemachineCamera.Target.LookAtTarget = Pacman.transform;
         }
-        _cinemachineCamera.Lens.FieldOfView = Constants.FIXED_CAMERA_FOV;
+        _cinemachineCamera.Lens.FieldOfView = Constants.FOLLOW_CAMERA_FOV;
 
         transform.SetPositionAndRotation(
-            Constants.FIXED_CAMERA_POSITION,
-            Quaternion.Euler(Constants.FIXED_CAMERA_ROTATION));
+            Constants.CAMERA_POSITION,
+            Quaternion.Euler(Constants.CAMERA_ROTATION));
 
         if (_positionComposer != null)
         {
             _positionComposer.enabled = true;
-            _positionComposer.CameraDistance = Constants.FIXED_CAMERA_DISTANCE;
+            _positionComposer.CameraDistance = Constants.FOLLOW_CAMERA_DISTANCE;
             _positionComposer.Lookahead.Enabled = true;
             _positionComposer.Lookahead.Time = Constants.FOLLOW_CAMERA_LOOK_AHEAD_TIME;
             _positionComposer.Lookahead.Smoothing = Constants.FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING;
@@ -293,10 +247,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         if (_confiner != null)
         {
             _confiner.enabled = true;
-            if (ConfinerCollider != null)
-            {
-                SetupConfinerCollider();
-            }
         }
 
         await Task.CompletedTask;
@@ -304,6 +254,9 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
     private void SetupConfinerCollider()
     {
+
+        maxHeight = ConfinerCollider.bounds.size.z;
+        maxWidth = ConfinerCollider.bounds.size.x;
         //ConfinerCollider.isTrigger = true;
         //_cinemachineCamera.Lens.OrthographicSize = Constants.MIN_ORTHOGRAPHIC_CAMERA_SIZE;
 
