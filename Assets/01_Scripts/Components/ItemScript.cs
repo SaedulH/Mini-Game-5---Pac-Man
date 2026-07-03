@@ -54,7 +54,7 @@ namespace CoreSystem
                 _ = GameManager.Instance.AddScore(Score, isPellet);
                 if (ItemType == NodeType.PowerPellet)
                 {
-                    CameraShake.Instance.ShakeCamera(
+                    CameraShake.Instance.ShakeCamera3D(
                         Constants.CAMERA_SHAKE_INTENSITY_MEDIUM, 
                         Constants.CAMERA_SHAKE_DURATION_MEDIUM);
                     if (other.TryGetComponent(out PlayerManager playerManager))

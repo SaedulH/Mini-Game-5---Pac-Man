@@ -11,21 +11,27 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
     private CinemachinePositionComposer _positionComposer;
     private CinemachineConfiner3D _confiner;
     [field: SerializeField] public BoxCollider ConfinerCollider { get; set; }
+    [field: SerializeField] public GameObject CentrePosition { get; private set; }
     [field: SerializeField] public List<Transform> TrackingTargets { get; private set; } = new List<Transform>();
-    [field: SerializeField] public GameObject GroupCentre { get; private set; }
     [field: SerializeField] public GameObject Pacman { get; private set; }
     [field: SerializeField] public GameObject[] Ghosts { get; private set; } = new GameObject[4];
+
+    private GameState _currentGameState;
 
     private float maxWidth;
     private float maxHeight;
     private float maxDistance;
+
+    private Bounds _bounds = new(Vector3.zero, Vector3.zero);
+    private float _boundsSize = 0f;
+    private Vector3 _boundsCenter = Vector3.zero;
 
     private float _defaultOrthoSize;
     private float _targetOrthoSize;
     private float _currentOrthoSize;
     private float _zoomTime;
     private bool _isTimedZooming;
-    private bool _isTrackGroupCentre;
+    private bool _isDynamicTracking;
 
     protected override void Awake()
     {
@@ -39,50 +45,95 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
     private void Update()
     {
-        if (_isTrackGroupCentre)
+        if (_currentGameState.Equals(GameState.Playing) && _isDynamicTracking)
         {
-            TrackTargetGroup();
+            UpdateZoom();
+        }  
+    }
+
+    private void FixedUpdate()
+    {
+        if (_currentGameState.Equals(GameState.Playing) && _isDynamicTracking)
+        {
+            UpdateBoundSize();
         }
     }
 
-    private void TrackTargetGroup()
+    public void OnGameStateUpdated(GameState gameState)
+    {
+        _currentGameState = gameState;
+    }
+
+    private void UpdateBoundSize()
     {
         if (Pacman == null)
+        {
             return;
+        }
 
-        Bounds bounds = new Bounds(
+        _bounds = new Bounds(
             Pacman.transform.position,
             Vector3.zero);
 
-        foreach (GameObject ghost in Ghosts)
+        foreach (Transform target in TrackingTargets)
         {
-            if (ghost == null)
+            if (target == null)
+            {
                 continue;
+            }
 
-            bounds.Encapsulate(ghost.transform.position);
+            _bounds.Encapsulate(target.position);
         }
-        Debug.DrawLine(bounds.min, bounds.max, Color.green);
-
-        UpdateZoom(bounds);
+        Debug.DrawLine(_bounds.min, _bounds.max, Color.green);
+        _boundsSize = Vector2.Distance(_bounds.min, _bounds.max);
+        Debug.Log("boundsSize: " + _boundsSize);
     }
 
-    private void UpdateZoom(Bounds bounds)
+    private void UpdateZoom()
     {
-        float boundsSize = Vector2.Distance(bounds.min, bounds.max);
-        Debug.Log("boundsSize: " + boundsSize);
-        float t = Mathf.InverseLerp(10f, 20f, boundsSize);
+        if (Pacman == null)
+        {
+            return;
+        }
 
+        float ratio = Mathf.InverseLerp(
+            Constants.DYNAMIC_MIN_BOUNDS_LENGTH,
+            Constants.DYNAMIC_MAX_BOUNDS_LENGTH,
+            _boundsSize);
 
-        float targetFOV = Mathf.Lerp(
-            Constants.DYNAMIC_MIN_CAMERA_FOV,
-            Constants.DYNAMIC_MAX_CAMERA_FOV,
-            t);
+        float distance = Mathf.Lerp(
+            Constants.DYNAMIC_CAMERA_MIN_DISTANCE,
+            Constants.DYNAMIC_CAMERA_MAX_DISTANCE,
+            ratio);
 
-        _cinemachineCamera.Lens.FieldOfView =
-            Mathf.Lerp(
-                _cinemachineCamera.Lens.FieldOfView,
-                targetFOV,
-                Time.deltaTime * 5f);
+        if (_positionComposer != null)
+        {
+            _positionComposer.CameraDistance = Mathf.Lerp(
+                _positionComposer.CameraDistance, distance, 5f * Time.deltaTime);
+        }
+
+        Vector3 position = GetDynamicCameraPosition(ratio);
+
+        UpdateConfinerCollider(distance, position);
+    }
+
+    private void UpdateConfinerCollider(float distance, Vector3 position)
+    {
+    }
+
+    private Vector3 GetDynamicCameraPosition(float ratio)
+    {
+        float xPosition = Mathf.Lerp(Pacman.transform.position.x, _boundsCenter.x, ratio);
+        float zPosition = Mathf.Lerp(Pacman.transform.position.z, _boundsCenter.z, ratio);
+
+        Vector3 position = new(xPosition, 0f, zPosition);
+
+        CentrePosition.transform.position = Vector3.Lerp(
+            CentrePosition.transform.position,
+            position,
+            5f * Time.deltaTime);
+
+        return position;
     }
 
     private void TimedZoom()
@@ -152,7 +203,7 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
     private async Task SetupFixedCameraMode()
     {
-        _isTrackGroupCentre = false;
+        _isDynamicTracking = false;
 
         _cinemachineCamera.Target.TrackingTarget = null;
         _cinemachineCamera.Target.LookAtTarget = null;
@@ -174,12 +225,15 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
     private async Task SetupDynamicCameraMode()
     {
-        _isTrackGroupCentre = true;
-
+        _isDynamicTracking = true;
+        _boundsCenter = Vector3.zero;
         TrackingTargets.Clear();
         if (Pacman != null)
         {
+            _cinemachineCamera.Target.TrackingTarget = CentrePosition.transform;
+            _cinemachineCamera.Target.LookAtTarget = CentrePosition.transform;
             TrackingTargets.Add(Pacman.transform);
+            CentrePosition.transform.position = Pacman.transform.position;
         }
 
         if (Ghosts != null)
@@ -197,15 +251,10 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             Constants.CAMERA_POSITION,
             Quaternion.Euler(Constants.CAMERA_ROTATION));
 
-        if (Pacman != null)
-        {
-            _cinemachineCamera.Target.TrackingTarget = Pacman.transform;
-            _cinemachineCamera.Target.LookAtTarget = Pacman.transform;
-        }
         if (_positionComposer != null)
         {
             _positionComposer.enabled = true;
-            _positionComposer.CameraDistance = Constants.DYNAMIC_CAMERA_DISTANCE;
+            _positionComposer.CameraDistance = Constants.DYNAMIC_CAMERA_MAX_DISTANCE;
             _positionComposer.Lookahead.Enabled = true;
             _positionComposer.Lookahead.Time = Constants.FOLLOW_CAMERA_LOOK_AHEAD_TIME;
             _positionComposer.Lookahead.Smoothing = Constants.FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING;
@@ -215,7 +264,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             _confiner.enabled = true;
             if (ConfinerCollider != null)
             {
-                SetupConfinerCollider();
+                ConfinerCollider.center = Constants.DYNAMIC_CONFINER_COLLIDER_CENTRE;
+                ConfinerCollider.size = Constants.DYNAMIC_CONFINER_COLLIDER_SIZE;
             }
         }
         await Task.CompletedTask;
@@ -223,7 +273,7 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
 
     private async Task SetupFollowCameraMode()
     {
-        _isTrackGroupCentre = false;
+        _isDynamicTracking = false;
 
         if (Pacman != null)
         {
@@ -247,35 +297,14 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         if (_confiner != null)
         {
             _confiner.enabled = true;
+            if (ConfinerCollider != null)
+            {
+                ConfinerCollider.center = Constants.FOLLOW_CONFINER_COLLIDER_CENTRE;
+                ConfinerCollider.size = Constants.FOLLOW_CONFINER_COLLIDER_SIZE;
+            }
         }
 
         await Task.CompletedTask;
-    }
-
-    private void SetupConfinerCollider()
-    {
-
-        maxHeight = ConfinerCollider.bounds.size.z;
-        maxWidth = ConfinerCollider.bounds.size.x;
-        //ConfinerCollider.isTrigger = true;
-        //_cinemachineCamera.Lens.OrthographicSize = Constants.MIN_ORTHOGRAPHIC_CAMERA_SIZE;
-
-        //maxHeight = Constants.MAX_CAMERA_SIZE * 2f;
-        //maxWidth = maxHeight * mainCamera.aspect;
-        //maxDistance = Mathf.Sqrt((maxHeight * maxHeight) + (maxWidth * maxWidth));
-
-        //float halfHeight = (maxHeight / 2f) + 0.1f;
-        //float halfWidth = (maxWidth / 2f) + 0.1f;
-
-        //Vector2[] points = new Vector2[]
-        //{
-        //    new(-halfWidth, halfHeight),
-        //    new(-halfWidth, -halfHeight),
-        //    new(halfWidth, -halfHeight),
-        //    new(halfWidth, halfHeight)
-        //};
-
-        //ConfinerCollider.SetPath(0, points);
     }
 
     public async Task ResetCameraZoom()

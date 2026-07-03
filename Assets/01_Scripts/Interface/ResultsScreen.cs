@@ -60,14 +60,23 @@ namespace UserInterface
             IsActive = false;
         }
 
-        public async Task SetResultsInfo(int currentScore, int highScore, int currentLevel)
+        public void SetResultsInfo(int currentScore, int currentLevel)
         {
+            int existingHighScore = PlayerPrefs.GetInt("HighScore", 0);
             _currentLevel.text = currentLevel.ToString();
             _currentScore.text = currentScore.ToString();
-            _highScore.text = highScore.ToString();
-            _newHighScoreText.text = currentScore > highScore ? "New High Score!" : "";
-
-            await Task.CompletedTask;
+            bool isNewHighScore = currentScore > existingHighScore;
+            if (isNewHighScore)
+            {
+                _highScore.text = currentScore.ToString();
+                _newHighScoreText.text = "New High Score!";
+                PlayerPrefs.SetInt("HighScore", currentScore);
+            }
+            else
+            {
+                _highScore.text = existingHighScore.ToString();
+                _newHighScoreText.text = "";
+            }
         }
 
         private void OnRestartClicked()

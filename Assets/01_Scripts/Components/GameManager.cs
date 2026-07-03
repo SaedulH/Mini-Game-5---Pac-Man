@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UserInterface;
 using Utilities;
 
 namespace CoreSystem
@@ -31,7 +32,6 @@ namespace CoreSystem
         [field: SerializeField, Tooltip("[0] Blinky, [1] Inky, [2] Pinky, [3] Clive")] public GhostManager[] Ghosts { get; private set; }
 
         [field: Space]
-        [field: SerializeReference] public int Highscore { get; private set; }
         [field: SerializeReference] public int CurrentScore { get; private set; }
         [field: SerializeReference] public int RemainingLives { get; private set; }
         [field: SerializeField] public int TotalPelletCount { get; set; } = 246;
@@ -39,6 +39,8 @@ namespace CoreSystem
         [field: SerializeField] public float TimeSinceLastItemCollected { get; private set; } = 0;
 
         [field: Header("Game Events")]
+        [field: SerializeField] public IntEventChannel OnLevelUpdated { get; private set; }
+        [field: SerializeField] public IntEventChannel OnLivesUpdated { get; private set; }
         [field: SerializeField] public IntEventChannel OnScoreUpdated { get; private set; }
         [field: SerializeField] public EventChannel OnCollectItem { get; private set; }
         [field: SerializeField] public EventChannel OnBackPerformed { get; private set; }
@@ -71,7 +73,6 @@ namespace CoreSystem
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
             CurrentScore = 0;
-            Highscore = PlayerPrefs.GetInt("Highscore", 0);
             TimeSinceLastItemCollected = 0f;
             CurrentLevel = 1;
             PelletsEaten = 0;
@@ -120,6 +121,7 @@ namespace CoreSystem
             TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
             CurrentLevel++;
+            OnLevelUpdated.Invoke(CurrentLevel);
             await Task.Delay(100);
             string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
@@ -277,8 +279,10 @@ namespace CoreSystem
             if (RemainingLives <= 0) return;
 
             RemainingLives--;
+            OnLivesUpdated.Invoke(RemainingLives);
             if (RemainingLives == 0)
             {
+                UIManager.Instance.SetResultsInfo(CurrentScore, CurrentLevel);
                 EnterLevelState(LevelState.GameOver);
                 Debug.Log("Game Over!!");
             }

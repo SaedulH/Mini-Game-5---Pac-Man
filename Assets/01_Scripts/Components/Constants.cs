@@ -40,10 +40,16 @@ namespace Utilities
 
         public const float FOLLOW_CAMERA_FOV = 65f;
         public const float FOLLOW_CAMERA_DISTANCE = 12f;
+        public static Vector3 FOLLOW_CONFINER_COLLIDER_CENTRE = new(0f, 14f, -3f);
+        public static Vector3 FOLLOW_CONFINER_COLLIDER_SIZE = new(13f, 28f, 21f);
 
-        public const float DYNAMIC_MIN_CAMERA_FOV = 45f;
-        public const float DYNAMIC_MAX_CAMERA_FOV = 65f;
-        public const float DYNAMIC_CAMERA_DISTANCE = 12f;
+        public const float DYNAMIC_CAMERA_FOV = 60f;
+        public const float DYNAMIC_CAMERA_MIN_DISTANCE = 12f;
+        public const float DYNAMIC_CAMERA_MAX_DISTANCE = 28f;
+        public const float DYNAMIC_MIN_BOUNDS_LENGTH = 5f;
+        public const float DYNAMIC_MAX_BOUNDS_LENGTH = 20f;
+        public static Vector3 DYNAMIC_CONFINER_COLLIDER_CENTRE = new(0f, 14f, -3f);
+        public static Vector3 DYNAMIC_CONFINER_COLLIDER_SIZE = new(13f, 28f, 21f);
 
         public static Vector3 CAMERA_POSITION = new(0f, 28f, -10f);
         public static Vector3 CAMERA_ROTATION = new(75f, 0f, 0f);
@@ -52,14 +58,12 @@ namespace Utilities
         public const float FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING = 5f;
         public const float ZOOM_FACTOR_CONSTANT = 0.5f;
 
-        public const float CAMERA_SHAKE_INTENSITY_LOW = 0.1f;
-        public const float CAMERA_SHAKE_INTENSITY_MEDIUM = 0.2f;
-        public const float CAMERA_SHAKE_INTENSITY_HIGH = 0.4f;
-        public const float CAMERA_SHAKE_DURATION_LOW = 0.05f;
-        public const float CAMERA_SHAKE_DURATION_MEDIUM = 0.1f;
-        public const float CAMERA_SHAKE_DURATION_HIGH = 0.2f;
-
-
+        public const float CAMERA_SHAKE_INTENSITY_LOW = 1f;
+        public const float CAMERA_SHAKE_INTENSITY_MEDIUM = 2f;
+        public const float CAMERA_SHAKE_INTENSITY_HIGH = 3f;
+        public const float CAMERA_SHAKE_DURATION_LOW = 0.1f;
+        public const float CAMERA_SHAKE_DURATION_MEDIUM = 0.25f;
+        public const float CAMERA_SHAKE_DURATION_HIGH = 0.3f;
 
         // Audio
         public const float AUDIO_EFFECTS_FADE_IN_TIME = 0.25f;

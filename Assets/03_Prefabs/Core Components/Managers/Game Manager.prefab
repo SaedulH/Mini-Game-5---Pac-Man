@@ -114,6 +114,8 @@ MonoBehaviour:
   <TotalPelletCount>k__BackingField: 246
   <PelletsEaten>k__BackingField: 0
   <TimeSinceLastItemCollected>k__BackingField: 0
+  <OnLevelUpdated>k__BackingField: {fileID: 11400000, guid: 73003b9d110a6c047943c82ca54c8f45, type: 2}
+  <OnLivesUpdated>k__BackingField: {fileID: 11400000, guid: b888e1383af9b044da21ef844417a777, type: 2}
   <OnScoreUpdated>k__BackingField: {fileID: 11400000, guid: 5278adf5ea6920444b67965b81eb4063, type: 2}
   <OnCollectItem>k__BackingField: {fileID: 11400000, guid: 37ece27375acb2e4dbc0e11c3269315f, type: 2}
   <OnBackPerformed>k__BackingField: {fileID: 11400000, guid: 942c7dd95906eb34192fda4b5f2cb95b, type: 2}

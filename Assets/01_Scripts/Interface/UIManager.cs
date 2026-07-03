@@ -1,5 +1,6 @@
 using CoreSystem;
 using SettingsSystem;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using UserInterface;
@@ -153,6 +154,16 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         LoadingScreen.UpdateLoadingProgress(weight);
     }
+
+    #endregion
+
+    #region Results Screen
+
+    public void SetResultsInfo(int currentScore, int currentLevel)
+    {
+        ResultsScreen.SetResultsInfo(currentScore, currentLevel);
+    }
+
     #endregion
 
 }

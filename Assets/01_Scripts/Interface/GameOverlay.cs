@@ -17,11 +17,10 @@ namespace UserInterface
         private Label _currentScoreLabel;
         private Label _highScoreLabel;
 
-        private Image _remainingLivesImage;
+        private Label _remainingLivesLabel;
         private VisualElement _countdownPopup;
         private Label _countdownValue;
 
-        private int _remainingLives;
         private int _highScore;
 
         private LevelContext _currentLevelContext;
@@ -45,7 +44,7 @@ namespace UserInterface
             _currentLevel = _hudOverlay.Q<Label>("LevelValue");
             _currentScoreLabel = _hudOverlay.Q<Label>("ScoreValue");
             _highScoreLabel = _hudOverlay.Q<Label>("HighScoreValue");
-            _remainingLivesImage = _hudOverlay.Q<Image>("LivesValue");
+            _remainingLivesLabel = _hudOverlay.Q<Label>("LivesValue");
         }
 
         private void Update()
@@ -56,9 +55,9 @@ namespace UserInterface
         public async Task SetupHUD(LevelContext levelContext)
         {
             _currentLevelContext = levelContext;
-            _remainingLives = levelContext.RemainingLives;
-            _highScore = PlayerPrefs.GetInt("Highscore", 0);
+            _highScore = PlayerPrefs.GetInt("HighScore", 0);
 
+            _remainingLivesLabel.text = levelContext.RemainingLives.ToString();
             _currentLevel.text = _currentLevelContext.LevelNumber.ToString();
             _currentScoreLabel.text = 0.ToString();
             _highScoreLabel.text = _highScore.ToString();
@@ -86,6 +85,11 @@ namespace UserInterface
             IsActive = false;
         }
 
+        public void OnUpdateLevel(int level)
+        {
+            _currentLevel.text = level.ToString();
+        }
+
         public void OnUpdateScore(int score)
         {
             _currentScoreLabel.text = score.ToString();
@@ -98,7 +102,7 @@ namespace UserInterface
 
         public void OnUpdateLives(int remainingLives)
         {
-            _remainingLives = remainingLives;
+            _remainingLivesLabel.text = remainingLives.ToString();
         }
 
         public void OnUpdatePowerMode(bool enabled)

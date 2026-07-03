@@ -203,7 +203,7 @@ namespace CoreSystem
 
         public override void OnHitEvent()
         {
-            CameraShake.Instance.ShakeCamera(
+            CameraShake.Instance.ShakeCamera3D(
                 Constants.CAMERA_SHAKE_INTENSITY_HIGH,
                 Constants.CAMERA_SHAKE_DURATION_LOW);
             Anim.SetDeath(true);
