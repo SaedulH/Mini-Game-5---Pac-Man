@@ -1,3 +1,4 @@
+using AudioSystem;
 using EventSystem;
 using System.Collections;
 using System.Threading.Tasks;
@@ -118,11 +119,11 @@ namespace CoreSystem
         private async Task GetNextLevel()
         {
             EnterLevelState(LevelState.None);
+            await Task.Delay(500);
             TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
             CurrentLevel++;
             OnLevelUpdated.Invoke(CurrentLevel);
-            await Task.Delay(100);
             string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
             CurrentLevelContext = new LevelContext
@@ -271,6 +272,8 @@ namespace CoreSystem
 
         public void OnPacManHit()
         {
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(AudioCollection.Instance.KillPlayerAudio);
             EnterLevelState(LevelState.Death);
         }
 
@@ -297,6 +300,8 @@ namespace CoreSystem
         public void OnGhostHit()
         {
             Debug.Log("Ghost Hit, Stop time for 0.1s");
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(AudioCollection.Instance.KillGhostAudio);
             StartCoroutine(TimeStop(0.25f));
         }
 

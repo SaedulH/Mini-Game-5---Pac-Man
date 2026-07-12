@@ -53,6 +53,8 @@ namespace Utilities
 
         public static Vector3 CAMERA_POSITION = new(0f, 28f, -10f);
         public static Vector3 CAMERA_ROTATION = new(75f, 0f, 0f);
+        public static Vector3 FOLLOW_CAMERA_POSITION = new(0f, 28f, -10f);
+        public static Vector3 FOLLOW_CAMERA_ROTATION = new(70f, 0f, 0f);
 
         public const float FOLLOW_CAMERA_LOOK_AHEAD_TIME = 0.5f;
         public const float FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING = 5f;

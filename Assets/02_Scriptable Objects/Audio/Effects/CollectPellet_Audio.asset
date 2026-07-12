@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e2903a2dc04204ea61ca3618f39fc5, type: 3}
   m_Name: CollectPellet_Audio
   m_EditorClassIdentifier: Assembly-CSharp::AudioSystem.AudioData
-  clip: {fileID: 0}
-  mixerGroup: {fileID: 0}
+  clip: {fileID: 8300000, guid: fd47a0c34ef270847bf2b61195e43ec9, type: 3}
+  mixerGroup: {fileID: 8346148684083513016, guid: 8a1c67131fba5b54b823babedd2ad0f2, type: 2}
   loop: 0
   playOnAwake: 0
   frequentSound: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   bypassListenerEffects: 0
   bypassReverbZones: 0
   priority: 128
-  volume: 1
+  volume: 0.5
   pitch: 1
   panStereo: 0
   spatialBlend: 0

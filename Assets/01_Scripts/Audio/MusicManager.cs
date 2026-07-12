@@ -12,6 +12,8 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
     private AudioEmitter _currentEmitter;
     private AudioEmitter _nextEmitter;
 
+    private float _currentVolume;
+
     public void Initialise()
     {
         PlayMusic(DefaultBGM);
@@ -60,5 +62,24 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
         }
 
         _currentEmitter = null;
+    }
+
+    public void SetTempVolume(float tempVolume, bool isPercentage)
+    {
+        if (_currentEmitter != null)
+        {
+            _currentVolume = _currentEmitter.GetVolume();
+            float newVolume = isPercentage ? _currentVolume * tempVolume : tempVolume;
+            _currentEmitter.WithVolume(newVolume);
+        }
+    }
+
+    public void ReturnFromTempVolume()
+    {
+        if (_currentEmitter != null)
+        {
+            float newVolume = _currentVolume > 0f ? _currentVolume : _currentEmitter.Data.volume;
+            _currentEmitter.WithVolume(newVolume);
+        }
     }
 }

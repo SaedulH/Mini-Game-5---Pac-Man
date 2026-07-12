@@ -16,7 +16,6 @@ namespace CoreSystem
         [field: SerializeField] public AudioData BackAudio { get; set; }
         [field: SerializeField] public AudioData HoverAudio { get; set; }
         [field: SerializeField] public AudioData ResetAudio { get; set; }
-        [field: SerializeField] public AudioData GameOverAudio { get; set; }
         [field: SerializeField] public AudioData LevelCompleteAudio { get; set; }
 
         [field: Header("Effects")]

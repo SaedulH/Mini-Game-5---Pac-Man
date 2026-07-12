@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e2903a2dc04204ea61ca3618f39fc5, type: 3}
   m_Name: Reset_Audio
   m_EditorClassIdentifier: Assembly-CSharp::AudioSystem.AudioData
-  clip: {fileID: 0}
-  mixerGroup: {fileID: 0}
+  clip: {fileID: 8300000, guid: eea55c8d53d150d4589b18b2fcc02a19, type: 3}
+  mixerGroup: {fileID: -7567784908635072685, guid: 8a1c67131fba5b54b823babedd2ad0f2, type: 2}
   loop: 0
   playOnAwake: 0
   frequentSound: 0
@@ -22,8 +22,8 @@ MonoBehaviour:
   bypassListenerEffects: 0
   bypassReverbZones: 0
   priority: 128
-  volume: 1
-  pitch: 1
+  volume: 0.25
+  pitch: 0.95
   panStereo: 0
   spatialBlend: 0
   reverbZoneMix: 1

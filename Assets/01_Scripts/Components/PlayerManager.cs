@@ -1,3 +1,4 @@
+using AudioSystem;
 using EventSystem;
 using System.Collections;
 using System.Threading.Tasks;
@@ -48,6 +49,8 @@ namespace CoreSystem
             Movement.SetStartNode(StartNode);
             Movement.CurrentDirection = ControlInput.Right;
             Anim.Reappear();
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(AudioCollection.Instance.TeleportAudio);
             _isActive = true;
         }
 

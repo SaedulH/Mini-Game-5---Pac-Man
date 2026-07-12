@@ -283,8 +283,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         _cinemachineCamera.Lens.FieldOfView = Constants.FOLLOW_CAMERA_FOV;
 
         transform.SetPositionAndRotation(
-            Constants.CAMERA_POSITION,
-            Quaternion.Euler(Constants.CAMERA_ROTATION));
+            Constants.FOLLOW_CAMERA_POSITION,
+            Quaternion.Euler(Constants.FOLLOW_CAMERA_ROTATION));
 
         if (_positionComposer != null)
         {

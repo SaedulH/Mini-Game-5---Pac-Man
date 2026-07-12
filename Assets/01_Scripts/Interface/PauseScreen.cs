@@ -46,6 +46,9 @@ namespace UserInterface
             AudioManager.Instance.CreateAudioBuilder()
                 .WithVolume(0.8f)
                 .Play(AudioCollection.Instance.PauseAudio);
+
+            MusicManager.Instance.SetTempVolume(0.5f, true);
+
             _pauseScreen.RemoveFromClassList("hide");
             IsActive = true;
         }
@@ -54,6 +57,8 @@ namespace UserInterface
         {
             base.Hide();
             if (!IsActive) return;
+
+            MusicManager.Instance.ReturnFromTempVolume();
 
             _pauseScreen.AddToClassList("hide");
             IsActive = false;

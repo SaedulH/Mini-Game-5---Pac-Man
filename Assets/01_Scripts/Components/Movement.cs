@@ -1,3 +1,4 @@
+using AudioSystem;
 using UnityEngine;
 using Utilities;
 
@@ -139,23 +140,31 @@ namespace CoreSystem
 
         protected virtual bool ShouldTeleport()
         {
+            bool shouldTeleport = false;
             if (CurrentNode.NodeType == NodeType.Teleport && transform.position == CurrentNode.transform.position)
             {
                 if (CurrentDirection == ControlInput.Left && CurrentNode.TeleportNodeRight != null)
                 {
                     transform.position = CurrentNode.TeleportNodeRight.transform.position;
                     CurrentNode = CurrentNode.TeleportNodeRight;
-                    return true;
+                    shouldTeleport = true;
                 }
                 else if (CurrentDirection == ControlInput.Right && CurrentNode.TeleportNodeLeft != null)
                 {
                     transform.position = CurrentNode.TeleportNodeLeft.transform.position;
                     CurrentNode = CurrentNode.TeleportNodeLeft;
-                    return true;
+                    shouldTeleport = true;
                 }
             }
 
-            return false;
+            if (shouldTeleport)
+            {
+                AudioManager.Instance.CreateAudioBuilder()
+                    .WithRandomPitch()
+                    .Play(AudioCollection.Instance.TeleportAudio);
+            }
+
+            return shouldTeleport;
         }
     }
 }

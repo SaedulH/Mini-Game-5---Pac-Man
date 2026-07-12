@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoUnparentOnAwake: 0
+  <MusicManager>k__BackingField: {fileID: 0}
+  <AudioCollection>k__BackingField: {fileID: 676753908695330240}
   audioEmitterPrefab: {fileID: 3096473754853908229, guid: 8298076f84f33974cb964d5fcd70fe27, type: 3}
   collectionCheck: 1
   defaultCapacity: 10
@@ -96,4 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
   AutoUnparentOnAwake: 0
+  <MusicFadeInTime>k__BackingField: 0.5
   <DefaultBGM>k__BackingField: {fileID: 11400000, guid: e75387b1bb9cc3a458fbc0853249a161, type: 2}
