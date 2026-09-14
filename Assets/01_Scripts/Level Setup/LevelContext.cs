@@ -13,7 +13,8 @@ namespace CoreSystem
         public int MapSeed;
         public bool RandomiseSeed = false;
         public int RemainingLives = 3;
-        public int LevelNumber;
+        public int CurrentScore = 0;
+        public int LevelNumber = 1;
 
         public float TotalWeight;
     }

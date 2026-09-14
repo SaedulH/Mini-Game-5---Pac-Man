@@ -14,6 +14,9 @@ namespace CoreSystem
         [field: SerializeField] public Material ScatterMaterial { get; protected set; }
         [field: SerializeField] public Material ReturnMaterial { get; protected set; }
 
+
+        private bool isReturning = false;
+
         protected override void Awake()
         {
             base.Awake();
@@ -32,6 +35,7 @@ namespace CoreSystem
 
         private void ToggleSkin(bool isReturning)
         {
+            this.isReturning = isReturning;
             if (isReturning)
             {
                 SetMaterials(ReturnMaterial, ReturnMaterial);
@@ -45,6 +49,8 @@ namespace CoreSystem
         public override void SetPowerMode(bool enabled)
         {
             base.SetPowerMode(enabled);
+            if (isReturning) return;
+
             if (enabled)
             {
                 SetMaterials(ScatterMaterial, InnerMaterial);

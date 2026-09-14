@@ -167,10 +167,11 @@ namespace CoreSystem
             _isTimerPaused = enabled;
             if (enabled)
             {
-                Anim.SetPowerMode(true);
-                InputHandler.SetPacmanPowerMode(true);
+                Debug.Log($"ENTER: Current Ghost State: {InputHandler.CurrentState} for {this.name}");
                 if (CanEnterFrightenedState(InputHandler.CurrentState))
                 {
+                    Anim.SetPowerMode(true);
+                    InputHandler.SetPacmanPowerMode(true);
                     SetNewGhostState(GhostState.Frightened);
                 }
             }
@@ -178,6 +179,7 @@ namespace CoreSystem
             {
                 Anim.SetPowerMode(false);
                 InputHandler.SetPacmanPowerMode(false);
+                Debug.Log($"EXIT: Current Ghost State: {InputHandler.CurrentState} for {this.name}");
                 if (InputHandler.CurrentState.Equals(GhostState.Frightened))
                 {
                     SetNewGhostState(GhostState.Chasing);

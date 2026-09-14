@@ -59,7 +59,7 @@ namespace UserInterface
 
             _remainingLivesLabel.text = levelContext.RemainingLives.ToString();
             _currentLevel.text = _currentLevelContext.LevelNumber.ToString();
-            _currentScoreLabel.text = 0.ToString();
+            _currentScoreLabel.text = _currentLevelContext.CurrentScore.ToString();
             _highScoreLabel.text = _highScore.ToString();
 
             _hudOverlay.RemoveFromClassList("hide");

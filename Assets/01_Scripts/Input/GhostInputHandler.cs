@@ -86,7 +86,7 @@ namespace CoreSystem
 
         public bool AllowExitPenEarly()
         {
-            if (!_pacmanPowerMode && CurrentState.Equals(GhostState.Waiting))
+            if (CurrentState.Equals(GhostState.Waiting))
             {
                 _canExitPen = true;
                 return true;
@@ -341,7 +341,27 @@ namespace CoreSystem
 
         private void ExitPen(NodeScript currentNode)
         {
-            if (!_canExitPen) return;
+            if (!_canExitPen)
+            {
+                if (!_hasChangedDirection)
+                {
+                    GetOppositeDirection();
+                    _hasChangedDirection = true;
+                }
+                else if (CurrentInput == ControlInput.Left || CurrentInput == ControlInput.Down)
+                {
+                    SetNewInput(currentNode.CanMoveLeft
+                        ? ControlInput.Left
+                        : ControlInput.Right);
+                }
+                else if (CurrentInput == ControlInput.Right)
+                {
+                    SetNewInput(currentNode.CanMoveRight
+                        ? ControlInput.Right
+                        : ControlInput.Left);
+                }
+                return;
+            }
 
             if (!currentNode.NodeType.Equals(NodeType.GhostStart))
             {

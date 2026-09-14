@@ -4,7 +4,6 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UserInterface;
 using Utilities;
 
 namespace CoreSystem
@@ -74,11 +73,11 @@ namespace CoreSystem
             Ghosts = new GhostManager[4];
             RemainingLives = MaxLives;
             CurrentScore = 0;
-            TimeSinceLastItemCollected = 0f;
             CurrentLevel = 1;
+            TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
             Time.timeScale = 1.0f;
-        } 
+        }
 
         public async void InitialiseMenu()
         {
@@ -86,6 +85,7 @@ namespace CoreSystem
             {
                 MapName = MapName.Menu,
                 RemainingLives = 0,
+                CurrentScore = 0,
                 LevelNumber = 0,
             };
             await SetupScene(MainMenuInfo, CurrentLevelContext);
@@ -95,12 +95,13 @@ namespace CoreSystem
         {
             ResetVariables();
             await Task.Delay(100);
-            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
+            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
             CurrentLevelContext = new LevelContext
             {
                 MapName = System.Enum.Parse<MapName>(mapName),
                 RemainingLives = RemainingLives,
+                CurrentScore = CurrentScore,
                 LevelNumber = CurrentLevel,
             };
 
@@ -111,7 +112,15 @@ namespace CoreSystem
         {
             ResetVariables();
             await Task.Delay(100);
+
             string mapName = PlayerPrefs.GetString("MapName", "Pacman");
+            CurrentLevelContext = new LevelContext
+            {
+                MapName = System.Enum.Parse<MapName>(mapName),
+                RemainingLives = RemainingLives,
+                CurrentScore = CurrentScore,
+                LevelNumber = CurrentLevel,
+            };
 
             await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
         }
@@ -124,16 +133,23 @@ namespace CoreSystem
             PelletsEaten = 0;
             CurrentLevel++;
             OnLevelUpdated.Invoke(CurrentLevel);
-            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
 
+            string mapName = PlayerPrefs.GetString("MapName", "Pacman");
+            LevelContext CurrentLevelContext = GetCurrentLevelContext(mapName);
+
+            await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
+        }
+
+        private LevelContext GetCurrentLevelContext(string mapName)
+        {
             CurrentLevelContext = new LevelContext
             {
                 MapName = System.Enum.Parse<MapName>(mapName),
                 RemainingLives = RemainingLives,
+                CurrentScore = CurrentScore,
                 LevelNumber = CurrentLevel,
             };
-
-            await SetupScene(GetLevelInfo(mapName), CurrentLevelContext);
+            return CurrentLevelContext;
         }
 
         public LevelInfo GetLevelInfo(string mapName)

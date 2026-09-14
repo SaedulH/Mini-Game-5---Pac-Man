@@ -15,7 +15,7 @@ namespace UserInterface
         private Label _currentLevel;
         private Label _currentScore;
         private Label _highScore;
-        private Label _newHighScoreText;
+        //private Label _newHighScoreText;
 
         private Button _restart;
         private Button _settings;
@@ -31,7 +31,7 @@ namespace UserInterface
             _currentLevel = _resultsScreen.Q<Label>("CurrentLevel");
             _currentScore = _resultsScreen.Q<Label>("CurrentScore");
             _highScore = _resultsScreen.Q<Label>("HighScore");
-            _newHighScoreText = _resultsScreen.Q<Label>("NewHighScoreText");
+            //private Label _newHighScoreText;
 
             _restart = _resultsScreen.Q<Button>("Restart");
             _settings = _resultsScreen.Q<Button>("Settings");
@@ -69,13 +69,13 @@ namespace UserInterface
             if (isNewHighScore)
             {
                 _highScore.text = currentScore.ToString();
-                _newHighScoreText.text = "New High Score!";
+                //private Label _newHighScoreText;
                 PlayerPrefs.SetInt("HighScore", currentScore);
             }
             else
             {
                 _highScore.text = existingHighScore.ToString();
-                _newHighScoreText.text = "";
+                // _newHighScoreText.text = "";
             }
         }
 

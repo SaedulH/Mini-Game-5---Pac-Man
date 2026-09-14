@@ -244,7 +244,7 @@ public class MazeGenerator : NonPersistentSingleton<MazeGenerator>
     {
         if (Nodes == null || Nodes.Length == 0)
         {
-            Debug.LogWarning("[IterateNodes] Nodes array is not initialized.");
+            //Debug.LogWarning("[IterateNodes] Nodes array is not initialized.");
             NodeScript[] nodes = NodeParent.GetComponentsInChildren<NodeScript>();
 
             foreach (NodeScript node in nodes)
