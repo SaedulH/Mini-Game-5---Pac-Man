@@ -17,6 +17,7 @@ namespace CoreSystem
         [field: SerializeField] public ControlInput CachedDirection = ControlInput.None;
 
         [field: SerializeField] public float Speed { get; protected set; }
+        [field: SerializeField] public float SpeedMultiplier { get; protected set; } = 1f;
         [field: SerializeField] public bool IsMoving { get; protected set; }
 
         protected bool _isActive = false;
@@ -26,6 +27,7 @@ namespace CoreSystem
             InputHandler = GetComponent<IInputHandler>();
             RB = GetComponent<Rigidbody>();
             IsMoving = true;
+            SpeedMultiplier = 1f;
         }
 
         protected virtual void Update()
@@ -62,6 +64,16 @@ namespace CoreSystem
             Speed = Constants.BASE_SPEED + (Constants.LEVEL_SPEED_MULTIPLIER * (levelNumber - 1));
         }
 
+        public void SetSpeedMultiplier(float multiplier)
+        {
+            SpeedMultiplier = multiplier;
+        }
+
+        protected float GetCurrentSpeed()
+        {
+            return Speed * SpeedMultiplier;
+        }
+
         protected virtual void Move()
         {
             if (IsMoving && transform.position == CurrentNode.transform.position)
@@ -72,7 +84,7 @@ namespace CoreSystem
                 IsMoving = true;
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, GetCurrentSpeed() * Time.deltaTime);
             if (transform.position == CurrentNode.transform.position)
             {
                 GetNextDirection();

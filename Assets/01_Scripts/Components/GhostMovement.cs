@@ -20,7 +20,7 @@ namespace CoreSystem
 
         protected override void Move()
         {
-            float speed = InputHandler.CurrentState.Equals(GhostState.Returning) ? Constants.GHOST_RETURN_SPEED : Speed;
+            float speed = InputHandler.CurrentState.Equals(GhostState.Returning) ? Constants.GHOST_RETURN_SPEED : GetCurrentSpeed();
             transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, speed * Time.deltaTime);
             if (!ShouldTeleport() && transform.position == CurrentNode.transform.position)
             {

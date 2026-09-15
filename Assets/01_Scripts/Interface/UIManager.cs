@@ -142,6 +142,12 @@ public class UIManager : NonPersistentSingleton<UIManager>
     {
         await GameOverlay.StartCountdown(duration);
     }
+
+    public void CancelCountdown()
+    {
+        GameOverlay.CancelCountdown();
+    }
+
     #endregion
 
     #region Loading Screen

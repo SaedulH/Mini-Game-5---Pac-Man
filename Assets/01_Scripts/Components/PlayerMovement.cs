@@ -5,6 +5,11 @@ namespace CoreSystem
 {
     public class PlayerMovement : Movement
     {
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
         public override void SetCurrentLevelSpeed(int levelNumber)
         {
             Speed = Constants.BASE_PACMAN_SPEED + (Constants.LEVEL_SPEED_MULTIPLIER * (levelNumber - 1));
@@ -12,7 +17,7 @@ namespace CoreSystem
 
         protected override void Move()
         {
-            transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, Speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, CurrentNode.transform.position, GetCurrentSpeed() * Time.deltaTime);
             if (!ShouldTeleport() && (transform.position == CurrentNode.transform.position || AllowQuickDirectionChange()))
             {
                 if ((CurrentNode.NodeType == NodeType.GhostStart && CachedDirection == ControlInput.Down))

@@ -114,12 +114,11 @@ namespace UserInterface
 
         public async Task StartCountdown(float duration)
         {
-            // Cancel old countdown
-            _countdownToken?.Cancel();
-            _countdownToken?.Dispose();
-
+            // Cancel old token
+            CancelCountdown();
             // Create new token
             _countdownToken = new CancellationTokenSource();
+
             try
             {
                 await BeginCountdown(duration, _countdownToken.Token);
@@ -136,6 +135,7 @@ namespace UserInterface
             _countdownValue.style.fontSize = 120;
             _countdownValue.text = duration.ToString();
             await Awaitable.WaitForSecondsAsync(0.25f, token);
+
             await ShowCountdownPopup(token);
 
             await PerformCountdown(duration, token);
@@ -188,6 +188,16 @@ namespace UserInterface
         {
             _countdownPopup.AddToClassList("hide");
             await Awaitable.WaitForSecondsAsync(0.2f, token);
+            _countdownPopup.style.display = DisplayStyle.None;
+        }
+
+        public void CancelCountdown()
+        {
+            _countdownToken?.Cancel();
+            _countdownToken?.Dispose();
+            _countdownToken = null;
+
+            _countdownPopup.AddToClassList("hide");
             _countdownPopup.style.display = DisplayStyle.None;
         }
 

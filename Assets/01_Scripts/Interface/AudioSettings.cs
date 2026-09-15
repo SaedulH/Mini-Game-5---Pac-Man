@@ -92,7 +92,7 @@ namespace SettingsSystem
 
             while (!Mathf.Approximately(current, value))
             {
-                current = Mathf.Lerp(current, value, Time.deltaTime * SliderLerpSpeed);
+                current = Mathf.Lerp(current, value, Time.unscaledDeltaTime * SliderLerpSpeed);
                 slider.SetValueWithoutNotify(Mathf.RoundToInt(current));
                 yield return null;
             }

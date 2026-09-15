@@ -4,6 +4,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UserInterface;
 using Utilities;
 
 namespace CoreSystem
@@ -77,6 +78,7 @@ namespace CoreSystem
             TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
             Time.timeScale = 1.0f;
+            UIManager.Instance.CancelCountdown();
         }
 
         public async void InitialiseMenu()

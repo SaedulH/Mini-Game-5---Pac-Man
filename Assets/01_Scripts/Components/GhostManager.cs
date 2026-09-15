@@ -190,7 +190,8 @@ namespace CoreSystem
         private bool CanEnterFrightenedState(GhostState ghostState)
         {
             return InputHandler.CurrentState.Equals(GhostState.Chasing) ||
-                InputHandler.CurrentState.Equals(GhostState.Scattering);
+                InputHandler.CurrentState.Equals(GhostState.Scattering) || 
+                InputHandler.CurrentState.Equals(GhostState.Waiting);
         }
 
         public void OnCollectPelletEvent()

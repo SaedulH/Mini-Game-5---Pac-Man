@@ -87,10 +87,10 @@ namespace SettingsSystem
 
             yield return new WaitForEndOfFrame();
             _inputPopup.RemoveFromClassList("hide");
-            yield return new WaitForSeconds(0.1f);
+            _inputPopupActive = true;
+            yield return new WaitForSecondsRealtime(0.1f);
 
             BeginListeningForInput(controlInput, actionMap);
-            _inputPopupActive = true;
         }
 
         private IEnumerator HideInputPopup()
@@ -98,7 +98,7 @@ namespace SettingsSystem
             AudioCollection.Instance.PlayBackAudio();
             _inputPopup.AddToClassList("hide");
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSecondsRealtime(0.2f);
 
             _inputPopup.style.display = DisplayStyle.None;
             _inputPopupActive = false;

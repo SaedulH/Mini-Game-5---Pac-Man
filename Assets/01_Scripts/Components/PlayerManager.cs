@@ -89,11 +89,13 @@ namespace CoreSystem
         {
             GhostHitCount = 0;
             IsPowerMode = true;
+            Movement.SetSpeedMultiplier(Constants.POWER_MODE_SPEED_MULTIPLIER);
             Anim.SetPowerMode(true);
             OnPowerMode.Invoke(true);
             yield return new WaitForSeconds(Constants.FRIGHTENED_MODE_DURATION);
 
             IsPowerMode = false;
+            Movement.SetSpeedMultiplier(Constants.NORMAL_MODE_SPEED_MULTIPLIER);
             Anim.SetPowerMode(false);
             OnPowerMode.Invoke(false);
             Debug.Log("End Power Mode");

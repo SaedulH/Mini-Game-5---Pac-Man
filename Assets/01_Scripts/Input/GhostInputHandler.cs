@@ -160,6 +160,13 @@ namespace CoreSystem
 
         private void DetermineDirection(NodeScript currentNode)
         {
+            //Failsafe (not recommended)
+            if(currentNode.NodeType.Equals(NodeType.GhostStart))
+            {
+                SetNewGhostState(GhostState.Waiting);
+                return;
+            }
+
             switch (Type)
             {
                 case GhostType.Blinky:
