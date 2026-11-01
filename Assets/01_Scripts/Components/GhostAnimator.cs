@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utilities;
 
@@ -13,7 +12,6 @@ namespace CoreSystem
         [field: SerializeField] public Material InnerMaterial { get; protected set; }
         [field: SerializeField] public Material ScatterMaterial { get; protected set; }
         [field: SerializeField] public Material ReturnMaterial { get; protected set; }
-
 
         private bool isReturning = false;
 
@@ -78,18 +76,16 @@ namespace CoreSystem
             MeshRenderer.material = material;
         }
 
-        protected override void RotateToDirection()
+        protected override float GetTargetAngle(ControlInput targetDirection)
         {
-
-            float yRotation = CurrentDirection switch
+            return targetDirection switch
             {
                 ControlInput.Up => 90f,
                 ControlInput.Right => 180f,
                 ControlInput.Down => 270f,
                 ControlInput.Left => 0f,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => 270f,
             };
-            Rotator.transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
-        } 
+        }
     }
 }

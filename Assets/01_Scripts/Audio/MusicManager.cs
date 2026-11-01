@@ -1,6 +1,5 @@
-using System;
-using System.Collections;
 using AudioSystem;
+using System.Collections;
 using UnityEngine;
 using Utilities;
 
@@ -16,7 +15,7 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
 
     public void Initialise()
     {
-        PlayMusic(DefaultBGM);
+        //PlayMusic(DefaultBGM);
     }
 
     public void PlayMusic(AudioData audioData)

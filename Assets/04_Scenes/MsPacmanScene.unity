@@ -536,6 +536,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 26.627522
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.8084345
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7933534
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.60876137
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841295378059307627, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8334379303697679813, guid: 09f0f8c61ca34e94199464f6455c5e93, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -83,6 +83,7 @@ namespace CoreSystem
 
         public async void InitialiseMenu()
         {
+            Time.timeScale = 1.0f;
             CurrentLevelContext = new LevelContext
             {
                 MapName = MapName.Menu,

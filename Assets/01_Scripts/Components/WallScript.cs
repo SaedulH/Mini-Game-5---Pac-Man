@@ -152,6 +152,7 @@ namespace CoreSystem
             {
                 WallNodeType = WallNodeType.None;
                 Debug.LogError($"No matching wall type found for wall '{gameObject.name}' with surrounding configuration: " +
+                    $"Boundary Type: {boundaryType}, " +
                     $"Top: {hasTop}, TopLeft: {hasTopLeft}, TopRight: {hasTopRight}, " +
                     $"Bottom: {hasBottom}, BottomLeft: {hasBottomLeft}, BottomRight: {hasBottomRight}, " +
                     $"Left: {hasLeft}, Right: {hasRight}");
