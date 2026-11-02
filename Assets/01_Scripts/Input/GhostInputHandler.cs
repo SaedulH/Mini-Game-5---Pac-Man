@@ -203,11 +203,12 @@ namespace CoreSystem
             // Get Node 2 Tiles Ahead
             Vector3 halfPosition = GetTilesAheadOfPacMan(2);
 
-            //get distance from blinky
-            float xDistance = 2 * (halfPosition.x - _targetTransform.transform.position.x);
-            float zDistance = 2 * (halfPosition.z - _targetTransform.transform.position.z);
+            // Offset from Blinky's position by twice the distance from Blinky to the halfway point
+            Vector3 blinkyPosition = _targetTransform.position;
+            float xPosition = blinkyPosition.x + 2 * (halfPosition.x - blinkyPosition.x);
+            float zPosition = blinkyPosition.z + 2 * (halfPosition.z - blinkyPosition.z);
 
-            Vector3 tilePosition = new(xDistance, 1f, zDistance);
+            Vector3 tilePosition = new(xPosition, 1f, zPosition);
             SetNewInput(GetClosestDirection(tilePosition, currentNode));
         }
 
@@ -226,14 +227,14 @@ namespace CoreSystem
 
         private ControlInput GetClosestDirection(Vector3 target, NodeScript currentNode)
         {
-            float shortestDistance = 0f;
+            float shortestDistance = float.MaxValue;
             ControlInput nextDirection = ControlInput.None;
 
             if (currentNode.CanMoveUp && !CurrentInput.Equals(ControlInput.Down))
             {
                 float distance = Vector3.Distance(currentNode.NodeUp.transform.position, target);
 
-                if (distance < shortestDistance || shortestDistance == 0f)
+                if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
                     nextDirection = ControlInput.Up;
@@ -244,7 +245,7 @@ namespace CoreSystem
             {
                 float distance = Vector3.Distance(currentNode.NodeDown.transform.position, target);
 
-                if (distance < shortestDistance || shortestDistance == 0f)
+                if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
                     nextDirection = ControlInput.Down;
@@ -255,7 +256,7 @@ namespace CoreSystem
             {
                 float distance = Vector3.Distance(currentNode.NodeLeft.transform.position, target);
 
-                if (distance < shortestDistance || shortestDistance == 0f)
+                if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
                     nextDirection = ControlInput.Left;
@@ -266,7 +267,7 @@ namespace CoreSystem
             {
                 float distance = Vector3.Distance(currentNode.NodeRight.transform.position, target);
 
-                if (distance < shortestDistance || shortestDistance == 0f)
+                if (distance < shortestDistance)
                 {
                     nextDirection = ControlInput.Right;
                 }
@@ -281,38 +282,29 @@ namespace CoreSystem
 
             ControlInput pacManDirection = _pacMan.Movement.CurrentDirection;
             NodeScript currentNode = _pacMan.Movement.CurrentNode;
-            NodeScript chosenNode = null;
+            if (currentNode == null) return _pacMan.transform.position;
+
+            // Walk ahead in PacMan's direction until the tile count is reached or a wall blocks the path
             for (int i = 0; i < tileCount; i++)
             {
-                List<NodeScript> canMove = new List<NodeScript>();
-                if (currentNode.CanMoveLeft && !pacManDirection.Equals(ControlInput.Right))
-                {
-                    canMove.Add(currentNode.NodeLeft);
-                }
-                if (currentNode.CanMoveRight && !pacManDirection.Equals(ControlInput.Left))
-                {
-                    canMove.Add(currentNode.NodeRight);
-                }
-                if (currentNode.CanMoveUp && !pacManDirection.Equals(ControlInput.Down))
-                {
-                    canMove.Add(currentNode.NodeUp);
-                }
-                if (currentNode.CanMoveDown && !pacManDirection.Equals(ControlInput.Up))
-                {
-                    canMove.Add(currentNode.NodeDown);
-                }
+                NodeScript nextNode = GetNodeInDirection(currentNode, pacManDirection);
+                if (nextNode == null) break;
 
-                if (canMove.Count < 0)
-                {
-                    chosenNode = canMove[Random.Range(0, canMove.Count)];
-                    currentNode = chosenNode.GetComponent<NodeScript>();
-                }
-                else
-                {
-                    return currentNode.transform.position;
-                }
+                currentNode = nextNode;
             }
-            return chosenNode.transform.position;
+            return currentNode.transform.position;
+        }
+
+        private NodeScript GetNodeInDirection(NodeScript node, ControlInput direction)
+        {
+            return direction switch
+            {
+                ControlInput.Up => node.CanMoveUp ? node.NodeUp : null,
+                ControlInput.Down => node.CanMoveDown ? node.NodeDown : null,
+                ControlInput.Left => node.CanMoveLeft ? node.NodeLeft : null,
+                ControlInput.Right => node.CanMoveRight ? node.NodeRight : null,
+                _ => null,
+            };
         }
 
         void GetOppositeDirection()

@@ -41,6 +41,12 @@ namespace SettingsSystem
                 });
             }
 
+            // Apply saved volumes on startup, otherwise the mixer keeps its defaults until a slider is changed
+            foreach (AudioGroup group in _sliders.Keys)
+            {
+                SetMixerVolume(group.ToString(), GetVolumeSetting(group));
+            }
+
             TabElement.AddToClassList("hide");
         }
 

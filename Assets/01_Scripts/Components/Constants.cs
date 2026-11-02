@@ -48,8 +48,7 @@ namespace Utilities
         public const float DYNAMIC_CAMERA_FOV = 60f;
         public const float DYNAMIC_CAMERA_MIN_DISTANCE = 12f;
         public const float DYNAMIC_CAMERA_MAX_DISTANCE = 28f;
-        public const float DYNAMIC_MIN_BOUNDS_LENGTH = 5f;
-        public const float DYNAMIC_MAX_BOUNDS_LENGTH = 20f;
+        public const float DYNAMIC_CAMERA_PADDING = 2f;
         public static Vector3 DYNAMIC_CONFINER_COLLIDER_CENTRE = new(0f, 14f, -3f);
         public static Vector3 DYNAMIC_CONFINER_COLLIDER_SIZE = new(13f, 28f, 21f);
 

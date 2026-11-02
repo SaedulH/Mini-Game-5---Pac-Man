@@ -5,9 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
+    path: Assets/04_Scenes/CoreScene.unity
+    guid: cc09469a11307ba46987e77b58814e05
+  - enabled: 1
+    path: Assets/04_Scenes/MainMenu.unity
+    guid: 7ba5a3b0c3892f9428e3e8cfd8178ec3
+  - enabled: 1
     path: Assets/04_Scenes/PacmanScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/04_Scenes/MsPacmanScene.unity
+    guid: 5bb887c96f61d0f4387dc8a4dff41d9c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 7312d4e65a3be34459cb5aa525e5cd8e, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

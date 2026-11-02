@@ -133,12 +133,12 @@ MonoBehaviour:
     HasWallBottomRight: 1
     HasWallLeft: 1
     HasWallRight: 1
-  - boundaryType: 2
+  - boundaryType: 9
     HasWallTop: 0
     HasWallTopLeft: 0
     HasWallTopRight: 0
     HasWallBottom: 0
-    HasWallBottomLeft: 0
+    HasWallBottomLeft: 1
     HasWallBottomRight: 0
-    HasWallLeft: 0
+    HasWallLeft: 1
     HasWallRight: 1

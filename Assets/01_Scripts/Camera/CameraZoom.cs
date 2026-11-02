@@ -22,10 +22,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
     private float maxHeight;
     private float maxDistance;
 
-    private Bounds _bounds = new(Vector3.zero, Vector3.zero);
-    private float _boundsSize = 0f;
-    private Vector3 _boundsCenter = Vector3.zero;
-
     private float _defaultOrthoSize;
     private float _targetOrthoSize;
     private float _currentOrthoSize;
@@ -48,45 +44,12 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         if (_currentGameState.Equals(GameState.Playing) && _isDynamicTracking)
         {
             UpdateZoom();
-        }  
-    }
-
-    private void FixedUpdate()
-    {
-        if (_currentGameState.Equals(GameState.Playing) && _isDynamicTracking)
-        {
-            UpdateBoundSize();
         }
     }
 
     public void OnGameStateUpdated(GameState gameState)
     {
         _currentGameState = gameState;
-    }
-
-    private void UpdateBoundSize()
-    {
-        if (Pacman == null)
-        {
-            return;
-        }
-
-        _bounds = new Bounds(
-            Pacman.transform.position,
-            Vector3.zero);
-
-        foreach (Transform target in TrackingTargets)
-        {
-            if (target == null)
-            {
-                continue;
-            }
-
-            _bounds.Encapsulate(target.position);
-        }
-        Debug.DrawLine(_bounds.min, _bounds.max, Color.green);
-        _boundsSize = Vector2.Distance(_bounds.min, _bounds.max);
-        Debug.Log("boundsSize: " + _boundsSize);
     }
 
     private void UpdateZoom()
@@ -96,15 +59,26 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             return;
         }
 
-        float ratio = Mathf.InverseLerp(
-            Constants.DYNAMIC_MIN_BOUNDS_LENGTH,
-            Constants.DYNAMIC_MAX_BOUNDS_LENGTH,
-            _boundsSize);
+        Vector3 pacmanPosition = Pacman.transform.position;
 
+        // Distance needed to fit every ghost on screen while following PacMan
+        float followDistance = GetDistanceToFitTargets(pacmanPosition);
+        float ratio = Mathf.InverseLerp(
+            Constants.DYNAMIC_CAMERA_MIN_DISTANCE,
+            Constants.DYNAMIC_CAMERA_MAX_DISTANCE,
+            followDistance);
+
+        // Close together: follow PacMan. Spread apart: recentre towards the static camera's view
+        Vector3 position = Vector3.Lerp(pacmanPosition, GetStaticCentre(), ratio);
+
+        // Re-check the fit around the blended position, so ghosts stay on screen mid-transition
         float distance = Mathf.Lerp(
             Constants.DYNAMIC_CAMERA_MIN_DISTANCE,
             Constants.DYNAMIC_CAMERA_MAX_DISTANCE,
             ratio);
+        distance = Mathf.Min(
+            Mathf.Max(distance, GetDistanceToFitTargets(position)),
+            Constants.DYNAMIC_CAMERA_MAX_DISTANCE);
 
         if (_positionComposer != null)
         {
@@ -112,28 +86,49 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
                 _positionComposer.CameraDistance, distance, 5f * Time.deltaTime);
         }
 
-        Vector3 position = GetDynamicCameraPosition(ratio);
-
-        UpdateConfinerCollider(distance, position);
-    }
-
-    private void UpdateConfinerCollider(float distance, Vector3 position)
-    {
-    }
-
-    private Vector3 GetDynamicCameraPosition(float ratio)
-    {
-        float xPosition = Mathf.Lerp(Pacman.transform.position.x, _boundsCenter.x, ratio);
-        float zPosition = Mathf.Lerp(Pacman.transform.position.z, _boundsCenter.z, ratio);
-
-        Vector3 position = new(xPosition, 0f, zPosition);
-
         CentrePosition.transform.position = Vector3.Lerp(
             CentrePosition.transform.position,
             position,
             5f * Time.deltaTime);
+    }
 
-        return position;
+    private float GetDistanceToFitTargets(Vector3 centre)
+    {
+        float maxXOffset = 0f;
+        float maxZOffset = 0f;
+
+        foreach (Transform target in TrackingTargets)
+        {
+            if (target == null)
+            {
+                continue;
+            }
+
+            maxXOffset = Mathf.Max(maxXOffset, Mathf.Abs(target.position.x - centre.x));
+            maxZOffset = Mathf.Max(maxZOffset, Mathf.Abs(target.position.z - centre.z));
+        }
+
+        float aspect = _cinemachineCamera.State.Lens.Aspect;
+        if (aspect <= 0f)
+        {
+            aspect = 16f / 9f;
+        }
+
+        float tanHalfFov = Mathf.Tan(0.5f * Constants.DYNAMIC_CAMERA_FOV * Mathf.Deg2Rad);
+        float pitch = Constants.CAMERA_ROTATION.x * Mathf.Deg2Rad;
+
+        // Up/down the maze is foreshortened by the camera tilt, left/right uses the horizontal FOV
+        float verticalDistance = (maxZOffset * Mathf.Sin(pitch) + Constants.DYNAMIC_CAMERA_PADDING) / tanHalfFov;
+        float horizontalDistance = (maxXOffset + Constants.DYNAMIC_CAMERA_PADDING) / (tanHalfFov * aspect);
+
+        return Mathf.Max(verticalDistance, horizontalDistance);
+    }
+
+    private Vector3 GetStaticCentre()
+    {
+        // The point the fixed camera looks at, so max zoom matches the static view
+        Vector3 forward = Quaternion.Euler(Constants.CAMERA_ROTATION) * Vector3.forward;
+        return Constants.CAMERA_POSITION + forward * Constants.DYNAMIC_CAMERA_MAX_DISTANCE;
     }
 
     private void TimedZoom()
@@ -226,7 +221,6 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
     private async Task SetupDynamicCameraMode()
     {
         _isDynamicTracking = true;
-        _boundsCenter = Vector3.zero;
         TrackingTargets.Clear();
         if (Pacman != null)
         {
@@ -247,6 +241,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
             }
         }
 
+        _cinemachineCamera.Lens.FieldOfView = Constants.DYNAMIC_CAMERA_FOV;
+
         transform.SetPositionAndRotation(
             Constants.CAMERA_POSITION,
             Quaternion.Euler(Constants.CAMERA_ROTATION));
@@ -255,9 +251,8 @@ public class CameraZoom : NonPersistentSingleton<CameraZoom>
         {
             _positionComposer.enabled = true;
             _positionComposer.CameraDistance = Constants.DYNAMIC_CAMERA_MAX_DISTANCE;
-            _positionComposer.Lookahead.Enabled = true;
-            _positionComposer.Lookahead.Time = Constants.FOLLOW_CAMERA_LOOK_AHEAD_TIME;
-            _positionComposer.Lookahead.Smoothing = Constants.FOLLOW_CAMERA_LOOK_AHEAD_SMOOTHING;
+            // Lookahead would shift the view away from the fitted ghosts
+            _positionComposer.Lookahead.Enabled = false;
         }
         if (_confiner != null)
         {

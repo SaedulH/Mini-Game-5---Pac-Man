@@ -57766,7 +57766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70cf18490d7a1f249afba76c812d7c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.WallScript
-  <WallNodeType>k__BackingField: 0
+  <WallNodeType>k__BackingField: 3
   <WallTop>k__BackingField: {fileID: 0}
   <WallTopLeft>k__BackingField: {fileID: 0}
   <WallTopRight>k__BackingField: {fileID: 0}
@@ -57782,7 +57782,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3071409393343133089}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: -462981019419857548, guid: 5bcfd02ca53e5564e844447d1bbaa1fd, type: 3}
 --- !u!23 &749879764358888644
 MeshRenderer:
   m_ObjectHideFlags: 0

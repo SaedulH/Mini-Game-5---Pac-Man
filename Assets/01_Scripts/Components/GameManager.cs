@@ -84,6 +84,7 @@ namespace CoreSystem
         public async void InitialiseMenu()
         {
             Time.timeScale = 1.0f;
+            UIManager.Instance.CancelCountdown();
             CurrentLevelContext = new LevelContext
             {
                 MapName = MapName.Menu,
@@ -163,7 +164,8 @@ namespace CoreSystem
             {
                 "Pacman" => PacmanMap,
                 "MsPacman" => MsPacmanMap,
-                "Random" => RandomGenMap,
+                // TODO: Use RandomGenMap once the maze generator is implemented
+                "Random" => Random.value < 0.5f ? PacmanMap : MsPacmanMap,
                 _ => null,
             };
         }
