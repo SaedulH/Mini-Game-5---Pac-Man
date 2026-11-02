@@ -75,10 +75,7 @@ MonoBehaviour:
   <BackAudio>k__BackingField: {fileID: 11400000, guid: 9a7dbe2dd74885b45aef02075a0add62, type: 2}
   <HoverAudio>k__BackingField: {fileID: 11400000, guid: fb61acadf7890b24188bdd6ff1e0885d, type: 2}
   <ResetAudio>k__BackingField: {fileID: 11400000, guid: ebbbf403f2039ff4590c28de38a6ae74, type: 2}
-  <GameOverAudio>k__BackingField: {fileID: 11400000, guid: f9831aaf65179554ba04e5b03bc20bcc, type: 2}
-  <LevelCompleteAudio>k__BackingField: {fileID: 11400000, guid: b14ab29fd16970441aa3b73019e53dae, type: 2}
-  <PlayerMoveAudio>k__BackingField: {fileID: 11400000, guid: 686e5528ac69da54c84928a654e36d1e, type: 2}
-  <GhostMoveAudio>k__BackingField: {fileID: 11400000, guid: d91638806f9afe44bb2cacae1289bce2, type: 2}
+  <LevelCompleteAudio>k__BackingField: {fileID: 11400000, guid: 82096ae560f647e4292d232dee2fafec, type: 2}
   <CollectPelletAudio>k__BackingField: {fileID: 11400000, guid: d12e7b1f9faf3824789636700d8e3539, type: 2}
   <CollectPowerPelletAudio>k__BackingField: {fileID: 11400000, guid: 468a2a6255e982f4f9ce0bdc985fc4f4, type: 2}
   <CollectFruitAudio>k__BackingField: {fileID: 11400000, guid: 282d9acbc0100b741a9c0456743678f3, type: 2}
@@ -98,5 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
   AutoUnparentOnAwake: 0
-  <MusicFadeInTime>k__BackingField: 0.5
+  <MusicFadeInTime>k__BackingField: 0.4
   <DefaultBGM>k__BackingField: {fileID: 11400000, guid: e75387b1bb9cc3a458fbc0853249a161, type: 2}
+  <GameOverBGM>k__BackingField: {fileID: 11400000, guid: 331c6d7db8e309448a05687896d48a56, type: 2}

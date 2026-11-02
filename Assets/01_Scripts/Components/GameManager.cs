@@ -131,6 +131,8 @@ namespace CoreSystem
         private async Task GetNextLevel()
         {
             EnterLevelState(LevelState.None);
+            AudioManager.Instance.CreateAudioBuilder()
+                .Play(AudioCollection.Instance.LevelCompleteAudio);
             await Task.Delay(500);
             TimeSinceLastItemCollected = 0f;
             PelletsEaten = 0;
@@ -305,6 +307,7 @@ namespace CoreSystem
             if (RemainingLives == 0)
             {
                 UIManager.Instance.SetResultsInfo(CurrentScore, CurrentLevel);
+                MusicManager.Instance.PlayGameOverMusic();
                 EnterLevelState(LevelState.GameOver);
                 Debug.Log("Game Over!!");
             }

@@ -89,6 +89,7 @@ namespace UserInterface
 
         private void OnQuitClicked()
         {
+            AudioCollection.Instance.PlayBackAudio();
             GameManager.Instance.InitialiseMenu();
         }
     }

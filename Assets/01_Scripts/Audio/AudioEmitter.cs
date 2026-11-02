@@ -48,6 +48,12 @@ namespace AudioSystem
         public void Initialize(AudioData data)
         {
             Data = data;
+
+            // Pooled emitters are reused - clear state left over from the previous sound.
+            StopCurrentCoroutine();
+            isFadingOut = false;
+            isDynamic = false;
+
             audioSource.clip = data.clip;
             audioSource.outputAudioMixerGroup = data.mixerGroup;
             audioSource.loop = data.loop;
@@ -146,16 +152,16 @@ namespace AudioSystem
         {
             if (isFadingOut) return;
 
-            isFadingOut = true;
             BeginNewCoroutine(FadeOutThen(duration, Pause));
+            isFadingOut = true; // set after BeginNewCoroutine, which resets it
         }
 
         public void FadeToStop(float duration = 0.5f, bool retain = false)
         {
             if (isFadingOut) return;
 
-            isFadingOut = true;
             BeginNewCoroutine(FadeOutThen(duration, () => Stop(retain)));
+            isFadingOut = true; // set after BeginNewCoroutine, which resets it
         }
          
         private IEnumerator FadeOutThen(float duration, System.Action onComplete)
@@ -170,7 +176,7 @@ namespace AudioSystem
 
             while (time < duration)
             {
-                time += Time.deltaTime;
+                time += Time.unscaledDeltaTime; // fades keep running while the game is paused
                 audioSource.volume = Mathf.Lerp(start, target, time / duration);
                 yield return null;
             }

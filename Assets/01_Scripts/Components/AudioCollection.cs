@@ -19,8 +19,6 @@ namespace CoreSystem
         [field: SerializeField] public AudioData LevelCompleteAudio { get; set; }
 
         [field: Header("Effects")]
-        [field: SerializeField] public AudioData PlayerMoveAudio { get; set; }
-        [field: SerializeField] public AudioData GhostMoveAudio { get; set; }
         [field: SerializeField] public AudioData CollectPelletAudio { get; set; }
         [field: SerializeField] public AudioData CollectPowerPelletAudio { get; set; }
         [field: SerializeField] public AudioData CollectFruitAudio { get; set; }

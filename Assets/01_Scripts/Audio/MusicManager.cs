@@ -7,9 +7,10 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
 {
     [field: SerializeField] public float MusicFadeInTime { get; private set; } = 0.5f;
     [field: SerializeField] public AudioData DefaultBGM { get; private set; }
+    [field: SerializeField] public AudioData GameOverBGM { get; private set; }
 
     private AudioEmitter _currentEmitter;
-    private AudioEmitter _nextEmitter;
+    private Coroutine _musicRoutine;
 
     private float _currentVolume;
 
@@ -20,47 +21,73 @@ public class MusicManager : NonPersistentSingleton<MusicManager>
 
     public void PlayMusic(AudioData audioData)
     {
-        StartCoroutine(PlayMusicCoroutine(audioData));
+        // Only one music transition at a time - a new request replaces any in-flight one.
+        if (_musicRoutine != null)
+        {
+            StopCoroutine(_musicRoutine);
+        }
+        _musicRoutine = StartCoroutine(PlayMusicCoroutine(audioData));
+    }
+
+    public void PlayGameOverMusic()
+    {
+        PlayMusic(GameOverBGM);
     }
 
     public void StopMusic()
     {
-        StartCoroutine(StopMusicCoroutine());
+        if (_musicRoutine != null)
+        {
+            StopCoroutine(_musicRoutine);
+        }
+        _musicRoutine = StartCoroutine(StopMusicCoroutine());
     }
 
-    public IEnumerator PlayMusicCoroutine(AudioData audioData)
+    private IEnumerator PlayMusicCoroutine(AudioData audioData)
     {
-        if (_currentEmitter != null)
-        {
-            Debug.Log($"Stopping current music");
+        // Hand the old track off so it fades out on its own, even if this routine gets replaced.
+        AudioEmitter previous = _currentEmitter;
+        _currentEmitter = null;
 
-            _currentEmitter.FadeToStop(MusicFadeInTime);
-            yield return new WaitForSeconds(MusicFadeInTime);
-            Debug.Log($"current music Stopped");
+        if (previous != null && previous.isActiveAndEnabled)
+        {
+            Debug.Log($"Stopping current music (timeScale: {Time.timeScale})");
+            previous.FadeToStop(MusicFadeInTime);
+
+            // Realtime: music transitions must not depend on Time.timeScale (pause sets it to 0).
+            yield return new WaitForSecondsRealtime(MusicFadeInTime);
+            Debug.Log("Current music stopped");
         }
+
+        if (audioData == null)
+        {
+            Debug.LogWarning("PlayMusic called with no AudioData");
+            _musicRoutine = null;
+            yield break;
+        }
+
         Debug.Log($"Playing music: {audioData.name}");
-        _nextEmitter = AudioManager.Instance.CreateAudioBuilder()
+        _currentEmitter = AudioManager.Instance.CreateAudioBuilder()
             .WithParent(transform)
             .WithLoop()
             .WithFadeIn()
             .Play(audioData);
 
-        _currentEmitter = _nextEmitter;
-        _nextEmitter = null;
+        _musicRoutine = null;
     }
 
-    public IEnumerator StopMusicCoroutine()
+    private IEnumerator StopMusicCoroutine()
     {
-        if (_currentEmitter != null)
+        AudioEmitter previous = _currentEmitter;
+        _currentEmitter = null;
+
+        if (previous != null && previous.isActiveAndEnabled)
         {
-            _currentEmitter.FadeToStop();
-            while (_currentEmitter.IsPlaying())
-            {
-                yield return null;
-            }
+            previous.FadeToStop(MusicFadeInTime);
+            yield return new WaitForSecondsRealtime(MusicFadeInTime);
         }
 
-        _currentEmitter = null;
+        _musicRoutine = null;
     }
 
     public void SetTempVolume(float tempVolume, bool isPercentage)

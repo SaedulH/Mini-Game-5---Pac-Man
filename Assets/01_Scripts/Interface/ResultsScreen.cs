@@ -40,6 +40,8 @@ namespace UserInterface
             _restart.clicked += OnRestartClicked;
             _settings.clicked += OnSettingsClicked;
             _quit.clicked += OnQuitClicked;
+
+            AudioCollection.Instance.SetupHoverAudio(_resultsScreen);
         }
 
         public override void Show()
@@ -96,6 +98,7 @@ namespace UserInterface
 
         private void OnQuitClicked()
         {
+            AudioCollection.Instance.PlayBackAudio();
             GameManager.Instance.InitialiseMenu();
         }
     }
